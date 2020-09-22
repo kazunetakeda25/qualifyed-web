@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff">
+<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+<title>Qualifyed</title>
+<base href="/">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+
+<link rel="icon" type="image/png" href="assets/images/favicon.ico">
+<link rel="stylesheet" href="assets/css/flexboxgrid.min.css">
+<link rel="stylesheet" href="assets/css/font-awesome.min.css">
+<link rel="stylesheet" href="assets/fonts/stylesheet.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<script type="text/javascript" src="assets/js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="assets/js/custom.js"></script>
+<script>
+var global = global || window;
+</script>
+
+</head>
+<body id="mainBody">
+  <app-root></app-root>
+<script type="text/javascript" src="runtime.js"></script><script type="text/javascript" src="es2015-polyfills.js" nomodule></script><script type="text/javascript" src="polyfills.js"></script><script type="text/javascript" src="styles.js"></script><script type="text/javascript" src="vendor.js"></script><script type="text/javascript" src="main.js"></script></body>
+</html>
