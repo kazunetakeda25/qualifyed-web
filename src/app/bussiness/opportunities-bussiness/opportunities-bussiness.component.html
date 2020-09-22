@@ -1,0 +1,757 @@
+<!-- <div id="cover-spin" *ngIf="showLoader == true"></div> -->
+<div id="loder_main" *ngIf="showLoader == true"><div id="loader_view" ></div></div>
+
+<app-header></app-header>
+<!-- /END OF MENU-DRAWER, MOBILE-MENUS/ -->
+<section class="top-section opportunities-bussiness-container">
+<div class="wrap">
+	<div class="row">
+		<!-- <p>Hey, welcome!</p> -->
+		<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12" *ngIf="tab1 == true" >
+			<div class="bg-primary">
+				<div class="care-body">
+					<div class="mp-4">
+						<div class="mini-start">
+							<i class="fa fa-briefcase"></i>
+						</div>
+						<h3>{{allOppcount}}</h3>
+						<h5>All Opportunities</h5>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12" (click)="GetOpp()" *ngIf="tab1 == false" style="cursor : pointer;">
+			<div class="grey-primary">
+				<div class="care-body">
+					<div class="mp-4">
+						<div class="mini-start">
+							<i class="fa fa-briefcase"></i>
+						</div>
+						<h3>{{allOppcount}}</h3>
+						<h5>All Opportunities</h5>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12" *ngIf="tab2 == true" >
+			<div class="bg-primary">
+				<div class="care-body">
+					<div class="mp-4">
+						<div class="mini-start">
+							<!-- <img src="assets/images/saved-icon.png" alt=""> -->
+							<i class="fa fa-file "></i>
+						</div>
+						<h3>&nbsp;</h3>
+						<h5>Create An Opportunity</h5>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12" (click)="createOpp()" *ngIf="tab2 == false" style="cursor : pointer;">
+			<div class="grey-primary">
+				<div class="care-body">
+					<div class="mp-4">
+						<div class="mini-start">
+							<i class="fa fa-file "></i>
+						</div>
+						<h3>&nbsp;</h3>
+						<h5>Create An Opportunity</h5>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12" *ngIf="tab3 == true">
+			<div class="bg-primary">
+				<div class="care-body">
+					<div class="mp-4">
+						<div class="mini-start">
+							<i class="fa fa-address-card"></i>
+						</div>
+						<h3>{{interReq}}</h3>
+						<h5>Interview Requests</h5>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" (click)="getRequest()" *ngIf="tab3 == false" style="cursor : pointer;">
+			<div class="grey-primary">
+				<div class="care-body">
+					<div class="mp-4">
+						<div class="mini-start">
+							<i class="fa fa-address-card"></i>
+						</div>
+						<h3>{{interReq}}</h3>
+						<h5>Interview Requests</h5>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--END OF WRAP -->
+</div>
+<!--END OF WRAP -->
+</section>
+<!-- END TOP SECTION -->
+<section class="opportunities-user opportunities-bussiness" *ngIf="tab1 == true">
+<div class="innerWrap oppotunityInterview">
+	<div class="wrap tabbing_section">
+		<div class="row tabbing_nav_row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<p id="ac" (click)="showMeTab('ac')"  class="active_tab_nav">Active Opportunities</p>
+				<p id="iac" (click)="showMeTab('iac')" >Disabled Opportunities</p>
+			</div>
+		</div>
+		<div id="ac_T" class="row tabbing_content active_tab_content">
+			<div *ngIf="activeOpp == 0" class="no_result_found"><p>No Active Opportunities</p></div>
+			<div *ngFor="let acOpp of activeOpp" class="col-lg-3 col-md-3 col-sm-6 col-xs-12 business">
+				<div class="profileBlog">
+					<div class="profile-innerBlog">
+						<div class="imgBlog">
+							<!-- <img src="assets/images/opportunity-mg.png"> -->
+							<p routerLink="/shared/opportunities_detail/{{acOpp.id}}" class="color_ico {{acOpp.class}}">{{acOpp.abbrivation | uppercase}}</p>
+						<abbr title="Edit Opportunity"><i class='fas fa-pencil-alt' (click)="editOpportunity(acOpp.id)" style="    margin-left: 171px;cursor: pointer;"></i></abbr>
+					</div>
+					<a routerLink="/shared/opportunities_detail/{{acOpp.id}}">
+						<div class="studiesBlog">
+							<h3>{{acOpp.title}}</h3>
+						</div>
+					</a>
+					<span style="cursor: pointer;" routerLink="/shared/opportunities_detail/{{acOpp.id}}">
+						<div class="lineBlog"></div>
+						<p>Posted : {{acOpp.created_date}}</p>
+						<p><b>Venue Address : </b>{{acOpp.Address_Line}}, {{acOpp.city}}, {{acOpp.state_name}} - {{acOpp.opp_country_name}} {{acOpp.zipcode}}</p>
+					</span>
+					
+					<div class="see-allBtn">
+						<div class="connectBtn">
+							<div class="msgeff"></div>
+							<a href="#" (click)="InactiveOpp(acOpp.id)">Disable Opportunity</a>
+						</div>
+						<a class="button_style_01" href="#" (click)="closeOpp(acOpp.id)"><span>Close Opportunity</span></a>
+					</div>
+					<!--END OF ALL-REQUESTSBTN -->
+				</div>
+				<!--END OF PROFILE-INNERBLOG -->
+			</div>
+			<!--END OF PROFILEBLOG -->
+		</div>
+		
+		<!--END OF COL-LG-04 -->
+		
+		
+	</div>
+	<!-- / tabbing_content END OF ROW/ -->
+	<div id="iac_T" class="row tabbing_content">
+		<div *ngIf="inactiveOpp == 0"  class="no_result_found"><p>No Disabled Opportunities</p></div>
+		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 business " *ngFor="let inac of inactiveOpp">
+			<div class="profileBlog">
+				<div class="profile-innerBlog">
+					<div class="imgBlog">
+						<p class="color_ico {{inac.class}}">{{inac.abbrivation | uppercase}}</p>
+					</div>
+					<a routerLink="/shared/opportunities_detail/{{inac.id}}">
+						<div class="studiesBlog">
+							<h3>{{inac.title}}</h3>
+							<!-- <p>{{inac.description}}</p> -->
+							<!-- <p>Last date : {{inac.last_date_for_apply | date }}</p> -->
+						</div>
+					</a>
+					<span>
+						<div class="lineBlog"></div>
+						<p>Posted : {{inac.created_date}}</p>
+						<p><b>Venue Address : </b>{{inac.Address_Line}}, {{inac.city}}, {{inac.state_name}} - {{inac.opp_country_name}}, {{inac.zipcode}}</p>
+					</span>
+					
+					<div class="see-allBtn">
+						<div class="connectBtn">
+							<div class="msgeff"></div>
+							<a (click)="activeOppfun(inac.id)">Reactivate Opportunity</a>
+						</div>
+						<a class="button_style_01" href="#" (click)="closeOpp(inac.id)"><span>Close Opportunity</span></a>
+					</div>
+					<!--END OF ALL-REQUESTSBTN -->
+				</div>
+				<!--END OF PROFILE-INNERBLOG -->
+			</div>
+			<!--END OF PROFILEBLOG -->
+		</div>
+		
+		
+	</div>
+	<!-- / tabbing_content END OF ROW/ -->
+	
+</div>
+<!--END OF WRAP -->
+</div>
+</section>
+<form [formGroup]="BusinessOpportunity" (ngSubmit)="opportunitySubmit()" *ngIf="tab2 == true">
+<section class="opportunities-Businesses-container">
+<div class="innerWrap" id="abc">
+	<div class="wrap">
+		<h3>Create New Opportunity</h3>
+		<p><i class="fa fa-asterisk" aria-hidden="true"></i> indicates required fields</p>
+		<div class="row">
+			<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-item">
+				<i class="fa fa-asterisk" aria-hidden="true"></i>
+				<label for="username">Opportunity Title</label>
+				<input formControlName="post_title"  [ngClass]="{ 'is-invalid': submitted && oppErr.post_title.errors }" class="form-styling" type="text" name="post_title" placeholder="Opportunity Title">
+				<div *ngIf="submitted && oppErr.post_title.errors" class="invalid-feedback">
+					<div *ngIf="oppErr.post_title.errors.required">Opportunity Title is required</div>
+					<div *ngIf="oppErr.post_title.errors.maxlength">Enter title in less than or equal to 50 characters</div>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-item">
+				<i class="fa fa-asterisk" aria-hidden="true"></i>
+				<label for="username">Country</label>
+				<select formControlName="country" [ngClass]="{ 'is-invalid': submitted && oppErr.country.errors }" (change)="getState($event.target.value)">
+					<option value="volvo" value="">Select Country</option>
+					<option  *ngFor="let countris of country" [ngValue]="countris.id">{{countris.name}}</option>
+				</select>
+				<div *ngIf="submitted && oppErr.country.errors" class="invalid-feedback">
+					<div *ngIf="oppErr.country.errors.required">Country is required</div>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-item">
+				<i class="fa fa-asterisk" aria-hidden="true"></i>
+				<label for="username">State</label>
+				<select formControlName="state" [ngClass]="{ 'is-invalid': submitted && oppErr.state.errors }">
+					<option value="" >Select State</option>
+					<option  *ngFor="let states of state" value="{{states.id}}">{{states.name}}</option>
+				</select>
+				<div *ngIf="submitted && oppErr.state.errors" class="invalid-feedback">
+					<div *ngIf="oppErr.state.errors.required">State is required</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<!-- START SECOND ROW -->
+		<div class="row">
+			<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-item">
+				<i class="fa fa-asterisk" aria-hidden="true"></i>
+				<label for="username">City</label>
+				<input formControlName="city" [ngClass]="{ 'is-invalid': submitted && oppErr.city.errors }" class="form-styling" type="text" name="city" placeholder="City">
+				<div *ngIf="submitted && oppErr.city.errors" class="invalid-feedback">
+					<div *ngIf="oppErr.city.errors.required">City is required</div>
+					<div *ngIf="oppErr.city.errors.maxlength">City should be less than or equal to 20 characters</div>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-item">
+				<i class="fa fa-asterisk" aria-hidden="true"></i>
+				<label for="username">Address Line</label>
+				<input formControlName="address_line" [ngClass]="{ 'is-invalid': submitted && oppErr.address_line.errors }" class="form-styling" type="text" name="address_line" placeholder="Address Line">
+				<div *ngIf="submitted && oppErr.address_line.errors" class="invalid-feedback">
+					<div *ngIf="oppErr.address_line.errors.required">Address Line is required</div>
+					<div *ngIf="oppErr.address_line.errors.maxlength">Address Line should be less than or equal to 50 characters</div>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-item">
+				<i class="fa fa-asterisk" aria-hidden="true"></i>
+				<label for="username">Zip Code</label>
+				<input formControlName="zipcode" [ngClass]="{ 'is-invalid': submitted && oppErr.zipcode.errors }" class="form-styling" type="text" name="username" placeholder="99501">
+				<div *ngIf="submitted && oppErr.zipcode.errors" class="invalid-feedback">
+					<div *ngIf="oppErr.zipcode.errors.required">Zip Code is required</div>
+					<div *ngIf="oppErr.zipcode.errors.maxlength">Zip Code should be less than or equal to 50 characters</div>
+				</div>
+			</div>
+			
+			
+		</div><br>
+		<div class="row">
+			
+			<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-item">
+				<i class="fa fa-asterisk" aria-hidden="true"></i>
+				<label for="username">Longevity Classification</label>
+				<select formControlName="longevity" (blur)="check($event.target.value)" [ngClass]="{ 'is-invalid': submitted && oppErr.longevity.errors}">
+					<option value="">Select longevity</option>
+					<option value="0" >Definite</option>
+					<option value="1">Indefinite</option>
+				</select>
+				<div *ngIf="submitted && oppErr.longevity.errors" class="invalid-feedback">
+					<div *ngIf="oppErr.longevity.errors.required">Longevity classification is required</div>
+				</div>
+			</div>
+			<div  class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-item durn_opportunities">
+				<i *ngIf="required == 1" class="fa fa-asterisk" aria-hidden="true"></i>
+				<label for="username">Duration of Opportunity (<span *ngIf="required == 0">Indefinite</span><span *ngIf="required == 1">Definite</span>)</label>
+				<select formControlName="opportunity_days" >
+					<option selected=""  value="">Select</option>
+					<option  *ngFor="let count of day_count_1">{{count}}</option>
+				</select>
+				<select formControlName="day_type">
+					<option selected=""  value="" >Select</option>
+					<option value="1">Day<span *ngIf="BusinessOpportunity.value.opportunity_days != 1">s</span></option>
+					<option value="2">Week<span *ngIf="BusinessOpportunity.value.opportunity_days != 1">s</span></option>
+					<option value="3">Month<span *ngIf="BusinessOpportunity.value.opportunity_days != 1">s</span></option>
+					<option value="4">Year<span *ngIf="BusinessOpportunity.value.opportunity_days != 1">s</span></option>
+				</select>
+				
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 genderBlog form-item">
+				<i class="fa fa-asterisk" aria-hidden="true"></i>
+				<label for="username">Opportunity for Employment</label>
+				<div class="radio-btn">
+					<div class="md-radio">
+						<input [ngClass]="{ 'is-invalid': submitted && oppErr.opp_employee.errors }" style="display: none;" formControlName="opp_employee" id="1" value="1" type="radio" name="opp_employee" checked="">
+						<label for="1">Yes</label>
+					</div>
+					<div class="md-radio">
+						<input [ngClass]="{ 'is-invalid': submitted && oppErr.opp_employee.errors }" style="display: none;" formControlName="opp_employee" id="2" value="0" type="radio" name="opp_employee">
+						<label for="2">No</label>
+					</div>
+				</div>
+				<div *ngIf="submitted && oppErr.opp_employee.errors" class="invalid-feedback">
+					<div *ngIf="oppErr.opp_employee.errors.required">Opportunity for Employment is required</div>
+				</div>
+				<!-- <input class="form-styling" type="text" name="username"> -->
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			
+			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 genderBlog genderBlog2 form-item">
+				<i class="fa fa-asterisk" aria-hidden="true"></i>
+				<label for="username">Opportunity for Pay</label>
+				<div class="radio-btn">
+					<div class="md-radio">
+						<input [ngClass]="{ 'is-invalid': submitted && oppErr.opp_pay.errors }" style="display: none;" formControlName="opp_pay" id="3" value="1" type="radio" name="opp_pay" checked="">
+						<label for="3">Yes</label>
+					</div>
+					<div class="md-radio">
+						<input [ngClass]="{ 'is-invalid': submitted && oppErr.opp_pay.errors }" style="display: none;" formControlName="opp_pay" id="4" value="0" type="radio" name="opp_pay">
+						<label for="4">No</label>
+					</div>
+				</div>
+				<div *ngIf="submitted && oppErr.opp_pay.errors" class="invalid-feedback">
+					<div *ngIf="oppErr.opp_pay.errors.required">Opportunity for Pay is required</div>
+				</div>
+				<!-- <input class="form-styling" type="text" name="username"> -->
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 genderBlog genderBlog2 form-item">
+				<i class="fa fa-asterisk" aria-hidden="true"></i>
+				<label for="username">Tuition Reimbursement</label>
+				<div class="radio-btn">
+					<div class="md-radio">
+						<input [ngClass]="{ 'is-invalid': submitted && oppErr.tuition.errors }" style="display: none;" formControlName="tuition" id="5" value="0" type="radio" name="tuition" checked="">
+						<label for="5">Yes</label>
+					</div>
+					<div class="md-radio">
+						<input [ngClass]="{ 'is-invalid': submitted && oppErr.tuition.errors }" style="display: none;" formControlName="tuition" id="6" value="1" type="radio" name="tuition">
+						<label for="6">No</label>
+					</div>
+				</div>
+				<div *ngIf="submitted && oppErr.tuition.errors" class="invalid-feedback">
+					<div *ngIf="oppErr.tuition.errors.required">Tuition Reimbursement is required</div>
+				</div>
+				<!-- <input class="form-styling" type="text" name="username"> -->
+			</div>
+		</div>
+		<br>
+		<div class="row text-contact">
+			<p class="contact_txt">Contact Info </p>
+			<div class="bussiness_required"><p>Note : Only one of them required while both are recommended</p></div>
+		</div>
+		<div class="row">
+			<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-item">
+				<!-- <i class="fa fa-asterisk" aria-hidden="true"></i> -->
+				<label for="username">Email</label>
+				<input formControlName="contact_email"   class="form-styling" type="text" name="post_title" placeholder="Contact email">
+				<!-- <div *ngIf="submitted && oppErr.post_title.errors" class="invalid-feedback"> -->
+				<div class="invalid-feedback">
+					<div *ngIf="contact_email_required == 1">Email is  required</div>
+					<div *ngIf="show_invalid_email == 1">Email must be a valid email address</div>
+				</div>
+				<!-- </div> -->
+			</div>
+			<br>
+			
+			<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-item">
+				<!-- <i class="fa fa-asterisk" aria-hidden="true"></i> -->
+				<label for="username">Phone</label>
+				
+				<input formControlName="contact_phone"  (keypress)="keyPress($event)" class="form-styling" type="text" name="post_title" placeholder="Contact number">
+				<!-- <div *ngIf="submitted && oppErr.post_title.errors" class="invalid-feedback"> -->
+				<div class="invalid-feedback">
+					<div *ngIf="contact_phone_required == 1">Phone number is required</div>
+					<div *ngIf="contact_phone_required_minlength == 1">Phone number should be greater than 5 digits</div>
+					<div *ngIf="contact_phone_required_maxlength == 1">Phone number should be less than 15 digits</div>
+				</div>
+				<!-- <div *ngIf="oppErr.post_title.errors.maxlength">Enter title in less than or equal to 50 characters</div> -->
+				<!-- </div> -->
+			</div>
+			<br>
+		</div>
+		<!-- <br> -->
+		<!-- <div class="row">
+							<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 genderBlog genderBlog2 form-item">
+												<i class="fa fa-asterisk" aria-hidden="true"></i>
+												<label for="username">Last date of apply</label>
+												<input (click)="picker1.open()" formControlName="last_date" matInput [matDatepicker]="picker1" [min]="minDate" [ngClass]="{ 'is-invalid': submitted && oppErr.last_date.errors }" class="form-styling" type="text" name="username" placeholder="Last date of apply">
+												<mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+												<mat-datepicker #picker1></mat-datepicker>
+												<div *ngIf="submitted && oppErr.last_date.errors" class="invalid-feedback">
+																	<div *ngIf="oppErr.last_date.errors.required">Last date is required</div>
+												</div>
+							</div>
+		</div> -->
+		<!-- END SECOND ROW -->
+		
+		<br>
+		<div class="row opportunities-admin">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<label for="username">Description of your Role </label>
+			<angular-editor id="editor1" formControlName="discription" [config]="editorConfig"></angular-editor>
+		</div>
+	</div>
+	<br>
+	<div class="row opportunities-admin">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<label for="username">Description of Our Candidate Preferences </label>
+		<angular-editor id="editor2" formControlName="prefrences" [config]="editorConfig"></angular-editor>
+	</div>
+</div>
+<br>
+<!-- 	<div class="row">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<label for="username">Description of About Us needed</label>
+			<angular-editor id="editor3" formControlName="about_us" [config]="editorConfig"></angular-editor>
+</div>
+</div> -->
+<br>
+<div class="row">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 description-textarea form-item">
+	<label for="username">Skills Desired</label>
+	<!-- <mat-chip-list #chipList>
+	<mat-chip
+	*ngFor="let fruit of fruits;let indx=index;"
+	[selectable]="selectable"
+	[removable]="removable"
+	(removed)="remove(fruit,indx)">
+	{{fruit.name}}
+	<mat-icon matChipRemove *ngIf="removable"> X </mat-icon>
+	</mat-chip>
+	<input class="form-styling"
+	placeholder="Enter skills you want"
+	#fruitInput
+	[formControl]="fruitCtrl"
+	[matAutocomplete]="auto"
+	[matChipInputFor]="chipList"
+	[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+	[matChipInputAddOnBlur]="addOnBlur"
+	(matChipInputTokenEnd)="add($event)"
+	formControlName="skills">
+	</mat-chip-list>
+	<mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+	<mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+	{{fruit.name}}
+	</mat-option>
+	</mat-autocomplete> -->
+	<mat-chip-list #chipList>
+	<mat-chip
+	*ngFor="let fruit of fruits"
+	[selectable]="selectable"
+	[removable]="removable"
+	(removed)="remove(fruit)">
+	{{fruit}}
+	<mat-icon matChipRemove *ngIf="removable"> X </mat-icon>
+	</mat-chip>
+	<input
+	class="form-styling"
+	placeholder="Enter your skills"
+	#fruitInput
+	[formControl]="fruitCtrl"
+	[matAutocomplete]="auto"
+	[matChipInputFor]="chipList"
+	[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+	(matChipInputTokenEnd)="add($event)"
+	formControlName="skills">
+	</mat-chip-list>
+	<mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+	<mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+	{{fruit}}
+	</mat-option>
+	</mat-autocomplete>
+	<!-- <textarea formControlName="skills" name="your-message" cols="4" rows="4" class="full-name" aria-invalid="false" placeholder="Lorem ipsum dolor sit amet..."></textarea> -->
+	
+</div>
+</div>
+<br>
+<div class="row">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 description-textarea form-item">
+	<!-- 	<i class="fa fa-asterisk" aria-hidden="true"></i>
+	<label for="status_ac" for="username">Want to publish opportunity</label>
+	<select formControlName="is_published" >
+			<option value="1" selected="selected">Publish</option>
+			<option value="0">Not now</option>
+	</select> -->
+	<div class="Deactivate-btn">
+		<button type="submit" class="saved-btn">Add and continue</button>
+	</div>
+</div>
+</div>
+</div>
+<!--END OF INNERWRAP -->
+</div>
+<!--END OF INNERWRAP -->
+</section>
+</form>
+<section class="opportunities-user opportunities-bussiness" *ngIf="tab3 == true">
+<div class="innerWrap oppotunityInterview">
+<div class="wrap tabbing_section">
+<div class="row tabbing_content active_tab_content">
+<div *ngIf="activeOpp == 0"  class="no_result_found"><p>No Interview Request</p></div>
+<div *ngFor="let acOpp of activeOpp" class="col-lg-3 col-md-3 col-sm-6 col-xs-12 business">
+<div class="profileBlog business_interview_blog">
+	<div class="profile-innerBlog">
+		<div class="imgBlog">
+			<!-- <img src="assets/images/opportunity-mg.png"> -->
+			<p routerLink="/shared/opportunities_detail/{{acOpp.id}}" class="color_ico {{acOpp.class}}">{{acOpp.abbrivation  | uppercase}}</p>
+		</div>
+		<a routerLink="/shared/opportunities_detail/{{acOpp.id}}">
+			<div class="studiesBlog">
+				<h3>{{acOpp.title}}</h3>
+				<!-- <p>{{acOpp.description}}</p> -->
+				<!-- <p>Last date : {{acOpp.last_date_for_apply | date }}</p> -->
+			</div>
+		</a>
+		<span routerLink="/shared/opportunities_detail/{{acOpp.id}}" style="cursor: pointer;">
+			<div class="lineBlog"></div>
+			<p>Posted : {{acOpp.created_date}}</p>
+			<p><b>Venue Address : </b>{{acOpp.Address_Line}}, {{acOpp.city}}, {{acOpp.state_name}} - {{acOpp.opp_country_name}}, {{acOpp.zipcode}}</p>
+		</span>
+		
+		<div class="see-allBtn" *ngIf="acOpp.count;else other_content">
+			<div class="connectBtn">
+				<div class="msgeff"></div>
+				<a href="#" (click)="activeModal(acOpp.id, acOpp.title)" >View request <b>({{acOpp.count}})</b></a>
+			</div>
+		</div>
+		<ng-template #other_content><div class="see-allBtn">
+			<div class="connectBtn">
+				<div class="msgeff"></div>
+				<a href="#" (click)="activeModal(acOpp.id, acOpp.title)" >View request <b>(0)</b></a>
+			</div>
+		</div></ng-template>
+		
+		<!--END OF ALL-REQUESTSBTN -->
+	</div>
+	<!--END OF PROFILE-INNERBLOG -->
+</div>
+<!--END OF PROFILEBLOG -->
+</div>
+<!--END OF COL-LG-04 -->
+</div>
+<!-- / tabbing_content END OF ROW/ -->
+</div>
+<!--END OF WRAP -->
+</div>
+</section>
+<!-- <button class="button-style-white" id="user_pop_listing_btn">View User Request</button> -->
+<div class="user_request_popup" id="user_request_popup">
+<div class="wrap">
+<div class="close_user_request_popup" id="user_pop_listing_close"><i class="fa fa-times"></i></div>
+<div class="row">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 header_user_listing">
+<h6>Interview request ({{OPPNAME}})</h6>
+</div>
+<div class="row tabbing_nav_row_new" >
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tabbing_sec_tion">
+<p id="PR" (click)="modalTabOPen('PR')"  class="active_tab_nav2 modal_tab">Pending Request</p>
+<p id="AR" (click)="modalTabOPen('AR')"  class="modal_tab">Accepted Request</p>
+<p id="RR" (click)="modalTabOPen('RR')"  class="modal_tab">Declined Request</p>
+<p id="DR" (click)="modalTabOPen('DR')"  class="modal_tab">Reschedule Request</p>
+</div>
+</div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 user_list_new displayNone active_tab_con PR_T" *ngFor="let data of day_count">
+<div class="left_sec">
+<img src="{{media_url}}/uploads/images/{{data.profile}}">
+<h6>{{data.name}}</h6>
+</div>
+<div class="right_sec text-right">
+<a class="button_style_01" (click)="go_profile(data.user_id)" ><span>View Profile</span></a>
+<a class="button_style_01" href="" (click)="acceptRequest(data.id, data.oppuID ,data.user_id)" ><span>Accept</span></a>
+<a class="button_style_02" href="" (click)="declineRequest(data.user_id, data.id, data.oppuID)"><span>Decline</span></a>
+</div>
+</div>
+<p class="displayNone PR_T" *ngIf="day_count == ''">
+No Pending opportunities
+</p>
+<p class="displayNone AR_T" *ngIf="day_count_acc_final != ''">Accepted By Business</p>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 user_list_new displayNone AR_T" *ngFor="let data1 of day_count_acc_final">
+<div class="left_sec">
+<img src="{{media_url}}/uploads/images/{{data1.profile}}">
+<h6>{{data1.name}}</h6>
+</div>
+<div class="right_sec text-right">
+<!-- <a class="button_style_01"  href="/view_profile/{{data1.user_id}}" target="_blank"><span>View Profile</span></a> -->
+<span><b>Interview Type</b> : {{data1.interview_type == 1 ? 'Standard Interview' : 'Video Interview'}}</span>
+<br>
+<span><b>Date and time</b> : {{data1.interview_datetime}}</span>
+<!-- <a class="button_style_02" href="" (click)="declineRequest(data1.user_id, data1.id, data1.oppuID)"><span>Decline</span></a> -->
+</div>
+</div>
+<p class="displayNone AR_T" *ngIf="day_count_acc_final_2 != ''">Accepted By User</p>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 user_list_new displayNone AR_T" *ngFor="let accpet_user of day_count_acc_final_2">
+<div class="left_sec">
+<img src="{{media_url}}/uploads/images/{{accpet_user.profile}}">
+<h6>{{accpet_user.name}}</h6>
+</div>
+<div class="right_sec text-right">
+<!-- <a class="button_style_01"  href="/view_profile/{{data1.user_id}}" target="_blank"><span>View Profile</span></a> -->
+<!-- <a class="button_style_01" href="" (click)="acceptRequest(data1.id, data1.oppuID ,data1.user_id)"><span>Reschedule</span></a>
+<a class="button_style_02" href="" (click)="declineRequest(data1.user_id, data1.id, data1.oppuID)"><span>Decline</span></a> -->
+<span><b>Interview Type</b> : {{accpet_user.interview_type == 1 ? 'Standard Interview' : 'Video Interview'}}</span>
+<br>
+<span><b>Date and time</b> : {{accpet_user.interview_datetime}}</span>
+<a class="myclass" *ngIf="accpet_user.interview_type == 2" (click)="click_video(accpet_user.user_id)">Video Call</a>
+</div>
+</div>
+<p class="displayNone AR_T" *ngIf="day_count_acc_final_2 == '' && day_count_acc_final == ''">
+No Accepted opportunities
+</p>
+<p class="displayNone RR_T" *ngIf=" day_count_dec_final != '' ">
+Declined by business
+</p>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 user_list_new displayNone RR_T" *ngFor="let data2 of day_count_dec_final">
+<div class="left_sec">
+<img src="{{media_url}}/uploads/images/{{data2.profile}}">
+<h6>{{data2.name}}</h6>
+</div>
+<div class="right_sec text-right">
+<a class="button_style_01" (click)="showdetail(1,data2.user_id, data2.id, data2.oppuID)" ><span>View Details</span></a>
+</div>
+</div>
+<p class="displayNone RR_T" *ngIf=" day_count_dec_final_2 != '' ">
+Declined by user
+</p>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 user_list_new displayNone RR_T" *ngFor="let data2 of day_count_dec_final_2">
+<div class="left_sec">
+<img src="{{media_url}}/uploads/images/{{data2.profile}}">
+<h6>{{data2.name}}</h6>
+</div>
+<div class="right_sec text-right">
+<a class="button_style_01" (click)="showdetail(1,data2.user_id, data2.id, data2.oppuID)" ><span>View Details</span></a>
+</div>
+</div>
+<p class="displayNone RR_T" *ngIf="day_count_dec_final == '' && day_count_dec_final_2 == ''">
+No Declined opportunities
+</p>
+<p class="displayNone DR_T" *ngIf="Reschedule_user != '' ">
+User Reschedule request
+</p>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 user_list_new displayNone DR_T" *ngFor="let RescUser of Reschedule_user">
+<div class="left_sec">
+<img src="{{media_url}}/uploads/images/{{RescUser.profile}}">
+<h6>{{RescUser.name}}</h6>
+</div>
+<div class="right_sec text-right">
+<a class="button_style_01" (click)="acceptRescheduleRequest(RescUser.id, RescUser.oppuID ,RescUser.user_id,RescUser.interview_type)"><span>Accept</span></a>
+<a class="button_style_02" (click)="declineRequest(RescUser.user_id, RescUser.id, RescUser.oppuID,RescUser.interview_type)"><span>Decline</span></a>
+<a class="button_style_01" (click)="rescheduleAG(RescUser.user_id, RescUser.id, RescUser.oppuID,RescUser.interview_type)"><span>Rearrange</span></a>
+<a class="button_style_01" (click)="showdetail(2,RescUser.user_id,RescUser.id, RescUser.oppuID )"><span>View Reason</span></a>
+</div>
+</div>
+<p class="displayNone DR_T" *ngIf="Reschedule_user_2 != '' ">
+Business Reschedule request
+</p>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 user_list_new displayNone DR_T" *ngFor="let RescUser of Reschedule_user_2">
+<div class="left_sec">
+<img src="{{media_url}}/uploads/images/{{RescUser.profile}}">
+<h6>{{RescUser.name}}</h6>
+</div>
+<div class="right_sec text-right">
+<a class="button_style_01" (click)="showdetail(2,RescUser.user_id,RescUser.id, RescUser.oppuID )"><span>View Reason</span></a>
+<!-- <a class="button_style_02" (click)="declineRequest(RescUser.user_id, RescUser.id, RescUser.oppuID)"><span>Decline</span></a>
+<a class="button_style_01" (click)="rescheduleAG(RescUser.user_id, RescUser.id, RescUser.oppuID)"><span>Reschedule Opportunity</span></a> -->
+</div>
+</div>
+<!-- col-lg-12 user_listing_new-->
+<!-- col-lg-12 user_listing_new-->
+</div>
+<!-- row -->
+</div>
+<!-- wrap -->
+</div>
+<div class="user_request_popup" id="user_request_popup_date">
+<div class="wrap">
+<div class="close_user_request_popup" id="user_pop_listing_close_date"><i class="fa fa-times"></i></div>
+<div class="row">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 header_user_listing">
+<h6>Accept Interview Request</h6>
+</div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+<form [formGroup]="OpportunityAccept" (ngSubmit)="acceptOppSubmit()">
+<div>
+	<select formControlName="interview_type" style="padding: 10px;width: 50%;" class="form-styling" [ngClass]="{ 'is-invalid': submitted && oppErrSubmit.interview_type.errors }">
+		<option selected="" disabled="" value="">Select Interview Type</option>
+		<option value="1">Standard Interview Request</option>
+		<option value="2">Video Interview Request</option>
+	</select>
+	<div *ngIf="submitted && oppErrSubmit.interview_type.errors" class="invalid-feedback">
+		<div *ngIf="oppErrSubmit.interview_type.errors.required">Interview type  is required</div>
+	</div>
+</div>
+<br>
+<div class="user-date-picker">
+	<!-- <input [min]="minDate1" style="padding: 10px;width: 50%;" [owlDateTime]="dt1"  formControlName="date_time" class="form-styling" [owlDateTimeTrigger]="dt1" [ngClass]="{ 'is-invalid': submitted && oppErrSubmit.date_time.errors }" placeholder="Choose Date and Time for Interview	">
+	<owl-date-time #dt1></owl-date-time>
+	<div *ngIf="submitted && oppErrSubmit.date_time.errors" class="invalid-feedback">
+		<div *ngIf="oppErrSubmit.date_time.errors.required">Date and time is required</div>
+	</div> -->
+<input  type="text" name="" id="" placeholder="Select date and time" [value]="date_time" (click)="show_datepicker()">
+<div class="my">
+<dp-date-picker    theme="dp-material"   (onChange)="o($event)" mode="daytime" ></dp-date-picker>
+</div>
+</div>
+<div>
+	<textarea  style="padding: 10px;width: 50%;" formControlName="additional_details_box" class="form-styling"  placeholder="Additional Information About Interview"  [ngClass]="{ 'is-invalid': submitted && oppErrSubmit.additional_details_box.errors }"></textarea>
+	<div *ngIf="submitted && oppErrSubmit.additional_details_box.errors" class="invalid-feedback">
+		<!-- <div *ngIf="oppErrSubmit.additional_details_box.errors.required">Additional details is required</div> -->
+		<div *ngIf="oppErrSubmit.additional_details_box.errors.maxlength">Additional details should be less than 300 words</div>
+	</div>
+</div>
+<div class="right_sec text-right">
+	<button class="button_style_01" type="submit"><span>SAVE</span></button>
+	<a class="button_style_02" id="user_pop_listing_close_date2" ><span>CANCEL</span></a>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+<div class="user_request_popup" id="reschedule_pop">
+<div class="wrap">
+<div class="close_user_request_popup" id="reschedule_pop_close"><i class="fa fa-times"></i></div>
+<div class="row">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 header_user_listing">
+<h6>Choose Date and Time for Interview</h6>
+</div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+<form [formGroup]="OpportunityRescheduleForm" (ngSubmit)="RescheduleOppSubmit()" >
+<div class="user-date-picker">
+	<!-- <input style="padding: 10px;width: 50%;" [owlDateTime]="dt2" formControlName="date_time" class="form-styling" [owlDateTimeTrigger]="dt2" [min]="minDate1" [ngClass]="{ 'is-invalid': submitted && resErrSubmit.date_time.errors }" placeholder="Choose Date and Time for Interview	"> -->
+	<!-- <owl-date-time #dt2></owl-date-time> -->
+	<input  type="text" name="" id="" placeholder="Select date and time" [value]="date_time" (click)="show_datepicker()">
+<div class="my">
+<dp-date-picker    theme="dp-material"  (onChange)="o($event)" mode="daytime" ></dp-date-picker>
+</div>
+	<br>
+	<br>
+	<!-- <div *ngIf="submitted && resErrSubmit.date_time.errors" class="invalid-feedback">
+		<div *ngIf="resErrSubmit.date_time.errors.required">Date and time is required</div>
+	</div> -->
+	<textarea [ngClass]="{ 'is-invalid': submitted && resErrSubmit.comment.errors }" formControlName="comment" placeholder="Comment for reschedule interview date and time" style="width: 100%; height: 69px; border: 1px solid #E5E7E9;padding: 10px;" class="form-styling"></textarea>
+	<div *ngIf="submitted && resErrSubmit.comment.errors" class="invalid-feedback">
+		<div *ngIf="resErrSubmit.comment.errors.required">Comment is required</div>
+		<div *ngIf="resErrSubmit.comment.errors.maxlength">Enter less than or equal to 300 characters</div>
+	</div>
+</div>
+<div class="right_sec text-right">
+	<button class="button_style_01" type="submit"><span>SAVE</span></button>
+	<a class="button_style_02" id="reschedule_pop_2" ><span>CANCEL</span></a>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>

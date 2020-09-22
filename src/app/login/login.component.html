@@ -1,0 +1,82 @@
+<body class="innerBg">
+  <section class="login">
+    <div class="innerWrap">
+      <div class="wrap">
+        <div class="row">
+          <div class="itemBlog">
+            <div class="logoBlog">
+              <a><img src="assets/images/logo.png"></a>
+            </div>
+            <h3>Sign In</h3>
+            
+            <div class="floating-form">
+              <form [formGroup] = "loginForm" (ngSubmit)=onLogin()>
+                <div class="form-group">
+                  <input type="text" id="name" formControlName="email" class="form-control">
+                  <label class="form-control-placeholder" for="name">EMAIL ADDRESS</label>
+                  <!-- <i class="fa fa-eye" aria-hidden="true"></i> -->
+                  
+                </div>
+                <!--END OF FORM-GROUP -->
+                <div class="form-group custom_pass">
+                  <!-- <show-hide-password  size="lg" btnStyle="primary" [btnOutline]="false" > -->
+                  <input type="password" id="passwordField" style="    padding-right: 36px;" formControlName="password" class="form-control">
+                  <!-- </show-hide-password> -->
+                  <label class="form-control-placeholder"  for="password">PASSWORD</label>
+                  <!-- toggle="#passwordField" -->
+                  <span (click)="show_password()" class="toggle-password" ><i class="fa fa-eye-slash" aria-hidden="true"></i></span>
+                </div>
+                <!--END OF FORM-GROUP -->
+                <div class="forgot">
+                  <div class="innerBlog1">
+                    <a routerLink="/forgot">Forgot Password?</a>
+                  </div>
+                  
+                </div>
+                <!--END OF FORM-GROUP -->
+                <div class="signinBlog">
+                  <div class="left">
+                    <p>Sign In with:</p>
+                  </div>
+                  <!-- left -->
+                  <div class="right">
+                    <div class="btn1">
+                      <a ><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                    </div>
+                    <div class="btn2">
+                      <a><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                    </div>
+                    <div class="btn3">
+                      <a class="">
+                        <span>
+                          <button type="submit" class="signinBtn"> Sign In</button>
+                          
+                        </span>
+                      </a>
+                    </div>
+                </div>
+                <!-- right -->
+                </div>
+                <!--END OF SIGNINBLOG -->
+                <div class="accountBlog">
+                  <p>Need an account?</p>
+                  <span><a routerLink="/user-details">User</a></span> |
+                  <span><a routerLink="/bussiness">Business</a></span>
+                </div>
+                <!--END OF ACCOUNTBLOG -->
+              </form>
+            </div>
+          </div>
+          <!--END OF ITEMBLOG -->
+        </div>
+        <!--END OF ROW -->
+      </div>
+      <!--END OF WRAP -->
+      <div class="bg-student">
+        <img class="" src="assets/images/login-user-mg.png">
+      </div>
+    </div>
+    <!--END OF INNERWRAP -->
+  </section>
+  <!--END OF SECTION -->
+  <!-- SCRIPTS -->

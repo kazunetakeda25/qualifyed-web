@@ -1,0 +1,441 @@
+<app-header></app-header>
+<div id="cover-spin" *ngIf="showLoader == true"></div>
+<section class="messageContainer">
+<div class="innerWrap">
+	<div class="innerPadding">
+		<div class="wrap">
+			<div class="row">
+				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" id="user_lists">
+					<span id="user_lists_close" class="fa fa-close"></span>
+					<div class="messageLeftContainer">
+						<div class="top_sec">
+							<div class="blckOne">
+								<p>Messaging</p>
+							</div>
+							<div class="blckTwo">
+								<form class="search_con">
+									<input class="form-control" [(ngModel)]="name" name="searchText" (keyup)="search($event.target.value)" #box (keyup.enter)="search(box.value)" type="search" placeholder="Search here">
+									<button (click)="search(name)"><i class="fa fa-search"></i></button>
+								</form>
+								</div><!-- blckTwo -->
+							</div>
+							<!-- START FIRST -->
+							<div class="userList">
+								<p style="margin-left: 111px;" *ngIf="list_len == 0">	No chat found</p>
+								<ul *ngIf="searchData.length < 1">
+									<li *ngFor="let data of list" class="{{data.user_login_id == cc_id ? 'chatSM active_chat_user' : 'chatSM'}}" (click)="checkRoom(data.user_login_id);closeList()">
+										<span class="userThumb bgs-image"><img src="{{media_url}}/uploads/images/{{data.profile_pic}}">
+											<!--   <span class="status online"></span> -->
+										</span>
+										<div class="userLeft">
+											<h3> {{data.name}}</h3>
+											<p>{{data.message}}</p>
+										</div>
+										<div class="userRight">
+											<p *ngIf="data.timeType == 0">{{data.time | date : 'shortTime'}}</p>
+											<p *ngIf="data.timeType == 1">{{data.time}}</p>
+											<p *ngIf="data.timeType == 2">{{data.time | date}}</p>
+											<span class="msgCounter" *ngIf="data.count > 0">{{data.count}}</span>
+										</div>
+									</li>
+									
+								</ul>
+								<ul *ngIf="searchData.length > 0">
+									<li *ngFor="let newData of searchData" (click)="checkRoom(newData.user_login_id)">
+										<span class="userThumb bgs-image"><img src="{{media_url}}/uploads/images/{{newData.profile_pic}}">
+											<span class="status online"></span>
+										</span>
+										<div class="userLeft">
+											<h3> {{newData.name}}</h3>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="no_chat col-lg-8 col-md-8 col-sm-8 col-xs-12" style="text-align: center;" *ngIf="tab1 == true"><p>Click on chat list to open chat</p></div>
+					<div  class="col-lg-8 col-md-8 col-sm-8 col-xs-12 chat_window_container" *ngIf="tab2 == true" >
+						<div class="top_sec desktop-view">
+							
+							<div class="{{pic.user_login_id == cc_id ? 'head_sec' : 'head_sec displayNone'}} " *ngFor="let pic of list"  style="">
+								<img  class="user_image" src="{{media_url}}/uploads/images/{{pic.profile_pic}}">
+								<div class="content" >
+									<h6 *ngIf="pic.user_login_id == id">{{pic.name}}</h6>
+								</div>
+								<abbr *ngIf="sendSection == true" title="Video Chat"> <span id="start_videochat" (click)="startChat()" class="start_videochat fa fa-video"></span></abbr>
+							</div>
+							
+							<!-- <ul>
+																		<li><a href="" class="fa fa-minus" href=""></a></li>
+																		<li><a href="" class="fa fa-times" href=""></a></li>
+							</ul> -->
+							</div><!-- top -->
+							<div class="top_sec mob-view">
+								<div class="top-sec_new">
+									<div _ngcontent-bgk-c3="" (click)="userListOpener()" class="hamburger-menu" id="user_list_button">
+										<div _ngcontent-bgk-c3="" class="line-menu"></div>
+										<div _ngcontent-bgk-c3="" class="line-menu half end"></div>
+										<div _ngcontent-bgk-c3="" class="line-menu"></div>
+									</div>
+									<span id="start_videochat" (click)="startChat()" class="start_videochat fa fa-video"></span>
+									</div><!-- top-sec_new -->
+									<div class="bottom-sec-new">
+										<div class="{{pic.user_login_id == cc_id ? 'head_sec' : 'head_sec displayNone'}} " *ngFor="let pic of list"  style="">
+											<img  class="user_image" src="{{media_url}}/uploads/images/{{pic.profile_pic}}">
+											<div class="content" >
+												<h6 *ngIf="pic.user_login_id == id">{{pic.name}}</h6>
+											</div>
+										</div>
+										</div><!-- bottom-sec-new -->
+										
+										<!-- <ul>
+																					<li><a href="" class="fa fa-minus" href=""></a></li>
+																					<li><a href="" class="fa fa-times" href=""></a></li>
+										</ul> -->
+										</div><!-- top -->
+										<div class="{{sendSection == true ? 'mid_sec' : 'mid_sec overflow_hidden'}}" id="data" >
+											<div *ngFor="let data of newChat">
+												<div class="date_con_chat text-center" *ngIf="data.id == '' ">
+													<p class="chat_date_view" *ngIf="data.cust == 0 && data.created_date != 'Yesterday' && data.created_date != 'Today' ">{{data.created_date | date }}</p>
+													<p class="chat_date_view" *ngIf="data.cust == 1">{{data.created_date}}</p>
+												</div>
+												<div  class="{{data.message_from == myid ? 'my_chat text_box text-right' :'second_person_chat text-left'}}">
+													<!-- <img class="user_image"  src="./assets/images/message-user02.png" >-->
+													<div class="text_box" *ngIf="data.id != '' ">
+														<p >
+															<img src="{{data.media}}" *ngIf="data.type == 1 && data.media != undefined" class="attacImage" width="250">
+															<span *ngIf="data.type == 2" (click)="showImg(data.media, data.type)"><i class="fa fa-video" aria-hidden="true"></i> Video</span>
+															<span *ngIf="data.type == 3"><a href="{{data.media}}" download><i class="fa fa-file-archive-o" aria-hidden="true"></i> Zip/Document </a></span>
+															<span class="text-black" [innerHTML]="data.message"></span>
+														</p>
+														<span>{{data.created_date | date : 'shortTime'}}</span>
+													</div>
+													
+												</div>
+											</div>
+											<div *ngFor="let data of messages" class="{{data.id == myid ? 'my_chat text_box text-right' :'second_person_chat text-left'}}">
+												<!-- <img class="user_image" *ngIf="data.id != myid" src="./assets/images/message-user02.png" > -->
+												<p>I will display &#128532;</p>
+												<div class="text_box">
+													<p [innerHTML]='data.message'></p>
+													<!-- <span>{{data.created_date | date}}</span -->
+												</div>
+											</div>
+											<div class="accept_pop_outer" *ngIf="showPermission == true">
+												<div class="accept_pop">
+													<p *ngIf="permissionboxMsg == '' " class="p1"><b>Allow user to chat</b></p>
+													<p *ngIf="permissionboxMsg == '' " class="p2">'<b>{{user_name}}</b>' want to chat with you , click on allow to start chat with '<b>{{user_name}}</b>' or click deny to deny request.</p>
+													<p class="p2">{{permissionboxMsg}}</p>
+													<button *ngIf="showButton == true" class="b1" (click)="permissionAction(1)">Allow</button>
+													<button *ngIf="showButton == true" class="b2" (click)="permissionAction(0)">Deny</button>
+												</div>
+											</div>
+											<!-- <div class="my_chat text_box text-right">
+																						<p>Let's start the project</p>
+																						<span>07:30am</span>
+											</div> -->
+											</div><!-- mid_sec -->
+											<div class="bottom_sec" *ngIf="sendSection == true">
+												<div class="upload_pop" *ngIf="imgResultAfterCompress">
+													<!-- <img src="" style="width: 100%;" id="image_show"> -->
+													<img *ngIf="imgResultAfterCompress" [src]="imgResultAfterCompress" alt="">
+													<img class="thumb-ico" src="assets/images/close.svg" title="Remove image" (click)="removeAttach()">
+													<div class="edit_file">
+														<button (click)="compressFile(this)" class="file_multi_image thumb-input2 flIcon"></button>
+														<!--  <input type="file" id="postImage"  name="file[]"  accept="image/*" (change)="images($event)" title="Change image" > -->
+													</div>
+												</div>
+												<div class="upload_pop" *ngIf="imgResultBeforeCompress">
+													<div style="position: absolute; min-height: 33px; border: 1px solid #ddd; padding: 7px; margin: 10px 23px;">{{files[0].name}}</div>
+													<img class="thumb-ico" src="assets/images/close.svg" title="Remove image" (click)="removeAttach()">
+													<div class="edit_file" >
+														<input class="file_multi_image thumb-input2 flIcon" type="file" id="postImage"  name="file[]"  accept="image/*" (change)="other($event)" title="Change image" >
+													</div>
+												</div>
+												<!-- <ngx-emoj class="emoji_container"
+												(onemojipick)="handleEmoji($event)"
+												(onchardelete)="handleCharDelete($event)"
+												[width]="'50%'"
+												[height]="'200px'"
+												[theme]="{
+												martShowHeader: true,
+												martHeaderPadding: {x: '0', y: '0'},
+												martFooterPadding: {x: '0', y: '0'},
+												martHeaderFontSize: '14px',
+												martHeaderBG: '#e3e7e8',
+												martFooterBG: '#e3e7e8',
+												martBG: '#ebeff2',
+												martCategoryColor: '#94a0a6',
+												martCategoryColorActive: '#455a64',
+												martActiveCategoryIndicatorColor: '#00897b',
+												martEmojiFontSize: '100%',
+												martCategoryFontSize: '16px',
+												martBorderRadius: '5px',
+												martActiveCategoryIndicatorHeight: '4px',
+												martEmojiPadding: {x: '40px', y: '40px'}
+												}"
+												[maxRecentEmoji]="10"
+												[searchEmojiPlaceholderText]="'Search Emoji'"
+												[emojiNotFoundText]="'No data'">
+												</ngx-emoj> -->
+												<form [formGroup]="messageForm" (ngSubmit)="Message()">
+													<!-- <div class="emoji_container">
+																<ul class="tab_container">
+																			<li (click)="activeEmoticonDiv(1)">😁</li>
+																			<li (click)="activeEmoticonDiv(2)">🤲</li>
+																</ul>
+																<ul class="emojiC" id="div1">
+																			<li (click)="addEmoticon($event)">😁</li>
+																			<li (click)="addEmoticon($event)">😂</li>
+																			<li (click)="addEmoticon($event)">😃</li>
+																			<li (click)="addEmoticon($event)">😄</li>
+																			<li (click)="addEmoticon($event)">😅</li>
+																			<li (click)="addEmoticon($event)">😆</li>
+																			<li (click)="addEmoticon($event)">😇</li>
+																			<li (click)="addEmoticon($event)">😈</li>
+																			<li (click)="addEmoticon($event)">😉</li>
+																			<li (click)="addEmoticon($event)">😊</li>
+																			<li (click)="addEmoticon($event)">😋</li>
+																			<li (click)="addEmoticon($event)">😌</li>
+																			<li (click)="addEmoticon($event)">😍</li>
+																			<li (click)="addEmoticon($event)">😎</li>
+																			<li (click)="addEmoticon($event)">😏</li>
+																			<li (click)="addEmoticon($event)">😐</li>
+																			<li (click)="addEmoticon($event)">😑</li>
+																			<li (click)="addEmoticon($event)">😒</li>
+																			<li (click)="addEmoticon($event)">😓</li>
+																			<li (click)="addEmoticon($event)">😔</li>
+																			<li (click)="addEmoticon($event)">😕</li>
+																			<li (click)="addEmoticon($event)">😖</li>
+																			<li (click)="addEmoticon($event)">😗</li>
+																			<li (click)="addEmoticon($event)">😘</li>
+																			<li (click)="addEmoticon($event)">😙</li>
+																			<li (click)="addEmoticon($event)">😚</li>
+																			<li (click)="addEmoticon($event)">😛</li>
+																			<li (click)="addEmoticon($event)">😜</li>
+																			<li (click)="addEmoticon($event)">😝</li>
+																			<li (click)="addEmoticon($event)">😞</li>
+																			<li (click)="addEmoticon($event)">😠</li>
+																			<li (click)="addEmoticon($event)">😡</li>
+																			<li (click)="addEmoticon($event)">😢</li>
+																			<li (click)="addEmoticon($event)">😣</li>
+																			<li (click)="addEmoticon($event)">😤</li>
+																			<li (click)="addEmoticon($event)">😥</li>
+																			<li (click)="addEmoticon($event)">😦</li>
+																			<li (click)="addEmoticon($event)">😧</li>
+																			<li (click)="addEmoticon($event)">😨</li>
+																			<li (click)="addEmoticon($event)">😩</li>
+																			<li (click)="addEmoticon($event)">😪</li>
+																			<li (click)="addEmoticon($event)">😫</li>
+																			<li (click)="addEmoticon($event)">😬</li>
+																			<li (click)="addEmoticon($event)">😭</li>
+																			<li (click)="addEmoticon($event)">😮</li>
+																			<li (click)="addEmoticon($event)">😯</li>
+																			<li (click)="addEmoticon($event)">😰</li>
+																			<li (click)="addEmoticon($event)">😱</li>
+																			<li (click)="addEmoticon($event)">😲</li>
+																			<li (click)="addEmoticon($event)">😳</li>
+																			<li (click)="addEmoticon($event)">😴</li>
+																			<li (click)="addEmoticon($event)">😵</li>
+																			<li (click)="addEmoticon($event)">😶</li>
+																			<li (click)="addEmoticon($event)">😷</li>
+																			<li (click)="addEmoticon($event)">🙁</li>
+																			<li (click)="addEmoticon($event)">🙂</li>
+																			<li (click)="addEmoticon($event)">🙃</li>
+																			<li (click)="addEmoticon($event)">🙄</li>
+																			<li (click)="addEmoticon($event)">🤐</li>
+																			<li (click)="addEmoticon($event)">🤑</li>
+																			<li (click)="addEmoticon($event)">🤒</li>
+																			<li (click)="addEmoticon($event)">🤓</li>
+																			<li (click)="addEmoticon($event)">🤔</li>
+																			<li (click)="addEmoticon($event)">🤕</li>
+																			<li (click)="addEmoticon($event)">🤠</li>
+																			<li (click)="addEmoticon($event)">🤡</li>
+																			<li (click)="addEmoticon($event)">🤢</li>
+																			<li (click)="addEmoticon($event)">🤣</li>
+																			<li (click)="addEmoticon($event)">🤤</li>
+																			<li (click)="addEmoticon($event)">🤥</li>
+																			<li (click)="addEmoticon($event)">🤧</li>
+																			<li (click)="addEmoticon($event)">🤨</li>
+																			<li (click)="addEmoticon($event)">🤩</li>
+																			<li (click)="addEmoticon($event)">🤪</li>
+																			<li (click)="addEmoticon($event)">🤫</li>
+																			<li (click)="addEmoticon($event)">🤬</li>
+																			<li (click)="addEmoticon($event)">🤭</li>
+																			<li (click)="addEmoticon($event)">🤮</li>
+																			<li (click)="addEmoticon($event)">🤯</li>
+																			<li (click)="addEmoticon($event)">🧐</li>
+																</ul>
+																<ul id="div2" class="div2 emojiC displayNone">
+																			<li (click)="addEmoticon($event)">☝</li>
+																			<li (click)="addEmoticon($event)">⛹</li>
+																			<li (click)="addEmoticon($event)">✊</li>
+																			<li (click)="addEmoticon($event)">✋</li>
+																			<li (click)="addEmoticon($event)">✌</li>
+																			<li (click)="addEmoticon($event)">✍</li>
+																			<li (click)="addEmoticon($event)">🎅</li>
+																			<li (click)="addEmoticon($event)">🏂</li>
+																			<li (click)="addEmoticon($event)">🏃</li>
+																			<li (click)="addEmoticon($event)">🏄</li>
+																			<li (click)="addEmoticon($event)">🏇</li>
+																			<li (click)="addEmoticon($event)">🏊</li>
+																			<li (click)="addEmoticon($event)">🏋</li>
+																			<li (click)="addEmoticon($event)">🏌</li>
+																			<li (click)="addEmoticon($event)">👂</li>
+																			<li (click)="addEmoticon($event)">👃</li>
+																			<li (click)="addEmoticon($event)">👆</li>
+																			<li (click)="addEmoticon($event)">👇</li>
+																			<li (click)="addEmoticon($event)">👈</li>
+																			<li (click)="addEmoticon($event)">👉</li>
+																			<li (click)="addEmoticon($event)">👊</li>
+																			<li (click)="addEmoticon($event)">👋</li>
+																			<li (click)="addEmoticon($event)">👌</li>
+																			<li (click)="addEmoticon($event)">👍</li>
+																			<li (click)="addEmoticon($event)">👎</li>
+																			<li (click)="addEmoticon($event)">👏</li>
+																			<li (click)="addEmoticon($event)">👐</li>
+																			<li (click)="addEmoticon($event)">👦</li>
+																			<li (click)="addEmoticon($event)">👧</li>
+																			<li (click)="addEmoticon($event)">👨</li>
+																			<li (click)="addEmoticon($event)">👩</li>
+																			<li (click)="addEmoticon($event)">👮</li>
+																			<li (click)="addEmoticon($event)">👰</li>
+																			<li (click)="addEmoticon($event)">👱</li>
+																			<li (click)="addEmoticon($event)">👲</li>
+																			<li (click)="addEmoticon($event)">👳</li>
+																			<li (click)="addEmoticon($event)">👴</li>
+																			<li (click)="addEmoticon($event)">👵</li>
+																			<li (click)="addEmoticon($event)">👶</li>
+																			<li (click)="addEmoticon($event)">👷</li>
+																			<li (click)="addEmoticon($event)">👸</li>
+																			<li (click)="addEmoticon($event)">👼</li>
+																			<li (click)="addEmoticon($event)">💁</li>
+																			<li (click)="addEmoticon($event)">💂</li>
+																			<li (click)="addEmoticon($event)">💃</li>
+																			<li (click)="addEmoticon($event)">💅</li>
+																			<li (click)="addEmoticon($event)">💆</li>
+																			<li (click)="addEmoticon($event)">💇</li>
+																			<li (click)="addEmoticon($event)">💪</li>
+																			<li (click)="addEmoticon($event)">🕴</li>
+																			<li (click)="addEmoticon($event)">🕵</li>
+																			<li (click)="addEmoticon($event)">🕺</li>
+																			<li (click)="addEmoticon($event)">🖐</li>
+																			<li (click)="addEmoticon($event)">🖕</li>
+																			<li (click)="addEmoticon($event)">🖖</li>
+																			<li (click)="addEmoticon($event)">🙅</li>
+																			<li (click)="addEmoticon($event)">🙆</li>
+																			<li (click)="addEmoticon($event)">🙇</li>
+																			<li (click)="addEmoticon($event)">🙋</li>
+																			<li (click)="addEmoticon($event)">🙌</li>
+																			<li (click)="addEmoticon($event)">🙍</li>
+																			<li (click)="addEmoticon($event)">🙎</li>
+																			<li (click)="addEmoticon($event)">🙏</li>
+																			<li (click)="addEmoticon($event)">🚣</li>
+																			<li (click)="addEmoticon($event)">🚴</li>
+																			<li (click)="addEmoticon($event)">🚵</li>
+																			<li (click)="addEmoticon($event)">🚶</li>
+																			<li (click)="addEmoticon($event)">🛀</li>
+																			<li (click)="addEmoticon($event)">🛌</li>
+																			<li (click)="addEmoticon($event)">🤘</li>
+																			<li (click)="addEmoticon($event)">🤙</li>
+																			<li (click)="addEmoticon($event)">🤚</li>
+																			<li (click)="addEmoticon($event)">🤛</li>
+																			<li (click)="addEmoticon($event)">🤜</li>
+																			<li (click)="addEmoticon($event)">🤝</li>
+																			<li (click)="addEmoticon($event)">🤞</li>
+																			<li (click)="addEmoticon($event)">🤟</li>
+																			<li (click)="addEmoticon($event)">🤦</li>
+																			<li (click)="addEmoticon($event)">🤰</li>
+																			<li (click)="addEmoticon($event)">🤱</li>
+																			<li (click)="addEmoticon($event)">🤲</li>
+																			<li (click)="addEmoticon($event)">🤳</li>
+																			<li (click)="addEmoticon($event)">🤴</li>
+																			<li (click)="addEmoticon($event)">🤵</li>
+																			<li (click)="addEmoticon($event)">🤶</li>
+																			<li (click)="addEmoticon($event)">🤷</li>
+																			<li (click)="addEmoticon($event)">🤸</li>
+																			<li (click)="addEmoticon($event)">🤹</li>
+																			<li (click)="addEmoticon($event)">🤽</li>
+																			<li (click)="addEmoticon($event)">🤾</li>
+																			<li (click)="addEmoticon($event)">🧑</li>
+																			<li (click)="addEmoticon($event)">🧒</li>
+																			<li (click)="addEmoticon($event)">🧓</li>
+																			<li (click)="addEmoticon($event)">🧔</li>
+																			<li (click)="addEmoticon($event)">🧕</li>
+																			<li (click)="addEmoticon($event)">🧖</li>
+																			<li (click)="addEmoticon($event)">🧗</li>
+																			<li (click)="addEmoticon($event)">🧘</li>
+																			<li (click)="addEmoticon($event)">🧙</li>
+																			<li (click)="addEmoticon($event)">🧚</li>
+																			<li (click)="addEmoticon($event)">🧜</li>
+																			<li (click)="addEmoticon($event)">🧝</li>
+																</ul>
+													</div> -->
+													<textarea id="message_type_textarea1" (keyup)="Message($event)" class="form-control" formControlName="message" placeholder="Type message..." rows="1"></textarea>
+													<div class="button_sec" >
+												<div id="toolbox1" class="toolbox displayNone" style="">
+															<ul>
+																<li (click)="compressFile()" style="display: block;border-bottom: 1px solid #ddd; cursor: pointer;"><i class="fa fa-file-image-o" aria-hidden="true"></i> <span>Image</span></li>
+																<li class="btn btn-upload" style="display: block;border-bottom: 1px solid #ddd; cursor: pointer;"><i class="fa fa-file-video-o" aria-hidden="true"></i> <span>Video</span> <input type="file" (change)="images($event)" value="" formControlName="file"> </li>
+																<li class="btn btn-upload" style="display: block;border-bottom: 1px solid #ddd; cursor: pointer;"><i class="fa fa-file-archive-o" aria-hidden="true"></i> <span>Document/zip</span> <input type="file" (change)="other($event)" value="" formControlName="file"></li>
+															</ul>
+														</div>
+														<span (click)="showToolBox()" type="submit" class="{{files == '' ? 'btn btn-upload' : 'btn btn-upload displayNone'}}">
+															
+															<i class="fa fa-paperclip"></i>
+														</span>
+														<button type="submit" class="btn btn-send">
+														<i class="fa fa-paper-plane"></i>
+														</button>
+													</div>
+												</form>
+											</div>
+											<div class="bottom_sec" *ngIf="sendSection != true">
+												<p align="center" class="not_chat_text">You cannot send message to this conservation. </p>
+											</div>
+										</div>
+										</div><!-- /END OF POST HEAD/ -->
+										</div><!-- END WRAP -->
+										</div><!-- innerPadding -->
+										</div><!-- innerWrap -->
+										
+										<div class="video_window" id="video_window">
+											<!-- <video autoplay="true">
+																					<source src="{{media_url}}/uploads/aaba9b8d8f5a57540800fbd5677b3d33.mp4" type="video/mp4">
+											</video> -->
+											<!-- <video autoplay="true">
+																					<source src="{{media_url}}/uploads/aaba9b8d8f5a57540800fbd5677b3d33.mp4" type="video/mp4">
+																					Your browser does not support video.
+											</video> -->
+											
+											<div id="controls">
+												<div id="preview">
+													<div id="local-media"></div>
+												</div>
+												<!-- <div id="room-controls">
+																					<button id="button-leave">Leave Room</button>
+												</div> -->
+												<div id="log"></div>
+											</div>
+											<div id="remote-media">
+												
+												<div class="button_flex">
+													<div *ngIf="status == true" class="answer_video_chat" (click)="acceptCall()"><i class="fa fa-phone"></i></div>
+													<div class="video_chat_cancel" id="button-leave" (click)="rejectCall()">
+														<span class="fa fa-phone"></span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</section>
+									<style type="text/css">
+										.emoji_container{
+											position: absolute;    bottom: 52px;
+										}
+										.displayBlock {
+										  display: block !important;
+										}
+										.displayNone {
+										  display: none;
+										}
+									</style>

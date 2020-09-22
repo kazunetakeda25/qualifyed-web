@@ -1,0 +1,58 @@
+
+   
+
+<app-header></app-header>
+
+
+
+<section class="notificationsContainer">
+  <div class="innerWrap">
+    <div class="innerPadding">
+      <div class="wrap">
+         <h5 class="box_head">Profile Views</h5>
+        <div class="row">
+
+
+          <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 notificationsWrapper">
+            <div class="postWrapper">
+          <div *ngIf = "paginationresult_count == -5">No Profile View yet</div>
+
+
+                <div class="profileInfo" *ngFor="let data of data">
+                            <div class="flexboxwrap">
+                                   <div class="editImg" >
+                                        <a (click)="goprofile(data.userid)"><img src="{{media_url}}/uploads/images/{{data.logo}}"></a>
+                                         <p class="vieweProfile"><a (click)="goprofile(data.userid)"><b>{{data.name}}</b></a></p>
+                                    </div>
+
+                                <div class="rightSection">
+                                      <div class="editUpload">
+                                         <p>{{data.created_date}}</p>
+                                        </div>
+                                    <!--   <div class="imgContent">
+                                        <img src="./assets/images/notification-drop-icon.png" (click)="toggle()">
+                                      </div> -->
+                                     </div>
+                            </div>
+                </div>
+                <!-- END PROFILE INFO -->
+               
+            
+              </div>
+            <!-- /END OF POST WRAPPER/ -->
+            <br>
+            <div class="viewMoreBtn">
+                <button  class="viewbtn button_style_01" (click)="loadMore()" *ngIf="paginationresult_count > 0"><span>View ({{paginationresult_count}}) more</span></button>
+              </div>
+
+
+          </div>
+
+         
+
+        </div>
+      </div>
+    </div>
+   </div>
+</section>
+

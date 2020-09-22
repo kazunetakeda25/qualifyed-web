@@ -1,0 +1,519 @@
+
+<app-profileheader></app-profileheader>
+<!-- <div id="cover-spin" *ngIf="showLoader == true"></div> -->
+<div id="loder_main" *ngIf="showLoader == true"><div id="loader_view" ></div></div>
+<div class="businessTitle">
+    <div class="title">
+        <h5>Edit Business Profile</h5>
+    </div>
+
+
+</div>
+<section class="businessInfoContainer profile-edit-business">
+    <div class="innerWrap">
+        <div class="innerPadding">
+            <div class="wrap">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                        <!-- /END OF ICO BOX/ -->
+                        <div class="infoContent">
+                            <h5 class="txtBlue"><i class="fa fa-user-circle" aria-hidden="true"> <a (click)="scrollToElement(target)"> About Business</a></i></h5>
+                            <h5 class="txtBlue"><i class="fa fa-book" aria-hidden="true"> <a (click)="scrollToElement(target1)"> Additional Information</a></i></h5>
+                            <h5 class="txtBlue"><i class="fa fa-unlock-alt" aria-hidden="true"> <a (click)="scrollToElement(target2)">Create a Password</a></i> </h5>
+                        </div>
+                        <!-- /END OF INFO CONTENT/ -->
+
+                    </div>
+
+                    <div #target class="col-lg-8 col-md-8 col-sm-12 col-xs-12 editProfile-form">
+
+                        <form [formGroup]="aboutForm" (ngSubmit)="aboutSubmit()">
+                            <div class="postWrapper ">
+                                <div class="postHead">
+                                    <h5 class="txtBlue"><i class="fa fa-user-circle" aria-hidden="true"></i>  About Business</h5>
+                                    <div class="profileInfo profile_pic_section">
+                                        <p>Profile Picture</p>
+                                        <div class="flexboxwrap" *ngFor="let name of data ; let i=index;">
+                                            <div class="editImg" *ngIf="file_status == false">
+
+                                                <img class="circleBox" src="{{media_url}}/uploads/images/avatar.png">
+                                            </div>
+                                             <div class="editImg" *ngIf="file_status == true">
+
+                                                <img class="circleBox" src="{{media_url}}/uploads/images/{{name.profile_pic_name}}">
+                                            </div>
+                                           <!--  <div class="editUpload">
+                                                <input type="file" class="edit-upload-btn" accept="image/*" (change)="images($event)">
+                                                 <image-cropper
+                                                  [imageChangedEvent]="imageChangedEvent"
+                                                  [maintainAspectRatio]="true"
+                                                  [aspectRatio]="4 / 4"
+                                                  [resizeToWidth]="128"
+                                                  format="png"
+                                                  (imageCropped)="imageCropped($event)"
+                                                  (loadImageFailed)="loadImageFailed()"
+                                              ></image-cropper>
+                                                <div class="button_cotainer_two_button">
+                                                    <a class="edit-delete-btn" (click)="onUpload()">Update</a>
+                                                    <div *ngIf="name.profile_pic_name != 'avatar.png' && name.profile_pic_name != ''">
+  
+                                                     <a class="edit-delete-btn" (click)="onPicture()">Delete</a>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                            <div class="editUpload text-right">
+                                              
+                                            <div id="edit_profile_pic" class="button_style_01" (click)="open_div()"><span>Edit Profile Picture</span></div>
+                                            </div>
+                                        </div>
+
+                                 <!-- <button class="edit-upload-btn">Upload New Photo</button> -->
+                                 <div id="postModal" class="image_croper_container_outer existing_container" style="display:none;">
+                                    <div class="image_croper_container">
+                                       <div class="header_sec">
+                                          <h6>Edit Profile Picture</h6>
+                                          <i (click)="closeModalFunction()"  class="fa fa-close"></i>
+                                       </div>
+                                       <div class="mid_container">
+                                         <!--  <img *ngIf="crop_image_status == 0" class="existing_image" src="{{server_name}}/{{pic_path}}"> -->
+
+                                           <img *ngIf="crop_image_status == 0 && file_status == true" class="existing_image" src="{{media_url}}/{{pic_path}}">
+                                          <img *ngIf="crop_image_status == 0 && file_status == false" class="existing_image" src="{{media_url}}/uploads/images/avatar.png">
+                                          
+                                           <image-cropper *ngIf="crop_image_status == 1" class="existing_image"
+                                        [imageChangedEvent]="imageChangedEvent"
+                                        [maintainAspectRatio]="true"
+                                        [aspectRatio]="4 / 4"
+                                        [resizeToWidth]="128"
+                                        (imageCropped)="imageCropped($event)"
+                                        [imageBase64]="base_64_image"
+                                        >
+                                        </image-cropper>
+                                       </div><!--mid_container  -->
+                                       <div class="button_container_new">
+                                          <div class="left_sec">
+                                             <div class="button_style_01">
+                                               <span (click)="closeModalFunction()">Cancel</span></div>
+                                              <!--  <span (click)="onUpload()">Save</span></div> -->
+                                          </div><!-- left_sec -->
+                                          <div class="right_sec">
+                                             <div *ngIf="  file_status == false && check_image == 'avatar.png'" class="button_style_03" (click)="onPicture()"><span>Delete</span></div>
+                                             <div *ngIf="  file_status == true && check_image != 'avatar.png'" class="button_style_03" (click)="onPicture()"><span>Delete</span></div>
+                                             <div class="button_style_04 input_controller">
+                                                <span *ngIf="upload_set_default == 0" >
+                                                    <input type="file" class="form-control" accept="image/*" (change)="images($event)"  >
+                                                   <label>Upload New</label>
+                                                </span>
+                                                <span *ngIf="upload_set_default == 1" >
+                                                    <span (click)="onUpload()">Save</span>
+                                                   
+                                                </span>
+                                             </div>
+                                          </div><!-- right_sec -->
+                                       </div>
+                                    </div><!-- image_croper_container -->
+                                 </div><!-- image_croper_container_outer -->
+                                    </div>
+                                    <!-- /END PROFILE INFO/ -->
+
+                                    <div class="profileInfo resumeInfo" *ngFor="let name of data ; let i=index;">
+                                        <p>Bio Video</p>
+                                        <div class="flexboxwrap">
+                                            <div class="editImg">
+
+                                                <div *ngIf="name.video_name != 'novideo.jpg' && name.video_name != '' && name.video_name != null && name.video_name != undefined">
+                                                    <video width="320" height="240" controls>
+                                                        <source src="{{media_url}}/uploads/bio_video/{{name.video_name}}" type="video/mp4">
+
+                                                    </video>
+                                                </div>
+                                                <div *ngIf="name.video_name == 'novideo.jpg' || name.video_name == '' || name.video_name == null || name.video_name == undefined">
+                                                    <img height="120" src="./assets/uploads/bio_video/novideo.jpg">
+                                                </div>
+
+                                            </div>
+                                            <div class="editUpload">
+                                                <input type="file" class="edit-upload-btn" accept="video/*" (change)="video($event)">
+                                                <div class="button_cotainer_two_button">
+                                                    <div *ngIf="name.video_name != 'novideo.jpg' && name.video_name != null ">
+                                                        <a class="edit-delete-btn button_style_01" (click)="onVideo()"><span>Delete</span></a>
+                                                    </div>
+                                                    <a class="edit-delete-btn button_style_01" (click)="onUpload1()"><span>Update</span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /END PROFILE INFO/ -->
+                                </div>
+                                <!-- /END OF POST HEAD/ -->
+                                <div class="formContainer">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item">
+                                            <label for="name">Business Name <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                            <input class="form-styling" type="text" formControlName="bussinessname" name="username" [ngClass]="{ 'is-invalid': submitted1 && g.bussinessname.errors }">
+
+                                            <div *ngIf="submitted1 && g.bussinessname.errors" class="invalid-feedback">
+                                                <div *ngIf="g.bussinessname.errors.required">Bussine Name is required</div>
+                                                <div *ngIf="g.bussinessname.errors.maxlength">Bussiness Name must be less than 50 words</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item">
+
+                                            <label for="name">Address Line 1 <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                            <input class="form-styling" type="text" formControlName="addressline1" name="username" [ngClass]="{ 'is-invalid': submitted1 && g.addressline1.errors }">
+
+                                            <div *ngIf="submitted1 && g.addressline1.errors" class="invalid-feedback">
+                                                <div *ngIf="g.addressline1.errors.required"> Address Line1 is required</div>
+                                                <div *ngIf="g.addressline1.errors.maxlength"> Address Line1 must be describe in less than 100 words</div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item">
+                                            <label for="name">Address Line 2:</label>
+                                            <input class="form-styling" type="text" formControlName="addressline2" name="username" [ngClass]="{ 'is-invalid': submitted1 && g.addressline2.errors }"/>
+                                        <div *ngIf="submitted1 && g.addressline2.errors" class="invalid-feedback">
+                                          <div *ngIf="g.addressline2.errors.maxlength"> Address Line2 must be describe in less than 100 words</div>
+                                        </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item">
+
+                                            <label for="name">Phone <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                            <input class="form-styling" (keypress)="keyPress($event)" minlength=1 maxlength=15 type="text" formControlName="phone" name="username" [ngClass]="{ 'is-invalid': submitted1 && g.phone.errors }" />
+                                            <div *ngIf="submitted1 && g.phone.errors" class="invalid-feedback">
+                                                <div *ngIf="g.phone.errors.required"> Phone is required</div>
+                                                    
+                                                     <div *ngIf="g.phone.errors.maxlength"> Maximum 15 numbers are valid</div>
+
+                                                         <div *ngIf="g.phone.errors.minlength"> Minimum 5 numbers are required</div>
+
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item">    
+                                          <label for="username">Country <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                          <select class="form-styling" formControlName="country" [ngClass]="{ 'is-invalid': submitted1 && g.country.errors }"  (change)="State($event.target.value)" >
+                                          <!--   <option selected="" *ngFor="let country of data" value="">{{country.country_name}}</option> -->
+                                           <option   *ngFor="let data of country;" value={{data.id}}>{{data.name}}</option>
+                                          </select> 
+                                          <div *ngIf="submitted1 && g.country.errors" class="invalid-feedback">
+                                                <div *ngIf="g.country.errors.required"> Country is required</div>
+                                              </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item form-code">
+                                            <label for="username">State <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                            <select class="form-styling" formControlName="state" [ngClass]="{ 'is-invalid': submitted1 && g.state.errors }">
+                                                <option selected="" *ngFor="let state of citys" value="{{state.id}}">{{state.name}}</option>
+                                            </select>
+                                            <div *ngIf="submitted1 && g.state.errors" class="invalid-feedback">
+                                                <div *ngIf="g.state.errors.required"> State is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- row -->
+
+
+
+
+                                    <div class="row">
+
+                                        
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item">
+
+                                            <label for="username">City <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                            <input class="form-styling" type="text" formControlName="city" name="username" placeholder="Enter City" [ngClass]="{ 'is-invalid': submitted1 && g.city.errors }">
+                                            <div *ngIf="submitted1 && g.city.errors" class="invalid-feedback ">
+                                                <div *ngIf="g.city.errors.required">City is required</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-code">
+
+                                            <label for="name">Zip Code <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                            <input class="form-styling" type="text" formControlName="zipcode" name="username" placeholder="Enter Zip Code" [ngClass]="{ 'is-invalid': submitted1 && g.zipcode.errors }" />
+                                            <div *ngIf="submitted1 && g.zipcode.errors" class="invalid-feedback">
+                                                <div *ngIf="g.zipcode.errors.required"> Zipcode is required</div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!-- row -->
+
+
+                                    <div class="row">
+                                        
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+                                            <label for="name">Email Address <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                            <input class="form-styling" type="text" selected="" readonly="" formControlName="email" name="username" placeholder="Enter Email" [ngClass]="{ 'is-invalid': submitted1 && g.email.errors }" />
+                                            <div *ngIf="submitted1 && g.email.errors" class="invalid-feedback">
+                                                <div *ngIf="g.email.errors.required"> Email is required</div>
+                                                <div *ngIf="g.email.errors.email">Email must be a valid email address</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item">
+
+                                            <label for="username">Field of work/Industry <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                            <select formControlName="work" [ngClass]="{ 'is-invalid': submitted1 && g.work.errors }">
+                                                <option selected="" *ngFor="let industry of data" value="">{{industry.industry_name}}</option>
+                                                <option *ngFor="let data of work;" value={{data.id}}>{{data.name}}</option>
+                                            </select>
+                                            <div *ngIf="submitted1 && g.work.errors" class="invalid-feedback">
+                                                <div *ngIf="g.work.errors.required"> Work field is required</div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!-- row -->
+
+                                    <div class="row">
+                                        
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-item form-code">
+
+                                            <label for="name">Description of Business (BIO) <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                            <textarea class="form-styling" type="text" (keydown)="work_pref($event,$event.target.value)" (focusout)="work_pref_change($event,$event.target.value)" formControlName="bio" name="username" placeholder="Describe here..." [ngClass]="{ 'is-invalid': submitted1 && g.bio.errors }"></textarea>
+                                            <h6>({{work_pref_count}}/500)</h6>
+                                            <div *ngIf="submitted1 && g.bio.errors" class="invalid-feedback">
+                                                <div *ngIf="g.bio.errors.required">Bio is required</div>
+                                                 <div *ngIf="g.bio.errors.maxlength">please describe in 500 words or less </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 savedUpdates">
+                                            <div class="check">
+                                                <button class="saved-btn button_style_01"><span>Save Updates</span></button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <!-- END fORM -->
+                            </div>
+                            <!-- /END OF POST WRAPPER/ -->
+
+                        </form>
+                    </div>
+
+                    <!-- START ADDITTIONAL INFORMATION -->
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                    </div>
+
+                    <div #target1 class="col-lg-8 col-md-8 col-sm-12 col-xs-12 editProfile-form AdditionalForm">
+                        <div class="postWrapper">
+                            <div class="postHead">
+                                <h5 class="txtBlue"><i class="fa fa-book" aria-hidden="true"></i>  Additional Information</h5>
+
+                            </div>
+                            <!-- /END OF POST HEAD/ -->
+                            <form [formGroup]="informationForm" (ngSubmit)="informationSubmit()">
+                                <div class="formContainer">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 formSelection">
+                                            <label for="name">Website</label>
+                                            <input class="form-styling" type="text" formControlName="website" (blur)="isUrlValid()"  name="username" placeholder="Enter Website" [ngClass]="{ 'is-invalid': submitted3 && k.website.errors }">
+
+                                           <div *ngIf="submitted3 && k.website.errors" class="invalid-feedback">
+                                               <div *ngIf="urlError != '' " class="invalid-feedback">
+                                      {{urlError}}
+                                    </div>
+                                                <div *ngIf="k.website.errors.maxlength"> Maximum length of website should be 100 </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item">
+                                            <label for="username">Company Type</label>
+                                            <select formControlName="companytype">
+                                                <option selected="" *ngFor="let ctype of data" value="">{{ctype.company_type}}</option>
+                                                <option *ngFor="let data of ctype;" value={{data.id}}>{{data.name}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item">
+                                            <label for="username">Company Size</label>
+                                            <select formControlName="companysize">
+                                                <option selected="" *ngFor="let csize of data" value="">{{csize.company_size}}</option>
+                                                <option *ngFor="let data of csize;" value={{data.id}}>{{data.size}}</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item">
+                                            <label for="username">Headquarters</label>
+                                            <input class="form-styling" type="text" formControlName="location"  name="username" placeholder="Enter Location of Headquarters">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item has_calender">
+                                            <label for="username"> Dates Founded</label>
+
+                                            <input matInput [matDatepicker]="picker1" (click)="picker1.open()" [min]="minDate" [max]="maxDate" class="form-control form-styling ng-untouched ng-pristine ng-valid" formControlName="date">
+                                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker1></mat-datepicker>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 savedUpdates">
+                                            <div class="check">
+                                                <button class="saved-btn button_style_01"><span>Save Updates</span></button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+
+                            <!-- END fORM -->
+                        </div>
+                        <!-- /END OF POST WRAPPER/ -->
+
+                    </div>
+                    <!-- END ADDITTIONAL INFORMATION -->
+
+                    <!-- START CHANGE PASSWORD -->
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    </div>
+
+                    <div #target2 class="col-lg-8 col-md-8 col-sm-12 col-xs-12 editProfile-form AdditionalForm changePass">
+                        <div class="postWrapper">
+                            <div class="postHead">
+                                <h5 class="txtBlue"><i class="fa fa-unlock-alt" aria-hidden="true"></i> Change Password</h5>
+
+                            </div>
+                            <!-- /END OF POST HEAD/ -->
+                            <form [formGroup]="passwordForm" (ngSubmit)="passwordSubmit()">
+                                <div class="formContainer">
+
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item">
+                                            <label class="form-control-placeholder" for="password">Old Password</label>
+                                            <!-- <show-hide-password size="lg" btnStyle="primary" [btnOutline]="false"> -->
+
+                                                <input style="padding-right: 42px;" type="password" id="passwordField" class="form-control" formControlName="oldpassword" [ngClass]="{ 'is-invalid': submitted && f.oldpassword.errors }" placeholder="Enter Old Password">
+                                            <!-- </show-hide-password> -->
+                                            <!-- <span class="toggle-password" ><i class="fa fa-eye" aria-hidden="true"></i></span> -->
+                                            <span (click)="show_password()" class="toggle-password" ><i class="fa fa-eye-slash" aria-hidden="true"></i></span>
+                                            <div *ngIf="submitted && f.oldpassword.errors" class="invalid-feedback">
+                                                <div *ngIf="f.oldpassword.errors.required">Old Password is required</div>
+
+                                               
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item">
+                                            <label class="form-control-placeholder" for="password">New Password</label>
+                                            <!-- <show-hide-password size="lg" btnStyle="primary" [btnOutline]="false"> -->
+
+                                                <input style="padding-right: 42px;" type="password" id="passwordField2" class="form-control" formControlName="newpassword" [ngClass]="{ 'is-invalid': submitted && f.newpassword.errors }" placeholder="Enter New Password">
+                                            <!-- </show-hide-password> -->
+                                            <!-- <span class="toglePass" ><i class="fa fa-eye" aria-hidden="true"></i></span> -->
+                                            <span (click)="show_password2()" class="toggle-password" ><i class="fa fa-eye-slash" aria-hidden="true"></i></span>
+                                            <div *ngIf="submitted && f.newpassword.errors" class="invalid-feedback">
+                                                <div *ngIf="f.newpassword.errors.required"> New Password is required</div>
+
+                                                <div *ngIf="f.newpassword.errors.minlength">Password must be at least 6 characters</div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item">
+                                            <label class="form-control-placeholder" for="password">Confirm Password</label>
+                                            <!-- <show-hide-password size="lg" btnStyle="primary" [btnOutline]="false"> -->
+
+                                                <input style="padding-right: 42px;" type="password" id="passwordField3" class="form-control" formControlName="cpassword" [ngClass]="{ 'is-invalid': submitted && f.cpassword.errors }" placeholder="Enter Confirm Password">
+                                                <span (click)="show_password3()" class="toggle-password" ><i class="fa fa-eye-slash" aria-hidden="true"></i></span>
+                                            <!-- </show-hide-password> -->
+                                            <div *ngIf="submitted && f.cpassword.errors" class="invalid-feedback">
+                                                <div *ngIf="f.cpassword.errors.required">Password is required</div>
+                                                <div *ngIf="f.cpassword.errors.mustMatch">Confirm passwords and password should be same</div>
+                                            </div>
+                                        </div>
+
+                                        <!-- 
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item">
+                     <label class="form-control-placeholder" for="password">Confirm Password</label>
+                     <input type="password" id="passwordField2" class="form-control" value="Samo@123">
+                     <span class="toglePass" toggle1="#passwordField2"><i class="fa fa-eye" aria-hidden="true"></i></span>
+                </div>     -->
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 savedUpdates">
+                                            <div class="check">
+
+                                                <button class="saved-btn button_style_01"><span>Save Updates</span></button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+
+                            <!-- END fORM -->
+                        </div>
+                        <!-- /END OF POST WRAPPER/ -->
+
+                    </div>
+                    <!-- END CHANGE PASSWORD -->
+
+                    <!-- START DEACTIVATE ACCOUNT -->
+
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    </div>
+
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 editProfile-form AdditionalForm DeactivateContainer">
+                        <div class="postWrapper">
+                            <div class="postHead">
+                                <h5 class="txtBlue"> Deactivate Account</h5>
+
+                            </div>
+                            <!-- /END OF POST HEAD/ -->
+                            <div class="stanContent">
+                                <p>To keep records of all account activity, we don’t allow you to permanently delete an account. You may reactivate an inactive account at any time if needed</p>
+                            </div>
+
+                            <div class="Deactivate-btn">
+                                <button class="saved-btn button_style_01" (click)="Deactivate()"><span>Deactivate Account</span></button>
+                            </div>
+
+                            <!-- END fORM -->
+                        </div>
+                        <!-- /END OF POST WRAPPER/ -->
+
+                    </div>
+                    <!-- END DEACTIVATE ACCOUNT -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

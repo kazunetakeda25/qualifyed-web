@@ -1,0 +1,589 @@
+<div id="loder_main" *ngIf="showLoader == true"><div id="loader_view" ></div></div>
+<app-header></app-header>
+<section class="conneciton-businessBlog notificationsDiv">
+<div class="innerWrap">
+  <div class="innerPadding">
+    <div class="infoContent wrap">
+      <h5 class="box_head"><i class="fas fa-bell"></i> Notifications</h5>
+      <div class="row">
+        
+        <div class="col-md-6 col-sm-12 col-lg-6 col-xs-12">
+          
+          <P *ngIf="read_length > 0">You have {{read_length}} unread notification click on notification to view</P>
+          <P *ngIf="read_length < 0 || read_length == 0">You’re all caught up!  Check back later for new notifications </P>
+        </div>
+        <div class="col-md-6 col-sm-12 col-lg-6 col-xs-12">
+          
+          <div class="button_container pull-right">
+            <div class="button_style_01" *ngIf="read_length > 0">
+              <span (click)="notificationread()" >Mark All as Read</span>
+            </div>
+            <div *ngIf="notification_len != 0 || hide_notification != 0" class="button_style_01" >
+              <span (click)="clear_all()">Clear all</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <hr>
+      <p class="improve-text">Improve your notifications <a *ngIf="type == 1" routerLink="/bussiness/setting">View settings</a> <a *ngIf="type == 2" routerLink="/user/settings">View settings</a></p>
+    </div>
+  </div>
+  
+  <div class="wrap">
+    <div class="mainWrapper">
+      <div class="innerWrapper">
+        <div class="connectionTop">
+          <h5 class="box_head"><i class="fas fa-clock"></i> Recent Notifications</h5>
+          <span class="results"></span>
+        </div>
+        <div *ngIf="notification_data == '' ">
+          <p>No recent notification</p>
+        </div>
+        <div class="connectionList {{ data.status == 0 ? 'unread_n' : ''}}" *ngFor="let data of notification_data; let i=index">
+          <ul class="inlineList">
+            <li>
+              <div class="flexWrapper row">
+                <div class="requestBLog  col-md-8 col-lg-8 col-sm-8 col-xs-12">
+                  <div class="req-mgBlog">
+                    <a (click)="go_profile(data.message.senderid)" *ngIf="data.file_status == false" ><img (click)="NotificationSeen(data.id)"   src="{{media_url}}/uploads/images/avatar.png"></a>
+                    <a (click)="go_profile(data.message.senderid)" *ngIf="data.file_status == true" ><img (click)="NotificationSeen(data.id)" src="{{media_url}}/uploads/images/{{data.message.pic_name}}"></a>
+                  </div>
+                  <div class="request-titlebox">
+                    <a (click)="go_opp(data.id)">
+                      <h3 class="interview_heading">{{data.title}}</h3>
+                    </a>
+                    <br>
+                    <!--  <a routerLink="/view_profile/{{data.user_login_id}}{{data.user_id}}">
+                      <h3>{{data.profile}}</h3>
+                    </a>
+                    <p>{{data.Address_Line}}, {{data.city}}, {{data.oppState}} - {{data.opp_country}}, {{data.zipcode}}</p> -->
+                    
+                    <p *ngIf ="data.notification_type < 8" class="vieweProfile"><a (click)="NotificationSeen(data.id);go_profile(data.message.senderid)"><b>{{data.noti_username}}</b></a>  {{data.message.message}} </p>
+                    <p *ngIf="data.notification_type >= 8" class="vieweProfile"><a  (click)="NotificationSeen(data.id);go_profile(data.message.senderid)"><b>{{data.noti_username}}</b></a>  {{data.message.message}} {{data.message.title}} <span *ngIf="data.message.additional_details">Additional Information : {{data.message.additional_details}}</span>.<br><span *ngIf="data.notification_type == 8">Message: {{data.message.content}} </span></p>
+                  </div>
+                  
+                </div>
+                <!--  REQUESTSBLOG -->
+                <div class="interviewRight  col-md-4 col-lg-4 col-sm-4 col-xs-12">
+                  <p> {{data.created_date}} </p>
+                  <div class="rightSection">
+                    <div class="imgContent" >
+                      <img src="./assets/images/notification-drop-icon.png" (click)="showtoggle(data.id)" (clickElsewhere)="close(data.id)">
+                      <!-- <img *ngIf="myshow !=0" (click)="hidetoggle(data.id)"> -->
+
+                      <div class="dropdownController displayNone" id="id_{{data.id}}">
+                    <ul class="text-left">
+                      <li (click)="deleteNotification(data.id)" class="dropdownDelete">
+                        <i class="fas fa-trash-alt"></i>
+                        <div>
+                          <a>Delete</a>
+                          <p style="cursor: pointer;">Delete this notification</p>
+                        </div>
+                      </li>
+                      <li (click)="Mark(data.id)" class="dropdownHide">
+                        <i class="fas fa-check"></i>
+                        <div>
+                          <a>Mark</a>
+                          <p style="cursor: pointer;">Mark as read this notification</p>
+                        </div>
+                      </li>
+                      <li (click)="hideNotification(data.notification_type)" class="dropdownHide">
+                        <i class="fas fa-times-circle"></i>
+                        <div>
+                          <a>Turn off</a>
+                          <p style="cursor: pointer;">Stop receiving notifications like this</p>
+                        </div>
+                      </li>
+                    </ul>
+                    
+                  </div>
+                    </div>
+                    
+                    
+                  </div>
+                </div>
+              </div>
+            </li>
+            <div class="editUpload">
+                      
+                      <a *ngIf="data.notification_type == 1 && data.status == 0"  (click)="NotificationSeen(data.id);Accept(data.message.senderid)" class="editAccept">Accept</a>
+                      <a *ngIf="data.notification_type == 1 && data.status == 0 " (click)="NotificationSeen(data.id);Decline(data.message.senderid)" class="editDec">Decline</a>
+                      
+                      <a *ngIf="data.notification_type == 9 && data.interview_Status == 1" class="editAccept" (click)="acceptRequest(data.message.interview_req_id,data.message.opp_id,data.message.senderid,data.message.title)">Accept</a>
+                      <a (click)="declineRequest(data.message.senderid, data.message.interview_req_id, data.message.opp_id)" *ngIf="data.notification_type == 9 && data.interview_Status == 1" class="editDec">Decline</a>
+
+                      <a *ngIf="(data.notification_type == 10 || data.notification_type == 19) && (data.interview_Status == 2 || data.interview_Status == 7)" class="editAccept" (click)="open_accept_popup(data.message.opp_id,data.message.user_id)">Accept</a>
+                      <a *ngIf="(data.notification_type == 10 || data.notification_type == 19) && (data.interview_Status == 2 || data.interview_Status == 7)" class="editDec" (click)="Decline2(data.message.opp_id)">Decline</a>
+                      <!-- <a *ngIf="(data.notification_type == 10 || data.notification_type == 19) && (data.interview_Status == 2 || data.interview_Status == 7)" class="editDec" (click)="Reschedule(data.message.opp_id, data.message.senderid, data.message.opp_name,data.message.interview_req_id)">Reschedule</a> -->
+
+                      <a *ngIf="data.notification_type == 13 && (data.interview_Status == 5 || data.interview_Status == 4)" class="editAccept" (click)="acceptRescheduleRequest(data.message.interview_req_id,data.message.opp_id,data.message.senderid,data.int_type)">Accept</a>
+                      <a *ngIf="data.notification_type == 13 && (data.interview_Status == 5 || data.interview_Status == 4)" class="editDec" (click)="declineRequest(data.message.senderid,data.message.interview_req_id,data.message.opp_id,data.int_type)">Decline</a>
+                      <!-- <a *ngIf="data.notification_type == 13 && (data.interview_Status == 5 || data.interview_Status == 4)" class="editDec" (click)="Reschedule(data.message.opp_id, data.message.senderid, data.message.opp_name)">Reschedule</a> -->
+                      <a *ngIf="data.notification_type == 13 && (data.interview_Status == 5 || data.interview_Status == 4)" class="editDec" (click)="showdetail(2, data.message.senderid, data.message.interview_req_id,data.message.opp_id)">View Reason</a>
+                    </div>
+          </ul>
+          <!--END OF UL-01 -->
+          
+        </div>
+      </div>
+    </div>
+    <!-- <div class="viewMoreBtn">
+      <button  class="viewbtn" (click)="loadMore1()" *ngIf="paginationresult_count > 0">View ({{paginationresult_count}}) more</button>
+    </div> -->
+  </div>
+  <div class="wrap">
+    <div class="mainWrapper">
+      <div class="innerWrapper">
+        <div class="connectionTop">
+          <h5 class="box_head"><i class="fas fa-clock"></i> Earlier Notifications</h5>
+          <span class="results"></span>
+        </div>
+        <div *ngIf="notification_data == '' ">
+          <p>No recent notification</p>
+        </div>
+        <div class="connectionList {{ data.status == 0 ? 'unread_n' : ''}}"  *ngFor="let data of earlier_notificationdata">
+          <ul class="inlineList">
+            <li>
+              <div class="flexWrapper row">
+                <div class="requestBLog col-md-8 col-lg-8 col-sm-8 col-xs-12">
+                  <div class="req-mgBlog">
+                    <a *ngIf="data.file_status == false" (click)="go_profile(data.message.senderid)"><img (click)="NotificationSeen(data.id)" src="{{media_url}}/uploads/images/avatar.png"></a>
+                    <a *ngIf="data.file_status == true" (click)="go_profile(data.message.senderid)"><img (click)="NotificationSeen(data.id)" src="{{media_url}}/uploads/images/{{data.message.pic_name}}"></a>
+                  </div>
+                  <div class="request-titlebox">
+                    <a (click)="go_opp(data.id)">
+                      <h3 class="interview_heading">{{data.title}}</h3>
+                    </a>
+                    <br>
+                    
+                    <p class="vieweProfile"><a  (click)="NotificationSeen(data.id);go_profile(data.message.senderid)"><b>{{data.noti_username}}</b></a>  {{data.message.message}} {{data.message.title}} <span *ngIf="data.message.additional_details">Additional Information : {{data.message.additional_details}}</span><br><span *ngIf="data.notification_type == 8"> Message: {{data.message.content}} </span></p>
+                  </div>
+                  
+                 
+                </div>
+                <!--  REQUESTSBLOG -->
+                <div class="interviewRight col-md-4 col-lg-4 col-sm-4 col-xs-12">
+                  <p> {{data.created_date}} </p>
+                  <div class="imgContent" >
+                      <img src="./assets/images/notification-drop-icon.png" (click)="showtoggle(data.id)" (clickElsewhere)="close(data.id)">
+                      <div class="dropdownController displayNone" id="id_{{data.id}}">
+                    <ul class="text-left">
+                      <li (click)="deleteNotification(data.id)" class="dropdownDelete">
+                        <i class="fas fa-trash-alt"></i>
+                        <div>
+                          <a>Delete</a>
+                          <p style="cursor: pointer;">Delete this notification</p>
+                        </div>
+                      </li>
+                      <li (click)="Mark(data.id)" class="dropdownHide">
+                        <i class="fas fa-check"></i>
+                        <div>
+                          <a>Mark</a>
+                          <p style="cursor: pointer;">Mark as read this notification</p>
+                        </div>
+                      </li>
+                      <li (click)="hideNotification(data.notification_type)" class="dropdownHide">
+                        <i class="fas fa-times-circle"></i>
+                        <div>
+                          <a>Turn off</a>
+                          <p style="cursor: pointer;">Stop receiving notifications like this</p>
+                        </div>
+                      </li>
+                    </ul>
+                    
+                  </div>
+                    </div>
+                  <div class="rightSection">
+                    
+                  </div>
+                  
+                </div>
+              </div>
+            </li>
+             <div class="editUpload">
+                 
+                    <a *ngIf="data.notification_type == 1 && data.status == 0"  (click)="NotificationSeen(data.id);Accept(data.message.senderid)" class="editAccept">Accept</a>
+                    <a *ngIf="data.notification_type == 1 && data.status == 0 " (click)="NotificationSeen(data.id);Decline(data.message.senderid)" class="editDec">Decline</a>
+                    
+                    <a *ngIf="data.notification_type == 9 && data.interview_Status == 1" class="editAccept" (click)="acceptRequest(data.message.interview_req_id,data.message.opp_id,data.message.senderid,data.message.title)">Accept</a>
+                    <a (click)="declineRequest(data.message.senderid, data.message.interview_req_id, data.message.opp_id)" *ngIf="data.notification_type == 9 && data.interview_Status == 1" class="editDec">Decline</a>
+                    <a *ngIf="(data.notification_type == 10 || data.notification_type == 19) && (data.interview_Status == 2 || data.interview_Status == 7)" class="editAccept" (click)="open_accept_popup(data.message.opp_id,data.message.user_id)">Accept</a>
+                    <a *ngIf="(data.notification_type == 10 || data.notification_type == 19) && (data.interview_Status == 2 || data.interview_Status == 7)" class="editDec" (click)="Decline2(data.message.opp_id)">Decline</a>
+                    <a *ngIf="(data.notification_type == 10 || data.notification_type == 19) && (data.interview_Status == 2 || data.interview_Status == 7)" class="editDec" (click)="Reschedule(data.message.opp_id, data.message.senderid, data.message.opp_name)">Reschedule</a>
+                    <a *ngIf="data.notification_type == 13 && data.interview_Status == 5" class="editAccept" (click)="acceptRescheduleRequest(data.message.interview_req_id,data.message.opp_id,data.message.senderid,data.int_type)">Accept</a>
+                    <a *ngIf="data.notification_type == 13 && data.interview_Status == 5" class="editDec" (click)="declineRequest(data.message.senderid,data.message.interview_req_id,data.message.opp_id,data.int_type)">Decline</a>
+                    <a *ngIf="data.notification_type == 13 && data.interview_Status == 5" class="editDec" (click)="rescheduleAG(data.message.senderid,data.message.interview_req_id,data.message.opp_id,data.int_type)">Reschedule</a>
+                    <a *ngIf="data.notification_type == 13 && data.interview_Status == 5" class="editDec" (click)="showdetail(2, data.message.senderid, data.message.interview_req_id,data.message.opp_id)">View Reason</a>
+                    
+                  </div>
+          </ul>
+          <!--END OF UL-01 -->
+          
+        </div>
+      </div>
+    </div>
+    <div class="viewMoreBtn">
+      <button  class="viewbt button_style_01" (click)="SeeMore()" *ngIf="final != '' && hide_notification > 0 "><span>See more</span></button>
+    </div>
+    <!-- <div class="viewMoreBtn">
+      <button  class="viewbtn" (click)="loadMore1()" *ngIf="paginationresult_count > 0">View ({{paginationresult_count}}) more</button>
+    </div> -->
+  </div>
+  <div class="postWrapper postSuggestion wrap">
+    <div class="postHead">
+      <h5 class="txtBlue"><i class="fab fa-rocketchat"></i> Suggested <span *ngIf="type == 2"> Opportunities & </span>Connections</h5>
+      <div class="row sectionRow">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 leftCol">
+          <ul class="conectionController">
+            <li id="show_conn" class="current" ><a (click)="Connection()" >Connections</a></li>
+            <li id="show_opp"><a (click)="Opportunity()" *ngIf="type == 2">Opportunities</a></li>
+          </ul>
+        </div>
+        
+      </div>
+      
+      <!-- START CONNECTION TAB -->
+      <section class="row" *ngIf="tab1 == true">
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" *ngFor="let data of showSuggestion;let index=index">
+          <div *ngIf="currentCountSuggestion != 0" class="connectionContainer">
+            <img *ngIf="data.file_status == true" src="{{media_url}}/uploads/images/{{data.profile_pic}}">
+            <img *ngIf="data.file_status == false" src="{{media_url}}/uploads/images/avatar.png">
+            <h3><a (click)="go_profile(data.user_login_id)">{{data.name}}</a></h3>
+            <p *ngIf="data.count > 1" > {{data.count}} Connections</p>
+            <p *ngIf="data.count <= 1"> {{data.count}} Connection</p>
+            <br>
+            <p>Send Connection Request</p>
+            <div class="see-allBtn" >
+              <div class="connectBtn" >
+                <div class="msgeff"></div>
+                <a #someVar (click)=Request(data.user_login_id)>Send</a> <i class="fa fa-paper-plane" aria-hidden="true"></i>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+        <div *ngIf="show1 == 1" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 rightCol">
+
+          <a (click)="moreConnection()" *ngIf="totalSuggestionCount > 3"><button  class="viewbt button_style_01"><span>View More</span></button></a>
+          <!-- <a (click)="moreConnection()" *ngIf="totalSuggestionCount > 3" class="view_more_btn">View More</a> -->
+          
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+          <div *ngIf="currentCountSuggestion == 0" class="connectionContainer">
+            No connection's found
+          </div>
+        </div>
+        
+        
+      </section>
+      
+      <section  class="row" *ngIf="tab2 == true">
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" *ngFor="let opp of suggestionOpportunity;let index=index">
+          <div *ngIf="currentCountOpp != 0" class="connectionContainer">
+            <img *ngIf="opp.file_status == true " src="{{media_url}}/uploads/images/{{opp.profile_pc}}">
+            <img *ngIf="opp.file_status == false" src="{{media_url}}/uploads/images/avatar.png">
+            <h3><a (click)="go_opp(opp.oportunity_id)">{{opp.name}}</a></h3>
+            <p>{{opp.title}}</p>
+            <br>
+            <p>Send Interview Request</p>
+            <div class="see-allBtn">
+              <div class="connectBtn">
+                <div class="msgeff"></div>
+                <a  (click)="oportunity(opp.oportunity_id,opp.user_id)">Send</a> <i class="fa fa-paper-plane" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="show1 == 2" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 rightCol">
+          <a *ngIf="totaloppCount > 3" (click)="moreOpp()"><button  class="viewbt button_style_01"><span>View More</span></button></a>
+
+          <!-- <a *ngIf="totaloppCount > 3" (click)="moreOpp()" class="view_more_btn">View More</a> -->
+          
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" >
+          <div *ngIf="currentCountOpp == 0 || skillscheck.length == 0" class="connectionContainer">
+            No opportunity found.
+          </div>
+        </div>
+        
+      </section>
+      <!-- END OPPORTUNITIES TAB -->
+    </div>
+    
+  </div>
+  <!--END OF WRAP -->
+</div>
+<!--END OF INNERWRAP -->
+</section>
+<div class="user_request_popup" id="user_request_popup_date">
+<div class="wrap">
+  <div class="close_user_request_popup" id="user_pop_listing_close_date"><i class="fa fa-times"></i></div>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 header_user_listing">
+      <h6>Accept Interview Request</h6>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <form [formGroup]="OpportunityAccept" (ngSubmit)="acceptOppSubmit()">
+        <div>
+          <select formControlName="interview_type" style="padding: 10px;width: 50%;" class="form-styling" [ngClass]="{ 'is-invalid': submitted && oppErrSubmit.interview_type.errors }">
+            <option selected="" disabled="" value="">Select Interview Type</option>
+            <option value="1">Standard Interview Request</option>
+            <option value="2">Video Interview Request</option>
+          </select>
+          <div *ngIf="submitted && oppErrSubmit.interview_type.errors" class="invalid-feedback">
+            <div *ngIf="oppErrSubmit.interview_type.errors.required">Interview type  is required</div>
+          </div>
+        </div>
+        <br>
+        <div class="user-date-picker">
+         <!--  <input [min]="minDate1" style="padding: 10px;width: 50%;" [owlDateTime]="dt1" formControlName="date_time" class="form-styling" [owlDateTimeTrigger]="dt1" [ngClass]="{ 'is-invalid': submitted && oppErrSubmit.date_time.errors }" placeholder="Choose Date and Time for Interview  ">
+          <owl-date-time #dt1></owl-date-time>
+          <div *ngIf="submitted && oppErrSubmit.date_time.errors" class="invalid-feedback">
+            <div *ngIf="oppErrSubmit.date_time.errors.required">Date and time is required</div>
+          </div>*ngIf="showDate == 0" -->
+           <input  type="text" name="" id="" placeholder="Select date and time" [value]="date_time" (click)="show_datepicker()">
+<div class="my">
+<!-- <dp-date-picker    theme="dp-material"  (onChange)="o($event)" mode="daytime" [config]="datePickerConfig"></dp-date-picker> -->
+<dp-date-picker    theme="dp-material"  (onChange)="o($event)" mode="daytime" ></dp-date-picker>
+</div>
+        </div>
+        <div>
+          <textarea  style="padding: 10px;width: 50%;" formControlName="additional_details_box" class="form-styling"  placeholder="Additional Information About Interview"  [ngClass]="{ 'is-invalid': submitted && oppErrSubmit.additional_details_box.errors }"></textarea>
+          <div *ngIf="submitted && oppErrSubmit.additional_details_box.errors" class="invalid-feedback">
+            
+            <div *ngIf="oppErrSubmit.additional_details_box.errors.maxlength">Additional details should be less than 300 words</div>
+          </div>
+        </div>
+        <div class="right_sec text-right">
+          <button class="button_style_01" type="submit"><span>SAVE</span></button>
+          <a class="button_style_02" id="user_pop_listing_close_date2" ><span>CANCEL</span></a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+<div class="user_request_popup opportunity_user_accept" id="user_accept" >
+<div class="wrap">
+  <div class="close_user_request_popup" id="user_pop_listing_close_date" (click)="close_accept()" ><i class="fa fa-times"></i></div>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 header_user_listing">
+      <h6>Please provide employer with contact information</h6>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="user_validate">Note : Only one of them required while both are recommended</div>
+      <form [formGroup]="OpportunityAccept_user" (ngSubmit)="acceptOppSubmit_user()">
+        
+        
+        <div>
+          <input style="padding: 10px;width: 49%;" formControlName="email" class="form-styling"  placeholder="Email address">
+          <div class="invalid-feedback">
+            <div *ngIf="email_msg == 1">Email must be a valid email address</div>
+          </div>
+        </div>
+        <div class="country_pincode">
+          <!--   <select  formControlName="cc" >
+            <option value="{{data.phonecode}}"*ngFor="let data of country;">+{{data.phonecode}}</option>
+          </select> -->
+          <input (keypress)="keyPress($event)" style="padding: 10px;width: 50%;" formControlName="phone" class="form-styling"  placeholder="Phone number">
+          <div class="invalid-feedback">
+            <!-- <div *ngIf="email_msg == 1">Email must be a valid email address</div> -->
+            <div *ngIf="showmin == 1">Phone number should be greater than 5 digits</div>
+            <div *ngIf="showmax == 1">Phone number should be less than 15 digits</div>
+          </div>
+        </div>
+        <div class="right_sec text-right">
+          <button class="button_style_01" type="submit"><span>SAVE</span></button>
+          <a class="button_style_02" id="user_pop_listing_close_date2" (click)="close_accept()"><span>CANCEL</span></a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+<div class="user_request_popup" id="user_request_popup_reason">
+<div class="wrap">
+  <div class="close_user_request_popup" id="user_pop_listing_close_reason"><i class="fa fa-times"></i></div>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 header_user_listing">
+      <h6>Enter Reason for Decline</h6>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <form [formGroup]="OpportunityDecline" (ngSubmit)="declineOppSubmit()">
+        
+        <div>
+          <textarea style="padding: 10px;width: 50%;" formControlName="reason" class="form-styling"  [ngClass]="{ 'is-invalid': submitted1 && decErrSubmit.reason.errors }" placeholder=" Enter Reason "></textarea>
+          <div *ngIf="submitted1 && decErrSubmit.reason.errors" class="invalid-feedback">
+            <div *ngIf="decErrSubmit.reason.errors.required">Reason is required</div>
+          </div>
+        </div>
+        <div class="right_sec text-right">
+          <button class="button_style_01" type="submit"><span>SAVE</span></button>
+        </div>
+      </form>
+    </div>
+    
+  </div>
+</div>
+</div>
+<div class="user_request_popup" id="user_request_popup_date_re">
+<div class="wrap">
+  <div class="close_user_request_popup" id="user_pop_listing_close_date_re"><i class="fa fa-times"></i></div>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 header_user_listing">
+      <h6>Choose Date and Time for Reschedule</h6>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <form [formGroup]="OpportunityAccept_re" (ngSubmit)="acceptOppSubmit_re()">
+        
+        <div>
+          <textarea style="padding: 10px;width: 50%;" formControlName="reason" class="form-styling"  [ngClass]="{ 'is-invalid': submitted && oppErrSubmit1.reason.errors }" placeholder=" Enter Reason "></textarea>
+          <div *ngIf="submitted && oppErrSubmit1.reason.errors" class="invalid-feedback">
+            <div *ngIf="oppErrSubmit1.reason.errors.required">Reason is required</div>
+          </div>
+        </div>
+        <br>
+        <div class="user-date-picker">
+         <!--  <input style="padding: 10px;width: 50%;" [owlDateTime]="reschedule_tri" formControlName="date_time" [min]="minDate"  class="form-styling" [owlDateTimeTrigger]="reschedule_tri" [ngClass]="{ 'is-invalid': submitted && oppErrSubmit1.date_time.errors }" placeholder="Choose Date and Time for Interview ">
+          <owl-date-time #reschedule_tri></owl-date-time>
+          <div *ngIf="submitted && oppErrSubmit1.date_time.errors" class="invalid-feedback">
+            <div *ngIf="oppErrSubmit1.date_time.errors.required">Date and time is required</div>
+          </div> -->
+          <input  type="text" name="" id="" placeholder="Select date and time" [value]="date_time" (click)="show_datepicker()">
+<div class="my">
+<!-- <dp-date-picker    theme="dp-material"   (onChange)="o($event)" mode="daytime" [config]="datePickerConfig"></dp-date-picker> -->
+<dp-date-picker    theme="dp-material"   (onChange)="o($event)" mode="daytime" ></dp-date-picker>
+</div>
+        </div>
+        <div class="right_sec text-right">
+          <button class="button_style_01" type="submit"><span>SAVE</span></button>
+          <a class="button_style_02" id="user_pop_listing_close_date2_re" ><span>CANCEL</span></a>
+        </div>
+      </form>
+    </div>
+    
+  </div>
+</div>
+</div>
+<div class="user_request_popup" id="reschedule_pop">
+<div class="wrap">
+  <div class="close_user_request_popup" id="reschedule_pop_close"><i class="fa fa-times"></i></div>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 header_user_listing">
+      <h6>Choose Date and Time for Interview</h6>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <form [formGroup]="OpportunityRescheduleForm" (ngSubmit)="RescheduleOppSubmit()" >
+        <div>
+          <input style="padding: 10px;width: 50%;" [owlDateTime]="dt2" formControlName="date_time" class="form-styling" [owlDateTimeTrigger]="dt2" [min]="minDate1" [ngClass]="{ 'is-invalid': submitted && resErrSubmit.date_time.errors }" placeholder="Choose Date and Time for Interview  ">
+          <owl-date-time #dt2></owl-date-time>
+          <br>
+          <br>
+          <div *ngIf="submitted && resErrSubmit.date_time.errors" class="invalid-feedback">
+            <div *ngIf="resErrSubmit.date_time.errors.required">Date and time is required</div>
+          </div>
+          <textarea [ngClass]="{ 'is-invalid': submitted && resErrSubmit.comment.errors }" formControlName="comment" placeholder="Comment for reschedule interview date and time" style="width: 50%; height: 69px; border: 1px solid #E5E7E9;padding: 10px;" class="form-styling"></textarea>
+          <div *ngIf="submitted && resErrSubmit.comment.errors" class="invalid-feedback">
+            <div *ngIf="resErrSubmit.comment.errors.required">Comment is required</div>
+            <div *ngIf="resErrSubmit.comment.errors.maxlength">Enter less than or equal to 300 characters</div>
+          </div>
+        </div>
+        <div class="right_sec text-right">
+          <button class="button_style_01" type="submit"><span>SAVE</span></button>
+          <a class="button_style_02" id="reschedule_pop_2" ><span>CANCEL</span></a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+<style type="text/css">
+.displayNone{display: none; }
+</style>
+<!--
+<section class="notificationsContainer">
+<div class="innerWrap">
+  <div class="innerPadding">
+    <div class="wrap">
+      <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+          
+          
+        </div>
+        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 notificationsWrapper">
+          <div class="postWrapper" *ngIf="hide_notification > 0">
+            <div class="postHead">
+              <h5 class="txtBlue"><i class="fas fa-clock"></i> Earlier</h5>
+              
+              <div class="{{ data.status == 0 ? 'profileInfo unread_n' : 'profileInfo'}}" *ngFor="let data of earlier_notificationdata">
+                <div class="flexboxwrap">
+                  <div class="editImg" >
+                    
+                    <a *ngIf="data.file_status == false" routerLink="/shared/view_profile/{{data.message.senderid}}" target="_blank"><img (click)="NotificationSeen(data.id)" src="{{media_url}}/uploads/images/avatar.png"></a>
+                    <a *ngIf="data.file_status == true" routerLink="/shared/view_profile/{{data.message.senderid}}" target="_blank"><img (click)="NotificationSeen(data.id)" src="{{media_url}}/uploads/images/{{data.message.pic_name}}"></a>
+                    <p class="vieweProfile"><a routerLink="/shared/view_profile/{{data.message.senderid}}" target="_blank" (click)="NotificationSeen(data.id)"><b>{{data.noti_username}}</b></a>  {{data.message.message}} {{data.message.title}} <span *ngIf="data.message.additional_details">Additional Information : {{data.message.additional_details}}</span><br><span *ngIf="data.notification_type == 8"> Message: {{data.message.content}} </span></p>
+                  </div>
+                  <div class="rightSection">
+                    <div class="editUpload">
+                      <a *ngIf="data.notification_type == 1 && data.status == 0 "  (click)="NotificationSeen(data.id);Accept(data.message.senderid)" class="editAccept">Accept</a>
+                      <a *ngIf="data.notification_type == 1 && data.status == 0 " (click)="NotificationSeen(data.id);Decline(data.message.senderid)" class="editDec">Decline</a>
+                      <a *ngIf="data.notification_type == 9 && data.interview_Status == 1" class="editAccept" (click)="acceptRequest(data.message.interview_req_id,data.message.opp_id,data.message.senderid,data.message.title)">Accept</a>
+                      <a *ngIf="data.notification_type == 9 && data.interview_Status == 1" (click)="declineRequest(data.message.senderid, data.message.interview_req_id, data.message.opp_id)" class="editDec">Decline</a>
+                      <a *ngIf="data.notification_type == 10 && data.interview_Status == 2" class="editAccept" (click)="open_accept_popup(data.message.opp_id,data.message.user_id)">Accept</a>
+                      <a *ngIf="data.notification_type == 10 && data.interview_Status == 2" class="editDec" (click)="Decline2(data.message.opp_id)">Decline</a>
+                      <a *ngIf="data.notification_type == 10 && data.interview_Status == 2" class="editDec" (click)="Reschedule(data.message.opp_id, data.message.senderid, data.message.opp_name)">Reschedule</a>
+                      <a *ngIf="data.notification_type == 13 && data.interview_Status == 5" class="editAccept" (click)="acceptRescheduleRequest(data.message.interview_req_id,data.message.opp_id,data.message.senderid,data.int_type)">Accept</a>
+                      <a *ngIf="data.notification_type == 13 && data.interview_Status == 5" class="editDec" (click)="declineRequest(data.message.interview_req_id,data.message.opp_id,data.message.senderid,data.int_type)">Decline</a>
+                      <a *ngIf="data.notification_type == 13 && data.interview_Status == 5" class="editDec" (click)="Reschedule(data.message.opp_id, data.message.senderid, data.message.opp_name)">Reschedule</a>
+                      <a *ngIf="data.notification_type == 13 && data.interview_Status == 5" class="editDec" (click)="showdetail(2, data.message.senderid, data.message.interview_req_id,data.message.opp_id)">View Reason</a>
+                      <p> {{data.created_date}} </p>
+                    </div>
+                    <div class="imgContent">
+                      <img src="./assets/images/notification-drop-icon.png" (click)="showtoggle1(data.id)" (clickElsewhere)="close(data.id)">
+                    </div>
+                  </div>
+                </div>
+                <div class="dropdownController displayNone" id="id_{{data.id}}">
+                  <ul class="text-left">
+                    <li (click)="deleteNotification(data.id)" class="dropdownDelete">
+                      <i class="fas fa-trash-alt"></i>
+                      <div>
+                        <a>Delete</a>
+                        <p style="cursor: pointer;">Delete this notification</p>
+                      </div>
+                    </li>
+                    <li (click)="Mark(data.id)" class="dropdownHide">
+                      <i class="fas fa-check"></i>
+                      <div>
+                        <a>Mark</a>
+                        <p style="cursor: pointer;">Mark as read this notification</p>
+                      </div>
+                    </li>
+                    <li (click)="hideNotification(data.notification_type)" class="dropdownHide">
+                      <i class="fas fa-times-circle"></i>
+                      <div>
+                        <a>Turn off</a>
+                        <p style="cursor: pointer;">Stop receiving notifications like this</p>
+                      </div>
+                    </li>
+                  </ul>
+                  
+                </div>
+              </div>
+              
+              
+            </div>
+            
+          </div>
+          <br>
+          
+          <br>
+          
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section> -->

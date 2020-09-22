@@ -1,0 +1,58 @@
+<div id="loder_main" *ngIf="showLoader == true"><div id="loader_view" ></div></div>
+<app-header></app-header>
+<section class="conneciton-businessBlog min_height_box">
+<div class="innerWrap">
+	<div class="wrap">
+		<div class="mainWrapper">
+			<div class="innerWrapper">
+				<div class="connectionTop">
+					<h5 class="box_head">Scheduled Interview</h5>
+					<span *ngIf="result_count > 1" class="results">{{result_count}} Results</span>
+					<span *ngIf="result_count <= 1" class="results">{{result_count}} Result</span>
+				</div>
+				<div *ngIf ="allInterviewReq == undefined || allInterviewReq.length == 0">
+					<p>No Scheduled Interview</p>
+				</div>
+				<div class="connectionList" *ngFor="let data of allInterviewReq">
+					<ul class="inlineList">
+						<li>
+							<div class="flexWrapper">
+								<div class="requestBLog">
+									<div class="req-mgBlog">
+										<img src="{{media_url}}/uploads/images/{{data.logo}}">
+									</div>
+									<div class="request-titlebox">
+										<a routerLink="/opportunities_detail/{{data.id}}">
+											<h3 class="interview_heading">{{data.title}}</h3>
+										</a>
+										<br>
+										<a routerLink="/view_profile/{{data.user_login_id}}{{data.user_id}}">
+											<h3>{{data.profile}}</h3>
+										</a>
+										<p>{{data.Address_Line}}, {{data.city}}, {{data.oppState}} - {{data.opp_country}}, {{data.zipcode}}</p>
+									</div>
+								</div>
+								<!--  REQUESTSBLOG -->
+								<div class="interviewRight">
+									<p><span class="spant_title">Date and Time : </span> {{data.interview_datetime}}</p>
+									<p><span class="spant_title">Interview Type : </span> {{data.interview_type == 1 ? 'Standard Interview' : 'Video Interview'}}</p>
+									<p *ngIf="data.additional_details_box != ''"><span class="spant_title">Additional Information : </span> {{data.additional_details_box}}</p>
+									<p><span *ngIf="data.Email != null && data.Email != '' && data.Email != undefined" class="spant_title">Email : </span> {{data.Email}}</p>
+									<p><span *ngIf="data.Phone != null && data.Phone != '' && data.Phone != undefined" class="spant_title">Phone Number : </span> {{data.Phone}}</p>
+								</div>
+							</div>
+						</li>
+					</ul>
+					<!--END OF UL-01 -->
+					
+				</div>
+			</div>
+		</div>
+		<!-- <div class="viewMoreBtn">
+				<button  class="viewbtn" (click)="loadMore1()" *ngIf="paginationresult_count > 0">View ({{paginationresult_count}}) more</button>
+		</div> -->
+	</div>
+	<!--END OF WRAP -->
+</div>
+<!--END OF INNERWRAP -->
+</section>

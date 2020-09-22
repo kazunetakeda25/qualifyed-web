@@ -1,0 +1,325 @@
+<app-header></app-header>
+<div>
+		<form [formGroup]="BusinessOpportunity" (ngSubmit)="opportunitySubmit()" >
+		<section class="opportunities-Businesses-container">
+			<div class="innerWrap" id="abc">
+				<div class="wrap">
+					<h3>Edit Opportunity</h3>
+					<p><i class="fa fa-asterisk" aria-hidden="true"></i> indicates required fields</p>
+					<div class="row">
+						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-item">
+							<i class="fa fa-asterisk" aria-hidden="true"></i>
+							<label for="username">Opportunity Title</label>
+							<input formControlName="post_title"  [ngClass]="{ 'is-invalid': submitted && oppErr.post_title.errors }" class="form-styling" type="text" name="post_title" placeholder="Opportunity title">
+							<div *ngIf="submitted && oppErr.post_title.errors" class="invalid-feedback">
+								<div *ngIf="oppErr.post_title.errors.required">Opportunity title is required</div>
+								<div *ngIf="oppErr.post_title.errors.maxlength">Enter title in less than or equal to 50 characters</div>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-item">
+							<i class="fa fa-asterisk" aria-hidden="true"></i>
+							<label for="username">Country</label>
+							<select formControlName="country" [ngClass]="{ 'is-invalid': submitted && oppErr.country.errors }" (change)="getState($event.target.value)">
+								<option value="volvo" value="">Select Country</option>
+								<option  *ngFor="let countris of country" [ngValue]="countris.id">{{countris.name}}</option>
+							</select>
+							<div *ngIf="submitted && oppErr.country.errors" class="invalid-feedback">
+								<div *ngIf="oppErr.country.errors.required">Country is required</div>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-item">
+							<i class="fa fa-asterisk" aria-hidden="true"></i>
+							<label for="username">State</label>
+							<select formControlName="state" [ngClass]="{ 'is-invalid': submitted && oppErr.state.errors }">
+								<option value="" >Select state</option>
+								<option  *ngFor="let states of state" value="{{states.id}}">{{states.name}}</option>
+							</select>
+							<div *ngIf="submitted && oppErr.state.errors" class="invalid-feedback">
+								<div *ngIf="oppErr.state.errors.required">State is required</div>
+							</div>
+						</div>
+					</div>
+					<br>
+					<!-- START SECOND ROW -->
+					<div class="row">
+						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-item">
+							<i class="fa fa-asterisk" aria-hidden="true"></i>
+							<label for="username">City</label>
+							<input formControlName="city" [ngClass]="{ 'is-invalid': submitted && oppErr.city.errors }" class="form-styling" type="text" name="city" placeholder="City">
+							<div *ngIf="submitted && oppErr.city.errors" class="invalid-feedback">
+								<div *ngIf="oppErr.city.errors.required">City is required</div>
+								<div *ngIf="oppErr.city.errors.maxlength">City should be less than or equal to 20 characters</div>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-item">
+							<i class="fa fa-asterisk" aria-hidden="true"></i>
+							<label for="username">Address Line</label>
+							<input formControlName="address_line" [ngClass]="{ 'is-invalid': submitted && oppErr.address_line.errors }" class="form-styling" type="text" name="address_line" placeholder="Address Line">
+							<div *ngIf="submitted && oppErr.address_line.errors" class="invalid-feedback">
+								<div *ngIf="oppErr.address_line.errors.required">Address Line is required</div>
+								<div *ngIf="oppErr.address_line.errors.maxlength">Address Line should be less than or equal to 50 characters</div>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-item">
+							<i class="fa fa-asterisk" aria-hidden="true"></i>
+							<label for="username">Zip Code</label>
+							<input formControlName="zipcode" [ngClass]="{ 'is-invalid': submitted && oppErr.zipcode.errors }" class="form-styling" type="text" name="username" placeholder="99501">
+							<div *ngIf="submitted && oppErr.zipcode.errors" class="invalid-feedback">
+								<div *ngIf="oppErr.zipcode.errors.required">Zip Code is required</div>
+								<div *ngIf="oppErr.zipcode.errors.maxlength">Zip Code should be less than or equal to 50 characters</div>
+							</div>
+						</div>
+						
+					</div>
+					<br>
+					<div class="row">
+                                  <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-item">
+							<i class="fa fa-asterisk" aria-hidden="true"></i>
+							<label for="username">Longevity Classification</label>
+							<select formControlName="longevity" (blur)="check($event.target.value)" [ngClass]="{ 'is-invalid': submitted && oppErr.longevity.errors}">
+								<option value="">Select longevity</option>
+								<option value="0" >Definite</option>
+								<option value="1">Indefinite</option>
+							</select>
+							<div *ngIf="submitted && oppErr.longevity.errors" class="invalid-feedback">
+								<div *ngIf="oppErr.longevity.errors.required">Longevity classification is required</div>
+							</div>
+						</div>
+								<div  class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-item durn_opportunities">
+							<i *ngIf="required == 1" class="fa fa-asterisk" aria-hidden="true"></i>
+							<label for="username">Duration of Opportunity (<span *ngIf="required == 0">Indefinite</span><span *ngIf="required == 1">Definite</span>)</label>
+							<select formControlName="opportunity_days" >
+								<option selected=""  value="">Select</option>
+								<option *ngFor="let count of day_count_1">{{count}}</option>
+							</select>
+							<select formControlName="day_type">
+								<option selected=""  value="" >Select</option>
+								<option value="1">Days</option>
+								<option value="2">Weeks</option>
+								<option value="3">Months</option>
+								<option value="4">Years</option>
+							</select>
+							
+						</div>
+
+
+
+						<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 genderBlog form-item">
+							<i class="fa fa-asterisk" aria-hidden="true"></i>
+							<label for="username">Opportunity for Employment</label>
+							<div class="radio-btn">
+								<div class="md-radio">
+									<input [ngClass]="{ 'is-invalid': submitted && oppErr.opp_employee.errors }" style="display: none;" formControlName="opp_employee" id="1" value="1" type="radio" name="opp_employee" [checked]="!isSpecial" [(ngModel)]="check_employement" >
+									<label for="1">Yes</label>
+								</div>
+								<div class="md-radio">
+									<input [ngClass]="{ 'is-invalid': submitted && oppErr.opp_employee.errors }" style="display: none;" formControlName="opp_employee" id="2" value="0" type="radio" name="opp_employee" [checked]="!isSpecial" [(ngModel)]="check_employement" >
+									<label for="2">No</label>
+								</div>
+							</div>
+							<div *ngIf="submitted && oppErr.opp_employee.errors" class="invalid-feedback">
+								<div *ngIf="oppErr.opp_employee.errors.required">Opportunity for Employment is required</div>
+							</div>
+							<!-- <input class="form-styling" type="text" name="username"> -->
+						</div>
+						
+					</div>
+                          	<br>
+					<div class="row">
+						<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 genderBlog genderBlog2 form-item">
+							<i class="fa fa-asterisk" aria-hidden="true"></i>
+							<label for="username">Opportunity for Pay</label>
+							<div class="radio-btn">
+								<div class="md-radio">
+									<input style="display: none;" formControlName="opp_pay" id="3" value="1" type="radio" name="opp_pay" [checked]="!isSpecial_pay" [(ngModel)]="check_pay">
+									<label for="3">Yes</label>
+								</div>
+								<div class="md-radio">
+									<input style="display: none;" formControlName="opp_pay" id="4" value="0" type="radio" name="opp_pay" [checked]="!isSpecial_pay" [(ngModel)]="check_pay">
+									<label for="4">No</label>
+								</div>
+							</div>
+							
+							<!-- <input class="form-styling" type="text" name="username"> -->
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 genderBlog genderBlog2 form-item">
+							<i class="fa fa-asterisk" aria-hidden="true"></i>
+							<label for="username">Tuition Reimbursement</label>
+							<div class="radio-btn">
+								<div class="md-radio">
+									<input [ngClass]="{ 'is-invalid': submitted && oppErr.tuition.errors }" style="display: none;" formControlName="tuition" id="5" value="0" type="radio" name="tuition" [checked]="!isSpecial" [(ngModel)]="check_tution">
+									<label for="5">Yes</label>
+								</div>
+								<div class="md-radio">
+									<input [ngClass]="{ 'is-invalid': submitted && oppErr.tuition.errors }" style="display: none;" formControlName="tuition" id="6" value="1" type="radio" name="tuition" [checked]="!isSpecial" [(ngModel)]="check_tution">
+									<label for="6">No</label>
+								</div>
+							</div>
+							<div *ngIf="submitted && oppErr.tuition.errors" class="invalid-feedback">
+								<div *ngIf="oppErr.tuition.errors.required">Tuition Reimbursement is required</div>
+							</div>
+							<!-- <input class="form-styling" type="text" name="username"> -->
+						</div>
+					</div><br>
+			<div class="row text-contact">
+				<p class="contact_txt">Contact Info Section</p>
+				<div class="bussiness_required"><p>Note : Only one of them required while both are recommended</p></div>
+		   </div>
+		  <div class="row">
+			<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-item">
+				<!-- <i class="fa fa-asterisk" aria-hidden="true"></i> -->
+				<label for="username">Email</label>
+				<input formControlName="contact_email"   class="form-styling" type="text" name="post_title" placeholder="Contact email">
+				<!-- <div *ngIf="submitted && oppErr.post_title.errors" class="invalid-feedback"> -->
+					<div class="invalid-feedback">
+					<div *ngIf="contact_email_required == 1">Email is  required</div>
+					<div *ngIf="show_invalid_email == 1">Email must be a valid email address</div>
+				</div>
+				<!-- </div> -->
+			</div>
+			<br>
+			<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-item">
+				<!-- <i class="fa fa-asterisk" aria-hidden="true"></i> -->
+				<label for="username">Phone Code</label>
+				<div class="country_pincode">
+          <select  formControlName="cc" >
+                          <option value="{{data.phonecode}}"*ngFor="let data of country;">+{{data.phonecode}} {{data.name}}</option>
+                        </select>
+                 </div> 
+             </div>
+			<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-item">
+				<!-- <i class="fa fa-asterisk" aria-hidden="true"></i> -->
+				<label for="username">Phone</label>
+				<input formControlName="contact_phone"  (keypress)="keyPress($event)" class="form-styling" type="text" name="post_title" placeholder="Contact phone number">
+				<!-- <div *ngIf="submitted && oppErr.post_title.errors" class="invalid-feedback"> -->
+					<div class="invalid-feedback">
+					<div *ngIf="contact_phone_required == 1">Phone number is required</div>
+					<div *ngIf="contact_phone_required_minlength == 1">Phone number should be greater than 5 digits</div>
+					<div *ngIf="contact_phone_required_maxlength == 1">Phone number should be less than 15 digits</div>
+					</div>
+					<!-- <div *ngIf="oppErr.post_title.errors.maxlength">Enter title in less than or equal to 50 characters</div> -->
+				<!-- </div> -->
+
+			</div>
+			<br>
+		</div>
+					<!-- <br> -->
+					<!-- <div class="row">
+						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 genderBlog genderBlog2 form-item">
+							<i class="fa fa-asterisk" aria-hidden="true"></i>
+							<label for="username">Last date of apply</label>
+							<input (click)="picker1.open()" formControlName="last_date" matInput [matDatepicker]="picker1" [min]="minDate" [ngClass]="{ 'is-invalid': submitted && oppErr.last_date.errors }" class="form-styling" type="text" name="username" placeholder="Last date of apply">
+							<mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+							<mat-datepicker #picker1></mat-datepicker>
+							<div *ngIf="submitted && oppErr.last_date.errors" class="invalid-feedback">
+								<div *ngIf="oppErr.last_date.errors.required">Last date is required</div>
+							</div>
+						</div>
+					</div> -->
+					<!-- END SECOND ROW -->
+					
+					<br>
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<label for="username">Description of your Role </label>
+							<angular-editor id="editor1" formControlName="discription" [config]="editorConfig"></angular-editor>
+						</div>
+					</div>
+
+					<br>
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<label for="username">Description of Our Preferences </label>
+							<angular-editor id="editor2" formControlName="prefrences" [config]="editorConfig"></angular-editor>
+						</div>
+					</div>
+
+					<br>
+				<!-- 	<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<label for="username">Description of About Us needed</label>
+							<angular-editor id="editor3" formControlName="about_us" [config]="editorConfig"></angular-editor>
+						</div>
+					</div> -->
+					<br>
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 description-textarea form-item">
+							<label for="username">Skills Desired</label>
+							<!-- <mat-chip-list #chipList>
+							<mat-chip
+							*ngFor="let fruit of fruits;let indx=index;"
+							[selectable]="selectable"
+							[removable]="removable"
+							(removed)="remove(fruit,indx)">
+							{{fruit.name}}
+							<mat-icon matChipRemove *ngIf="removable"> X </mat-icon>
+							</mat-chip>
+							<input class="form-styling"
+							placeholder="Enter skills you want"
+							#fruitInput
+							[formControl]="fruitCtrl"
+							[matAutocomplete]="auto"
+							[matChipInputFor]="chipList"
+							[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+							[matChipInputAddOnBlur]="addOnBlur"
+							(matChipInputTokenEnd)="add($event)"
+							formControlName="skills">
+							</mat-chip-list>
+							<mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+							<mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+							{{fruit.name}}
+							</mat-option>
+							</mat-autocomplete> -->
+
+							<mat-chip-list #chipList>
+                             <mat-chip
+                               *ngFor="let fruit of fruits"
+                               [selectable]="selectable"
+                               [removable]="removable"
+                               (removed)="remove(fruit)">
+                               {{fruit}}
+                               <!-- <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon> -->
+                               <mat-icon matChipRemove *ngIf="removable"> X </mat-icon>
+                             </mat-chip>
+                             <input
+                               class="form-styling"
+                               placeholder="Enter your skills"
+                               #fruitInput
+                               [formControl]="fruitCtrl"
+                               [matAutocomplete]="auto"
+                               [matChipInputFor]="chipList"
+                               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                               (matChipInputTokenEnd)="add($event)"
+                               formControlName="skills">
+                           </mat-chip-list>
+                           <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                             <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+                               {{fruit}}
+                             </mat-option>
+                           </mat-autocomplete>
+
+							<!-- <textarea formControlName="skills" name="your-message" cols="4" rows="4" class="full-name" aria-invalid="false" placeholder="Lorem ipsum dolor sit amet..."></textarea> -->
+							
+						</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 description-textarea form-item">
+						<!-- 	<i class="fa fa-asterisk" aria-hidden="true"></i>
+							<label for="status_ac" for="username">Want to publish opportunity</label>
+							<select formControlName="is_published" >
+								<option value="1" selected="selected">Publish</option>
+								<option value="0">Not now</option>
+							</select> -->
+							<div class="Deactivate-btn">
+								<button type="submit" class="saved-btn">Update</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--END OF INNERWRAP -->
+			</div>
+			<!--END OF INNERWRAP -->
+		</section>
+	</form>
+</div>

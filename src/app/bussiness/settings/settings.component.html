@@ -1,0 +1,1241 @@
+<app-header></app-header>
+<section class="accountSettingContainer">
+<div class="innerWrap">
+  <div class="innerPadding">
+    <div class="wrap">
+      <!-- START ROW -->
+      <div class="row">
+        <div class="col-lg-4 col-md-3 col-sm-12 col-xs-12">
+          <div class="accountLeftSection">
+            <h3 class="text">Settings</h3>
+            <ul class="ul_nav">
+              <!-- <h5 class="txtBlue"><i class="fa fa-user-circle" aria-hidden="true"> <a (click)="scrollToElement(target)"> Personal Information</a></i></h5> -->
+              <li class="current"><a (click)="scrollToElement(target)"><i class="fa fa-gear"></i> General</a></li>
+              <li><a (click)="scrollToElement(target1)"><i class="fas fa-shield-alt"></i> Security and Login</a></li>
+              <li><a (click)="scrollToElement(target2)"><i class="fa fa-info-circle"></i> Visible Information</a></li>
+              <li><a (click)="scrollToElement(target3)"><i class="fas fa-stream"></i>  Timeline Preferences</a></li>
+              <li><a (click)="scrollToElement(target4)"><i class="fa fa-ban"></i>  Blocking</a></li>
+              <li><a (click)="scrollToElement(target5)"><i class="fa fa-bell"></i> Notifications</a></li>
+              <!-- <li><a (click)="scrollToElement(target6)"><i class="fa fa-microphone"></i>  Interview</a></li> -->
+              <!-- <li><a (click)="scrollToElement(target7)"><i class="fab fa-rocketchat"></i> Message</a></li> -->
+              <li><a (click)="scrollToElement(target8)"><i class="fas fa-history"></i> History Preferences</a></li>
+              <li><a (click)="scrollToElement(target9)"><i class="fa fa-trash"></i> Delete/Deactive Account</a></li>
+            </ul>
+            
+          </div>
+          
+        </div>
+        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+          <!-- START POST WRAPPER -->
+          <div #target class="postWrapper">
+            <h3 class="textTitle">General</h3>
+            <!-- START FIRST SECTION -->
+            <div class="firstContainer" id="emailDiv">
+              <div class="accountMain">
+                <div class="accountRightSection">
+                  <div class="inner_container_top">
+                    <div class="accountLeft">
+                      <h3>Email <span *ngIf="userEmails.length > 1">addresses</span><span *ngIf="userEmails.length <= 1">address</span></h3>
+                      <p>Add or remove email <span *ngIf="userEmails.length > 1">addresses</span><span *ngIf="userEmails.length <= 1">address</span> from your account</p>
+                    </div>
+                    <div class="accountRight">
+                      
+                      <p>{{userEmails.length}} email <span *ngIf="userEmails.length > 1">addresses</span><span *ngIf="userEmails.length <= 1">address</span></p>
+                    </div>
+                    <!-- START HIDE TOGGLE CONTAINER -->
+                  </div>
+                  <div id="hideContainer" class="hideContent">
+                    <div>
+                      <div class="setting-email" *ngFor="let data of userEmails;let j = index;" >
+                        <p class="emaildata">{{data.email}} </p>
+                        <div class="primary-container">
+                          <p class="setting-primary" *ngIf="data.is_primary == 1">(Primary <i class="fa fa-check" aria-hidden="true"></i>)</p>
+                          <button (click)="openModal(data.id)" *ngIf="data.status == 0">Verify</button>
+                          <button *ngIf="data.is_primary == 0" (click)="set_primary(data.id)">Set Primary</button>
+                          <button class="remove-btn" *ngIf="data.is_primary == 0" (click)="removeEmail(data.id)">Remove</button>
+                        </div>
+                      </div>
+
+                    </div>
+                    <button (click)="showEmailDiv(1)">Add New Email</button>
+                    <div class="formGroup displayNone showEmailDiv">
+                      <form [formGroup]="addEmail" (ngSubmit)="addNewEmail()">
+                        <input formControlName="email" type="text" class="form-control" placeholder="New email address">
+                        <button>Submit</button>
+                        <span class="hide-click" (click)="showEmailDiv(2)">Cancel</span>
+                      </form>
+                    </div>
+                    <!-- *ngIf="show == 1" -->
+                  </div>
+                  <!-- END HIDE TOGGLE CONTAINER -->
+                </div>
+              </div>
+              <span id="accountToggle" class="accountToggle" (click)="toggleDivContainer('emailDiv')">
+                <i class="fas fa-angle-down" ></i>
+              </span>
+            </div>
+            <!-- END FIRST SECTION -->
+            <br>
+            <!-- START FIRST SECTION -->
+            <div class="firstContainer" id="phoneNumDiv">
+              <div class="accountMain">
+                <div class="accountRightSection">
+                  <div class="inner_container_top">
+                    <div class="accountLeft">
+                      <h3>Phone Numbers</h3>
+                      <p>Add a phone number in case you have trouble signing in</p>
+                    </div>
+                    <div class="accountRight">
+                      
+                      <p>{{userPhone.length}} phone <span *ngIf="userPhone.length > 1">numbers</span> <span *ngIf="userPhone.length <= 1">number</span></p>
+                    </div>
+                    <!-- START HIDE TOGGLE CONTAINER -->
+                  </div>
+                  <div id="hideContainer" class="hideContent">
+
+                    <div>
+                      <div class="setting-email" *ngFor="let data of userPhone;let j = index;" >
+                        <p class="emaildata">{{data.phone_number}} </p>
+                        <div class="primary-container">
+                          <p class="setting-primary" *ngIf="data.is_primary == 1">(Primary <i class="fa fa-check" aria-hidden="true"></i>)</p>
+                          <button (click)="openModal1(data.id)" *ngIf="data.status == 0">Verify</button>
+                          <button *ngIf="data.is_primary == 0" (click)="set_primary_phone(data.id)">Set Primary</button>
+                          <button class="remove-btn" (click)="removePhone(data.id)">Remove</button>
+                        </div>
+                      </div>
+
+                    </div>
+                    <button (click)="showPhoneDiv(1)">Add New Phone Number</button>
+                    <div class="formGroup displayNone showPhoneDiv">
+                      <form [formGroup]="addPhone" (ngSubmit)="addNewPhone()">
+                        <select  formControlName="cc" >
+                          <option value="{{data.phonecode}}"*ngFor="let data of country;">{{data.name}}</option>
+                        </select>
+                        <input (keypress)="keyPress($event)" maxlength="15" formControlName="phone" type="number" class="form-control" placeholder="New Phone Number">
+                        <button>Submit</button>
+                        <span (click)="showPhoneDiv(2)">Cancel</span>
+                      </form>
+                    </div>
+                  </div>
+                  <!-- END HIDE TOGGLE CONTAINER -->
+                </div>
+              </div>
+              <span id="accountToggle" (click)="toggleDivContainer('phoneNumDiv')" class="accountToggle">
+                <i class="fas fa-angle-down"></i>
+              </span>
+            </div>
+            <!-- END FIRST SECTION -->
+            <br>
+            <!-- START THIRD SECTION -->
+           <!--  <div class="firstContainer" id="contactDiv">
+              <div class="accountMain">
+                <div class="accountRightSection">
+                  <div class="inner_container_top">
+                    <div class="accountLeft">
+                      <h3>Contact</h3>
+                      <p>Add a unique email to protect your account</p>
+                    </div>
+                    <div class="accountRight">
+                      
+                      <p>Last Change: April 18, 2017</p>
+                    </div>
+                  </div>
+                  <div id="hideContainer" class="hideContent">
+                    <div class="radio-btn">
+                      <div class="md-radio">
+                        <input id="5" type="radio" name="g" checked="" (click)="showdiv('div3')">
+                        <label for="5">YES</label>
+                      </div>
+                      <div class="md-radio">
+                        <input id="6" type="radio" name="g" (click)="hidediv('div3')">
+                        <label for="6">NO</label>
+                      </div>
+                    </div>
+                    <div *ngIf="show3 == 1" id="div3"  style="    margin-top: 32px;">hello Dev,<br>This is Div3</div>
+                  </div>
+                </div>
+              </div>
+              <span id="accountToggle" class="accountToggle" (click)="toggleDivContainer('contactDiv')">
+                <i class="fas fa-angle-down"></i>
+              </span>
+            </div> -->
+            <!-- END THIRD SECTION -->
+            <!-- <br> -->
+            <!-- START FOURTH SECTION -->
+            <!-- <div class="firstContainer" id="languageDiv">
+              <div class="accountMain">
+                <div class="accountRightSection">
+                  <div class="inner_container_top">
+                    <div class="accountLeft">
+                      <h3>Language</h3>
+                      <p>Select the language you use on Qualifyed</p>
+                    </div>
+                    <div class="accountRight">
+                      
+                      <p>English</p>
+                    </div> -->
+                    <!-- START HIDE TOGGLE CONTAINER -->
+                  <!-- </div>
+                  <div id="hideContainer" class="hideContent">
+                    <div class="radio-btn">
+                      <div class="md-radio">
+                        <input id="7" type="radio" name="g" checked="" (click)="showdiv('div4')">
+                        <label for="7">YES</label>
+                      </div>
+                      <div class="md-radio">
+                        <input id="8" type="radio" name="g" (click)="hidediv('div4')">
+                        <label for="8">NO</label>
+                      </div>
+                    </div>
+                    <div *ngIf="show4 == 1" id="div4"  style="    margin-top: 32px;">hello Dev,<br>This is Div4</div>
+                  </div> -->
+                  <!-- END HIDE TOGGLE CONTAINER -->
+                <!-- </div>
+              </div>
+              <span id="accountToggle" class="accountToggle" (click)="toggleDivContainer('languageDiv')">
+                <i class="fas fa-angle-down"></i>
+              </span>
+            </div> -->
+            <!-- END FOURTH SECTION -->
+            <!-- /END OF POST HEAD/ -->
+          </div>
+          <!-- /END OF POST WRAPPER/ -->
+          <!-- START SECURITY AND LOGIN -->
+          <div #target1 class="postWrapper">
+            <h3 class="textTitle">Security and Login</h3>
+            <!-- START FIRST SECTION -->
+            <div class="firstContainer" id="securityDiv">                  <div class="accountMain">
+              <div class="accountRightSection">
+                <div class="inner_container_top">
+                  <div class="accountLeft">
+                    <h3>Where You're Logged In</h3>
+                    <p>Check devices you’re  logged in</p>
+                  </div>
+                  <div class="accountRight">
+                     
+                    <p>{{allSession.length }} active <span *ngIf="allSession.length > 1">sessions</span><span *ngIf="allSession.length <= 1">session</span> found</p>
+                  </div>
+                  <!-- START HIDE TOGGLE CONTAINER -->
+                </div>
+                <div id="hideContainer" class="hideContent">
+                  <div *ngFor="let data of allSession" class="{{ip == data.ip_address ? 'row currentDiv customClassDiv' : 'row customClassDiv'}}" style="border-bottom: 1px solid #ddd;">
+                    <div class="col-md-6">
+                      <p><b>IP Address:</b> {{data.ip_address}}</p>
+                      <br>
+                      <p><b>Created At</b></p>
+                      <p>{{data.created_date | date : 'medium'}}
+                    </div>
+                    <div class="col-md-6">
+                      <p>{{data.address}}</p>
+                      <p>(Approximate location)</p>
+                      <br>
+                      
+                      <p>Internet Service Provider</p>
+                      <p>{{data.isp}}</p>
+                      <button (click)="signout(data.ip_address, data.user_login_id)" *ngIf="ip != data.ip_address">SIGNOUT</button>
+                    </div>
+                  </div>
+                </div>
+                <!-- END HIDE TOGGLE CONTAINER -->
+              </div>
+            </div>
+            <span id="accountToggle" class="accountToggle" (click)="toggleDivContainer('securityDiv')">
+              <i class="fas fa-angle-down"></i>
+            </span>
+          </div>
+          <!-- END FIRST SECTION -->
+          <br>
+          <!-- START FIRST SECTION -->
+          <div class="firstContainer" id="changepasswordDiv">                  <div class="accountMain">
+            <div class="accountRightSection">
+              <div class="inner_container_top">
+                <div class="accountLeft">
+                  <h3>Change Password</h3>
+                  <p>It’s good to use a strong password that you’re not using elsewhere</p>
+                </div>
+                <div class="accountRight">
+                  
+                  <p><span *ngIf="createddate != '' && createddate != null && createddate != undefined">
+                    
+                   Last Change: {{createddate | date}}
+                  </span>
+                 </p>
+                </div>
+                <!-- START HIDE TOGGLE CONTAINER -->
+              </div>
+              <div id="hideContainer" class="hideContent">
+                <form [formGroup]="changePassword" (submit)="changePasswordSub()">
+                  <div>
+                    <label>Current Password</label>
+                    <input type="password" name="" formControlName="current_password" placeholder="Current Password">
+                  </div>
+                  <div>
+                    <label>New Password</label>
+                    <input type="password" name="" formControlName="new_password" placeholder="New Password">
+                  </div>
+                  <div>
+                    <label>Confirm Password</label>
+                    <input type="password" name="" formControlName="confirm_password" placeholder="Confirm Password">
+                  </div>
+                </form>
+                <form [formGroup]="changePassword" (submit)="changePasswordSub()">
+                  <div>
+                    <button type="submit">Change Password</button>
+                  </div>
+                </form>
+              </div>
+              <!-- END HIDE TOGGLE CONTAINER -->
+            </div>
+          </div>
+          <span id="accountToggle" class="accountToggle" (click)="toggleDivContainer('changepasswordDiv')">
+            <i class="fas fa-angle-down"></i>
+          </span>
+        </div>
+        <!-- END FIRST SECTION -->
+        <br>
+        <!-- START THIRD SECTION -->
+        <div class="firstContainer" id="authenticationDiv">                  <div class="accountMain">
+          <div class="accountRightSection">
+            <div class="inner_container_top">
+              <div class="accountLeft">
+                <h3>Use two-factor authentication</h3>
+                <p>Log in with a code from your phone as well as a password</p>
+              </div>
+              <div class="accountRight">
+                
+                <p>{{factor_display}}</p>
+              </div>
+              <!-- START HIDE TOGGLE CONTAINER -->
+            </div>
+            <div id="hideContainer" class="hideContent">
+              <div class="radio-btn">
+                <div class="md-radio">
+                  <input  (click)="twoFactorFun($event.target,1)" id="45" type="radio" name="twoauth">
+                  <label for="45">ON</label>
+                </div>
+                <div class="md-radio">
+                  <input (click)="twoFactorFun($event.target,2)"  id="46" type="radio" name="twoauth" checked="">
+                  <label for="46">OFF</label>
+                </div>
+              </div>
+            </div>
+            <!-- END HIDE TOGGLE CONTAINER -->
+          </div>
+        </div>
+        <span id="accountToggle" class="accountToggle" (click)="toggleDivContainer('authenticationDiv')">
+          <i class="fas fa-angle-down"></i>
+        </span>
+      </div>
+      <!-- END THIRD SECTION -->
+      
+    </div>
+    <!-- END SECURITY AND LOGIN -->
+    <!-- START VISIBLE INFORMATION -->
+    <div #target2 class="postWrapper">
+      <h3 class="textTitle">Visible Information</h3>
+      <p class="notify">How others see your profile and network information</p>
+      
+      <!-- START FIRST SECTION -->
+      <!-- <div class="firstContainer" id="profile">                  <div class="accountMain">
+      <div class="firstContainer editprofile" id="profile">                  
+        <div class="accountMain">
+        <div class="accountRightSection">
+          <div class="inner_container_top">
+            <div class="accountLeft">
+              <h3>Edit your profile</h3>
+              <p>Choose how your profile appears to non-logged in members via search
+              engines or permitted services</p>
+            </div>
+            <div class="accountRight">
+              
+              <p>No action made</p>
+            </div> -->
+            <!-- START HIDE TOGGLE CONTAINER -->
+          <!-- </div>
+          <div id="hideContainer" class="hideContent">
+            <div class="radio-btn">
+              <p>Education </p>
+              <div class="md-radio">
+                <input id="15__check" type="radio" name="education" checked="" (click)="showdivEducation('education')">
+                <label for="15__check">YES</label>
+              </div>
+              <div class="md-__checkradio">
+                <input id="16" type="radio" name="education" (click)="hidediv('div3')">
+                <label for="16__check">NO</label>
+              </div>
+            </div>
+            <br>
+            <div class="radio-btn">
+              <p>Personal Information </p>
+              <div class="md-radio">
+                <input id="17__check" type="radio" name="personal_info" checked="" (click)="showdiv('div3')">
+                <label for="17__check">YES</label>
+              </div>
+              <div class="md-radio">
+                <input id="18__check" type="radio" name="personal_info" (click)="hidediv('div3')">
+                <label for="18__check">NO</label>
+              </div>
+              
+            </div>
+            <br>
+            <div class="radio-btn">
+              <p>Work</p>
+              <div class="md-radio">
+                <input id="19__check" type="radio" name="work" checked="" (click)="showdiv('div3')">
+                <label for="19__check">YES</label>
+              </div>
+              <div class="md-radio">
+                <input id="20__check" type="radio" name="work" (click)="hidediv('div3')">
+                <label for="20__check">NO</label>
+              </div>
+              
+            </div>
+            <br>
+            <div class="radio-btn">
+              <p>Skills</p>
+              <div class="md-radio">
+                <input id="21__check" type="radio" name="skills" checked="" (click)="showdiv('div3')">
+                <label for="21__check">YES</label>
+              </div>
+              <div class="md-radio">
+                <input id="22__check" type="radio" name="skills" (click)="hidediv('div3')">
+                <label for="22__check">NO</label>
+              </div>
+              
+            </div>
+            
+          </div> -->
+          <!-- END HIDE TOGGLE CONTAINER -->
+        <!-- </div>
+      </div>
+      <span id="accountToggle" class="accountToggle" (click)="toggleDivContainer('profile')">
+        <i class="fas fa-angle-down"></i>
+      </span>
+    </div> -->
+    <!-- END FIRST SECTION -->
+    <br>
+    <!-- START SECOND SECTION -->
+    <div class="firstContainer" id="email">
+      <div class="accountMain">
+        <div class="accountRightSection">
+          <div class="inner_container_top">
+            <div class="accountLeft">
+              <h3>Who can see your email address</h3>
+              <p>Choose who can see your email address on your profile</p>
+            </div>
+            <div class="accountRight">
+              
+              <p>{{email_display}}</p>
+            </div>
+            <!-- START HIDE TOGGLE CONTAINER -->
+          </div>
+          <div id="hideContainer" class="hideContent">
+            <select id="email_seen" class="setting_select" (change)="email_seen($event.target.value)">
+              <option value="0">Public</option>
+              <option value="3">Connection</option>
+              <option value="2">Private</option>
+            </select>
+            <!-- <div class="radio-btn"> -->
+            <!-- <div class="md-radio">
+              <input id="17" type="radio" name="g" checked="" (click)="showdiv('div3')">
+              <label for="17">YES</label>
+            </div>
+            <div class="md-radio">
+              <input id="18" type="radio" name="g" (click)="hidediv('div3')">
+              <label for="18">NO</label>
+            </div> -->
+            <!-- </div> -->
+          </div>
+          <!-- END HIDE TOGGLE CONTAINER -->
+        </div>
+      </div>
+      <span id="accountToggle" class="accountToggle" (click)="toggleDivContainer('email')">
+        <i class="fas fa-angle-down"></i>
+      </span>
+    </div>
+    <!-- END SECOND SECTION -->
+    <br>
+    <!-- START THIRD SECTION -->
+    <div class="firstContainer" id="see">                  <div class="accountMain">
+      <div class="accountRightSection">
+        <div class="inner_container_top">
+          <div class="accountLeft">
+            <h3>Who can see your phone number</h3>
+            <p>Choose who can see your phone number on your profile</p>
+          </div>
+          <div class="accountRight">
+            
+            <p>{{phone_display}}</p>
+          </div>
+          <!-- START HIDE TOGGLE CONTAINER -->
+        </div>
+        <div id="hideContainer" class="hideContent">
+          <!-- <div class="radio-btn">
+            <div class="md-radio">
+              <input id="19" type="radio" name="g" checked="" (click)="showdiv('div3')">
+              <label for="19">YES</label>
+            </div>
+            <div class="md-radio">
+              <input id="20" type="radio" name="g" (click)="hidediv('div3')">
+              <label for="20">NO</label>
+            </div>
+          </div> -->
+          <select id="phone_seen" class="setting_select" (change)="phone_seen($event.target.value)">
+            <option value="0">Public</option>
+            <option value="3">Connection</option>
+            <option value="2">Private</option>
+          </select>
+        </div>
+        <!-- END HIDE TOGGLE CONTAINER -->
+      </div>
+    </div>
+    <span id="accountToggle" class="accountToggle" (click)="toggleDivContainer('see')">
+      <i class="fas fa-angle-down"></i>
+    </span>
+  </div>
+  <!-- END THIRD SECTION -->
+  <br>
+  <!-- START FOURTH SECTION -->
+  <!-- <div class="firstContainer" id="personal">                  <div class="accountMain">
+    <div class="accountRightSection">
+      <div class="inner_container_top">
+        <div class="accountLeft">
+          <h3>Allow only personal and business connections to view email/phone</h3>
+          <p>Choose who can see your phone and email</p>
+        </div>
+        <div class="accountRight">
+          
+          <p>Everyone</p>
+        </div> -->
+        <!-- START HIDE TOGGLE CONTAINER -->
+      <!-- </div>
+      <div id="hideContainer" class="hideContent">
+        <div class="radio-btn">
+          <div class="md-radio">
+            <input id="21" type="radio" name="g" checked="">
+            <label for="21">YES</label>
+          </div>
+          <div class="md-radio">
+            <input id="22" type="radio" name="g">
+            <label for="22">NO</label>
+          </div>
+        </div>
+      </div> -->
+      <!-- END HIDE TOGGLE CONTAINER -->
+    <!-- </div>
+  </div>
+  <span id="accountToggle" class="accountToggle" (click)="toggleDivContainer('personal')">
+    <i class="fas fa-angle-down"></i>
+  </span>
+</div> -->
+<!-- END FOURTH SECTION -->
+<!-- <br> -->
+<!-- START FIVE SECTION -->
+
+<!-- END FIVE SECTION -->
+<br>
+<!-- START SIXTH SECTION -->
+<div class="firstContainer" id="connections">                  <div class="accountMain">
+<div class="accountRightSection">
+  <div class="inner_container_top">
+    <div class="accountLeft">
+      <h3>Who can see your connections</h3>
+      <p>Choose who can see your list of connections</p>
+    </div>
+    <div class="accountRight">
+      
+      <p>{{connection_display}}</p>
+    </div>
+    <!-- START HIDE TOGGLE CONTAINER -->
+  </div>
+  <div id="hideContainer" class="hideContent">
+    <select id="connection_seen" class="setting_select" (change)="connection_seen($event.target.value)">
+      <option value="0">Public</option>
+      <option value="3">Connection</option>
+      <option value="2">Private</option>
+    </select>
+  </div>
+  <!-- END HIDE TOGGLE CONTAINER -->
+</div>
+</div>
+<span id="accountToggle" class="accountToggle" (click)="toggleDivContainer('connections')">
+<i class="fas fa-angle-down"></i>
+</span>
+</div>
+<!-- END SIXTH SECTION -->
+<br>
+<!-- START SEVENTH SECTION -->
+<div class="firstContainer" id="last">                  <div class="accountMain">
+<div class="accountRightSection">
+<div class="inner_container_top">
+  <div class="accountLeft">
+    <h3>Who can see your last name</h3>
+    <p>Choose how you want your name to appear</p>
+  </div>
+  <div class="accountRight">
+    
+    <p>{{last_display}}</p>
+  </div>
+  <!-- START HIDE TOGGLE CONTAINER -->
+</div>
+<div id="hideContainer" class="hideContent">
+  <select id="last_name_seen" class="setting_select" (change)="last_name_seen($event.target.value)">
+    <option value="0">Public</option>
+    <option value="3">Connection</option>
+    <option value="2">Private</option>
+  </select>
+</div>
+<!-- END HIDE TOGGLE CONTAINER -->
+</div>
+</div>
+<span id="accountToggle" class="accountToggle" (click)="toggleDivContainer('last')">
+<i class="fas fa-angle-down"></i>
+</span>
+</div>
+<!-- END SEVENTH SECTION -->
+<P class="notify">How others see your Qualifyed activity </P>
+<!-- START EIGHT SECTION -->
+
+<!-- END EIGHT SECTION -->
+<br>
+<!-- START NINE SECTION -->
+<div class="firstContainer" id="Manage">                  <div class="accountMain">
+<div class="accountRightSection">
+<div class="inner_container_top">
+<div class="accountLeft">
+<h3>Manage active status</h3>
+<p>Choose who can see when  you are on Qualifyed</p>
+</div>
+<div class="accountRight">
+
+ <p>{{active_display}}</p>
+</div>
+<!-- START HIDE TOGGLE CONTAINER -->
+</div>
+<div id="hideContainer" class="hideContent">
+<!-- <div class="radio-btn">
+<div class="md-radio">
+  <input id="30" type="radio" name="g" checked="">
+  <label for="30">YES</label>
+</div>
+<div class="md-radio">
+  <input id="31" type="radio" name="g">
+  <label for="31">NO</label>
+</div>
+</div> -->
+  <select id="active_seen" class="setting_select" (change)="active_seen($event.target.value)">
+    <option value="0">Public</option>
+    <option value="3">Connection</option>
+    <option value="2">Private</option>
+  </select>
+</div>
+<!-- END HIDE TOGGLE CONTAINER -->
+</div>
+</div>
+<span id="accountToggle" class="accountToggle" (click)="toggleDivContainer('Manage')">
+<i class="fas fa-angle-down"></i>
+</span>
+</div>
+<!-- END NINE SECTION -->
+<!-- <br> -->
+<!-- START TEN SECTION -->
+<!-- <div class="firstContainer" id="Share">                  <div class="accountMain">
+<div class="accountRightSection">
+<div class="inner_container_top">
+<div class="accountLeft">
+<h3>Share job changes, education changes from profile</h3>
+<p>Choose whether your network is notified</p>
+</div>
+<div class="accountRight">
+
+<p>No</p>
+</div> -->
+<!-- START HIDE TOGGLE CONTAINER -->
+<!-- </div>
+<div id="hideContainer" class="hideContent">
+<div class="radio-btn">
+<div class="md-radio">
+<input id="32" type="radio" name="g" checked="">
+<label for="32">YES</label>
+</div>
+<div class="md-radio">
+<input id="32" type="radio" name="g">
+<label for="32">NO</label>
+</div>
+</div>
+</div> -->
+<!-- END HIDE TOGGLE CONTAINER -->
+<!-- </div>
+</div>
+<span id="accountToggle" class="accountToggle" (click)="toggleDivContainer('Share')">
+<i class="fas fa-angle-down"></i>
+</span>
+</div> -->
+<!-- END TEN SECTION -->
+<br>
+<!-- START ELEVEN SECTION -->
+<!-- <div class="firstContainer" id="Notifying">                  <div class="accountMain">
+<div class="accountRightSection">
+<div class="inner_container_top">
+<div class="accountLeft">
+<h3>Notifying connections when you’re in the news</h3>
+<p>Choose whether we notify people in your network that you’ve been
+mentioned in an article or blog post</p>
+</div>
+<div class="accountRight">
+
+<p>Yes</p>
+</div> -->
+<!-- START HIDE TOGGLE CONTAINER -->
+<!-- </div>
+<div id="hideContainer" class="hideContent">
+<div class="radio-btn">
+<div class="md-radio">
+<input id="33" type="radio" name="g" checked="">
+<label for="33">YES</label>
+</div>
+<div class="md-radio">
+<input id="34" type="radio" name="g">
+<label for="34">NO</label>
+</div>
+</div>
+</div> -->
+<!-- END HIDE TOGGLE CONTAINER -->
+<!-- </div>
+</div>
+<span id="accountToggle" class="accountToggle" (click)="toggleDivContainer('Notifying')">
+<i class="fas fa-angle-down"></i>
+</span>
+</div> -->
+<!-- END ELEVEN SECTION -->
+</div>
+<!-- END VISIBLE INFORMATION -->
+<!-- START MANAGE TIMELINE CONTENT -->
+<div #target3 class="postWrapper">
+<h3 class="textTitle">Manage Timeline Content</h3>
+<!-- START FIRST SECTION -->
+<div class="firstContainer" id="my">                  <div class="accountMain">
+<div class="accountRightSection">
+<div class="inner_container_top">
+<div class="accountLeft">
+<h3>Manage my post</h3>
+<p>Choose who can see my post</p>
+</div>
+<div class="accountRight">
+
+<p>{{timeline_display}}</p>
+</div>
+<!-- START HIDE TOGGLE CONTAINER -->
+</div>
+<div id="hideContainer" class="hideContent">
+<!-- <div class="radio-btn">
+<div class="md-radio">
+<input id="35" type="radio" name="g" checked="">
+<label for="35">YES</label>
+</div>
+<div class="md-radio">
+<input id="36" type="radio" name="g">
+<label for="36">NO</label>
+</div>
+</div> -->
+  <select id="active_timeline" class="setting_select" (change)="active_timeline($event.target.value)">
+    <option value="0">Public</option>
+    <option value="3">Connection</option>
+    <option value="2">Private</option>
+  </select>
+</div>
+<!-- END HIDE TOGGLE CONTAINER -->
+</div>
+</div>
+<span id="accountToggle" class="accountToggle" (click)="toggleDivContainer('my')">
+<i class="fas fa-angle-down"></i>
+</span>
+</div>
+<!-- END FIRST SECTION -->
+</div>
+<!-- END MANAGE TIMELINE CONTENT -->
+<!-- START BLOCKING AND HIDING -->
+<div #target4 class="postWrapper">
+<h3 class="textTitle">Blocking and hiding</h3>
+<!-- START FIRST SECTION -->
+<!-- <div class="firstContainer" id="Followers">                  <div class="accountMain">
+<div class="accountRightSection">
+<div class="inner_container_top">
+<div class="accountLeft">
+<h3>Followers</h3>
+<p>Choose who can follow you and see your public updates</p>
+</div>
+<div class="accountRight">
+
+<p>Everyone</p>
+</div> -->
+<!-- START HIDE TOGGLE CONTAINER -->
+<!-- </div>
+<div id="hideContainer" class="hideContent">
+<div class="radio-btn">
+<div class="md-radio">
+<input id="37" type="radio" name="g" checked="">
+<label for="37">YES</label>
+</div>
+<div class="md-radio">
+<input id="38" type="radio" name="g">
+<label for="38">NO</label>
+</div>
+</div>
+</div> -->
+<!-- END HIDE TOGGLE CONTAINER -->
+<!-- </div>
+</div>
+<span id="accountToggle" class="accountToggle" (click)="toggleDivContainer('Followers')">
+<i class="fas fa-angle-down"></i>
+</span>
+</div> -->
+<!-- END FIRST SECTION -->
+<!-- START SECOND SECTION -->
+<div class="firstContainer" id="block">                  <div class="accountMain">
+<div class="accountRightSection">
+<div class="inner_container_top">
+<div class="accountLeft">
+<h3>Blocking</h3>
+<p>See your list, and make changes if you’d like</p>
+</div>
+<div class="accountRight">
+
+<!--   <p>Everyone</p> -->
+</div>
+<!-- START HIDE TOGGLE CONTAINER -->
+</div>
+<div id="hideContainer" class="hideContent">
+<!-- <div class="radio-btn">
+<div class="md-radio">
+<input id="39" type="radio" name="g" checked="">
+<label for="39">YES</label>
+</div>
+<div class="md-radio">
+<input id="40" type="radio" name="g">
+<label for="40">NO</label>
+</div>
+</div> -->
+<p *ngIf="blockUser == null || blockUser.length == 0 ">No Blocked Users</p>
+<ul *ngFor="let data of blockUser">
+  <li>{{data.name}}</li> <button class="btn btn-primary" (click) ="Unblock(data.user_login_id,data.blocked_user_id,data.name)">Unblock</button>
+</ul>
+</div>
+<!-- END HIDE TOGGLE CONTAINER -->
+</div>
+</div>
+<span id="accountToggle" class="accountToggle" (click)="toggleDivContainer('block')">
+<i class="fas fa-angle-down"></i>
+</span>
+</div>
+<br>
+
+<!-- <div class="firstContainer" id="who">                  <div class="accountMain">
+<div class="accountRightSection">
+<div class="inner_container_top">
+<div class="accountLeft">
+<h3>Unfollowed</h3>
+<p>See who you have unfollowed and resume following if you’d like</p>
+</div>
+<div class="accountRight">
+
+</div>
+</div>
+<div id="hideContainer" class="hideContent">
+
+ <li *ngIf="length == 0 ">No list of unfollowed</li>
+<ul *ngFor="let data of getUnfollow">
+
+  <li>{{data.name}}</li> <button class="btn btn-primary" (click) ="resend_request(data.connection_id)">Resend Request</button>
+</ul>
+</div>
+</div>
+</div>
+<span id="accountToggle" class="accountToggle" (click)="toggleDivContainer('who')">
+<i class="fas fa-angle-down"></i>
+</span>
+</div> -->
+<!-- END THIRD SECTION -->
+</div>
+<!-- END BLOCKING AND HIDING -->
+<!-- START NOTIFICATION -->
+<div #target5 class="postWrapper">
+<h3 class="textTitle">Notifications</h3>
+<!-- START FIRST SECTION -->
+<!-- <div class="firstContainer" id="Notifications">                  <div class="accountMain">
+<div class="accountRightSection">
+<div class="inner_container_top">
+<div class="accountLeft">
+<h3>On Qualifyed</h3>
+<p>All notifications, some sounds on</p>
+</div>
+<div class="accountRight">
+<h3>Edit</h3> -->
+<!-- <p>Everyone</p> -->
+<!-- </div> -->
+<!-- START HIDE TOGGLE CONTAINER -->
+<!-- </div>
+<div id="hideContainer" class="hideContent">
+<div class="radio-btn">
+<div class="md-radio">
+<input id="43" type="radio" name="g" checked="">
+<label for="43">YES</label>
+</div>
+<div class="md-radio">
+<input id="42" type="radio" name="g">
+<label for="42">NO</label>
+</div>
+</div>
+</div> -->
+<!-- END HIDE TOGGLE CONTAINER -->
+<!-- </div>
+</div>
+<span id="accountToggle" class="accountToggle" (click)="toggleDivContainer('Notifications')">
+<i class="fas fa-angle-down"></i>
+</span>
+</div>
+ --><!-- END FIRST SECTION -->
+<!-- <br> -->
+<!-- START SECOND SECTION -->
+<div class="firstContainer" id="Account">                  <div class="accountMain">
+<!-- <div class="accountRightSection">
+<div class="inner_container_top">
+<div class="accountLeft">
+<h3>Email</h3>
+<p>Account related notifications</p>
+</div>
+<div class="accountRight">
+<h3>{{email_noti}}</h3> -->
+<!--   <p>Everyone</p> -->
+<!-- </div> -->
+<!-- START HIDE TOGGLE CONTAINER -->
+<!-- </div>
+<div id="hideContainer" class="hideContent">
+<div class="radio-btn">
+<div class="md-radio">
+<input (click)="email_notification($event.target,1)"  id="43" type="radio" name="g" checked="">
+<label for="43">YES</label>
+</div>
+<div class="md-radio">
+<input (click)="email_notification($event.target,2)"  id="44" type="radio" name="g">
+<label for="44">NO</label>
+</div>
+</div>
+</div>
+END HIDE TOGGLE CONTAINER
+</div> -->
+ <div class="accountRightSection">
+      <div class="inner_container_top">
+        <div class="accountLeft">
+          <h3>Show / Hide notification</h3>
+          <p>Choose which type of notification display in notification tabs</p>
+        </div>
+        <div class="accountRight">
+          <!-- <h3>{{email_noti}}</h3> -->
+        </div>
+      </div>
+      <div id="hideContainer" class="hideContent">
+        <div class="radio-btn" *ngFor="let data of notiData;let i = index;">
+          <label class="notifcation_label">{{data.title | titlecase}}</label>
+          <div class="md-radio notifcation">
+            <input checked="{{notSetting.indexOf(data.type) != -1 ? 'checked' : '' }}" (click)="show_notification(data.title,data.type,1)"  id="noti_{{i}}_show" type="radio" name="{{i}}">
+            <label for="noti_{{i}}_show">Show</label>
+          </div>
+          <div class="md-radio">
+            <input (click)="show_notification(data.title,data.type,2)" checked="{{notSetting.indexOf(data.type) == -1 ? 'checked' : '' }}" id="noti_{{i}}_hide" type="radio" name="{{i}}">
+            <label for="noti_{{i}}_hide">Hide</label>
+          </div>
+        </div>
+
+      </div>
+    <!-- END HIDE TOGGLE CONTAINER -->
+    </div>
+</div>
+<span id="accountToggle" class="accountToggle" (click)="toggleDivContainer('Account')">
+<i class="fas fa-angle-down"></i>
+</span>
+</div>
+<!-- END SECOND SECTION -->
+<!-- <br> -->
+<!-- START THIRD SECTION -->
+<!-- <div class="firstContainer" id="Desktop">                  <div class="accountMain">
+<div class="accountRightSection">
+<div class="inner_container_top">
+<div class="accountLeft">
+<h3>Desktop and Mobile</h3>
+<p>Some notifications</p>
+</div>
+<div class="accountRight">
+<h3>Edit</h3> -->
+<!--   <p>Everyone</p> -->
+<!-- </div> -->
+<!-- START HIDE TOGGLE CONTAINER -->
+<!-- </div>
+<div id="hideContainer" class="hideContent">
+<div class="radio-btn">
+<div class="md-radio">
+<input id="45" type="radio" name="g" checked="">
+<label for="45">YES</label>
+</div>
+<div class="md-radio">
+<input id="46" type="radio" name="g">
+<label for="46">NO</label>
+</div>
+</div>
+</div> -->
+<!-- END HIDE TOGGLE CONTAINER -->
+<!-- </div>
+</div>
+<span id="accountToggle" class="accountToggle" (click)="toggleDivContainer('Desktop')">
+<i class="fas fa-angle-down"></i>
+</span>
+</div> -->
+<!-- END THIRD SECTION -->
+<!-- <br> -->
+<!-- START FOURTH SECTION -->
+<!-- <div class="firstContainer" id="Messages">                  <div class="accountMain">
+<div class="accountRightSection">
+<div class="inner_container_top">
+<div class="accountLeft">
+<h3>Text Messages</h3>
+<p>Test notifications are turned on</p>
+</div>
+<div class="accountRight">
+<h3>Edit</h3>
+<p>On</p>
+</div> -->
+<!-- START HIDE TOGGLE CONTAINER -->
+<!-- </div>
+<div id="hideContainer" class="hideContent">
+<div class="radio-btn">
+<div class="md-radio">
+<input id="47" type="radio" name="g" checked="">
+<label for="47">YES</label>
+</div>
+<div class="md-radio">
+<input id="48" type="radio" name="g">
+<label for="48">NO</label>
+</div>
+</div>
+</div> -->
+<!-- END HIDE TOGGLE CONTAINER -->
+<!-- </div>
+</div>
+<span id="accountToggle" class="accountToggle" (click)="toggleDivContainer('Messages')">
+<i class="fas fa-angle-down"></i>
+</span>
+</div> -->
+<!-- END FOURTH SECTION -->
+</div>
+<!-- END NOTIFICATION -->
+<!-- START INTERVIEW PREFERENCE -->
+<!-- <div #target6 class="postWrapper">
+<h3 class="textTitle">Interview Preferences</h3> -->
+<!-- START FIRST SECTION -->
+<!-- <div class="firstContainer" id="Receive">                  <div class="accountMain">
+<div class="accountRightSection">
+<div class="inner_container_top">
+<div class="accountLeft"> -->
+<!-- <h3>On Qualifyed</h3> -->
+<!-- <p>Receive any interview requests from connections only</p>
+</div>
+<div class="accountRight">
+<h3>Edit</h3>
+<p>Connections Only</p>
+</div> -->
+<!-- START HIDE TOGGLE CONTAINER -->
+<!-- </div>
+<div id="hideContainer" class="hideContent">
+<div class="radio-btn">
+<div class="md-radio">
+<input id="49" type="radio" name="g" checked="">
+<label for="49">YES</label>
+</div>
+<div class="md-radio">
+<input id="50" type="radio" name="g">
+<label for="50">NO</label>
+</div>
+</div>
+</div> -->
+<!-- END HIDE TOGGLE CONTAINER -->
+<!-- </div>
+</div>
+<span id="accountToggle" class="accountToggle" (click)="toggleDivContainer('Receive')">
+<i class="fas fa-angle-down"></i>
+</span>
+</div> -->
+<!-- END FIRST SECTION -->
+<!-- </div> -->
+<!-- END INTERVIEW PREFERENCE -->
+<!-- START MESSAGE PREFERENCE -->
+<!-- <div #target7 class="postWrapper">
+<h3 class="textTitle">Message Preferences</h3>
+<div class="firstContainer" id="Only">                  <div class="accountMain">
+<div class="accountRightSection">
+<div class="inner_container_top">
+<div class="accountLeft">
+<h3>Only User or Business Connections</h3>
+<p>Choose who can send you a message</p>
+</div>
+<div class="accountRight">
+<p>{{message}}</p>
+</div>
+</div>
+<div id="hideContainer" class="hideContent">
+
+  <select id="message_prefrence" class="setting_select" (change)="message_prefrence($event.target.value)">
+    <option value="0">Public</option>
+    <option value="1">Connection</option>
+    <option value="2">User</option>
+    <option value="3">Bussiness</option>
+  </select>
+</div>
+</div>
+</div>
+<span id="accountToggle" class="accountToggle" (click)="toggleDivContainer('Only')">
+<i class="fas fa-angle-down"></i>
+</span>
+</div>
+</div> -->
+<!-- END MESSAGE PREFERENCE -->
+<!-- START HISTORY PREFERENCES -->
+<div  #target8 class="postWrapper">
+<h3 class="textTitle">History Preferences</h3>
+<!-- START FIRST SECTION -->
+<div class="firstContainer" id="Past">                  <div class="accountMain">
+<div class="accountRightSection">
+<div class="inner_container_top">
+<div class="accountLeft">
+<h3>History display preferences</h3>
+<!-- <p>Choose who can send you a message</p> -->
+</div>
+<div class="accountRight">
+<h3>{{history_display}}</h3>
+<!--  <p>Connections Only</p> -->
+</div>
+<!-- START HIDE TOGGLE CONTAINER -->
+</div>
+<div id="hideContainer" class="hideContent">
+  <!-- <form [formGroup]="historyPreg" (ngSubmit)="historySubmit()">
+    
+    <select formControlName="time" class="setting_select" id="a_S" (change)="history_select($event.target.value)">
+      <option value="0">All time</option>
+      <option value="1">Custom date</option>
+    </select>
+     <select formControlName="days" class="setting_select" id="b_S" *ngIf="alltime == true">
+      <option *ngFor="let day of day_count">{{day}}</option>
+    </select>
+     <select formControlName="unit" class="setting_select" id="c_S" *ngIf="alltime == true">
+      <option value="0">Day</option>
+      <option value="1">Week</option>
+      <option value="2">Month</option>
+      <option value="3">Year</option>
+    </select>
+  <button type="submit">Update</button>
+  </form> -->
+  <form [formGroup]="historyPreg" (ngSubmit)="historySubmit()">
+<input  style="padding: 10px;width: 50%;" matInput [matDatepicker]="picker1" (click)="picker1.open()"class="form-control" formControlName="date_time" placeholder="Choose Date for delete history"  [ngClass]="{ 'is-invalid': submitted1 && resErrSubmit.date_time.errors }">
+<mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+<mat-datepicker #picker1></mat-datepicker>
+
+
+
+<div *ngIf="submitted1 && resErrSubmit.date_time.errors" class="invalid-feedback">
+<div *ngIf="resErrSubmit.date_time.errors.required">Date required</div>
+</div>
+<button type="submit">Delete</button>
+</form>
+</div>
+<!-- END HIDE TOGGLE CONTAINER -->
+</div>
+</div>
+<span id="accountToggle" class="accountToggle" (click)="toggleDivContainer('Past')">
+<i class="fas fa-angle-down"></i>
+</span>
+</div>
+<!-- END FIRST SECTION -->
+</div>
+<!-- END HISTORY PREFERENCES -->
+<!-- START DELETE ACCOUNT -->
+<div #target9 class="postWrapper">
+<h3 class="textTitle">Delete Account</h3>
+<!-- START FIRST SECTION -->
+<div class="firstContainer" id="Delete">                  <div class="accountMain">
+<div class="accountRightSection">
+<div class="inner_container_top">
+<div class="accountLeft">
+<h3>Delete your account and information</h3>
+<p>Permanently delete your Qualifyed account and information</p>
+</div>
+<div class="accountRight">
+<!-- <h3>View</h3> -->
+<!--  <p>Connections Only</p> -->
+</div>
+<!-- START HIDE TOGGLE CONTAINER -->
+</div>
+<div id="hideContainer" class="hideContent">
+  <button class="remove-btn" (click)="delete_account()">Delete my account</button>
+</div>
+<!-- END HIDE TOGGLE CONTAINER -->
+</div>
+</div>
+<span id="accountToggle" class="accountToggle" (click)="toggleDivContainer('Delete')">
+<i class="fas fa-angle-down"></i>
+</span>
+</div>
+<!-- END FIRST SECTION -->
+</div>
+<!-- END DELETE ACCOUNT -->
+</div>
+</div>
+<!-- /END ROW -->
+</div>
+<!-- END THIRD POST WRAPPER -->
+</div>
+</div>
+</section>
+<div id="id01" class="modal_CC">
+  <div class="modal-content_CC">
+    <div class="container">
+      <span onclick="document.getElementById('id01').style.display='none'" class="display-topright">&times;</span>
+      <p>Enter otp to verify email address</p>
+        <form [formGroup]="addEmailVER" (ngSubmit)="verifyEmailADD()">
+          <input type="text" formControlName="otp" id="input_otp" value="" maxlength="6" name="otp" placeholder="Type OTP to verify your account">
+          <button class="setting-btn">Submit</button>
+        </form>
+    </div>
+  </div>
+</div>
+
+
+<div id="id02" class="modal_CC">
+  <div class="modal-content_CC">
+    <div class="container">
+      <span onclick="document.getElementById('id02').style.display='none'" class="display-topright">&times;</span>
+      <p>Enter otp to verify Phone number</p>
+        <form [formGroup]="addEmailVER" (ngSubmit)="verifyPhoneADD()">
+          <input type="text" formControlName="otp" id="input_otp1" value="" maxlength="6" name="otp" placeholder="Type OTP to verify your phone number">
+          <button>Submit</button>  &nbsp; <a (click)="ResendOtp()">Resend Otp</a>
+        </form>
+    </div>
+  </div>
+</div>
+<style type="text/css">
+  .displayNone{display: none; }
+  .modal_CC{z-index:3;display:none;padding-top:100px;position:fixed;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:rgb(0,0,0);background-color:rgba(0,0,0,0.4)} 
+  .modal-content_CC{margin:auto;background-color:#fff;position:relative;padding:0;outline:0;width:600px} 
+  .display-topright{position:absolute;right:0;top:0
+  }
+  /*.customClassDiv{
+      background: red;
+  }*/
+  .row.currentDiv{
+    background: #ddd;
+  }
+  .notifcation_label{
+  display: block;
+  margin: 5px;
+  font-size: 16px;
+  width: 100%;
+}
+</style>

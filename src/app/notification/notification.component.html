@@ -1,0 +1,264 @@
+<!-- <div id="cover-spin" *ngIf="showLoader == true"></div>
+ -->
+ <div id="loder_main" *ngIf="showLoader== true"><div id="loader_view" ></div></div>
+<app-profileheader></app-profileheader>
+<section class="notificationsContainer">
+<div class="innerWrap">
+  <div class="innerPadding">
+    <div class="wrap">
+      <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+          
+          <!-- /END OF ICO BOX/ -->
+          <div class="infoContent">
+            <h2>Notification</h2>
+            <P *ngIf="read_length > 0">You have {{read_length}} unread notification click on notification to view</P>
+            <P *ngIf="read_length < 0 || read_length == 0">You’re all caught up!  Check back later for new notifications </P>
+            <div class="button_container" *ngIf="read_length > 0">
+              <div class="button_style_01">
+                <span (click)="notificationread()">Mark All as Read</span>
+              </div>
+            </div>
+            <hr>
+            <p class="improve-text">Improve your notifications </p>
+            <a *ngIf="type == 1" routerLink="/bussiness-setting">View settings</a>
+            <a *ngIf="type == 2" routerLink="/settings">View settings</a>
+          </div>
+          <!-- /END OF INFO CONTENT/ -->
+          
+        </div>
+        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 notificationsWrapper">
+          <div class="postWrapper">
+            <div class="postHead">
+              <h5 class="txtBlue"><i class="fas fa-clock"></i> Recent</h5>
+              <!-- START HIDE DROPDOWN -->
+              <!--  class="dropdownController" -->
+
+              <div *ngIf="notification_data == '' "><p>No recent notification</p></div>
+              
+              <div class="{{ data.status == 0 ? 'profileInfo unread_n' : 'profileInfo'}}" *ngFor="let data of notification_data; let i=index">
+                <div class="flexboxwrap">
+                  <div class="editImg" >
+                  
+                    <a routerLink="/view_profile/{{data.message.senderid}}" *ngIf="data.file_status == false" target="_blank"><img (click)="NotificationSeen(data.id)"   src="{{media_url}}/uploads/images/avatar.png"></a>
+                    <a routerLink="/view_profile/{{data.message.senderid}}" *ngIf="data.file_status == true" target="_blank"><img (click)="NotificationSeen(data.id)" src="{{media_url}}/uploads/images/{{data.message.pic_name}}"></a>
+                    <p *ngIf ="data.notification_type < 8" class="vieweProfile"><a routerLink="/view_profile/{{data.message.senderid}}" target="_blank" (click)="NotificationSeen(data.id)"><b>{{data.message.username}}</b></a>  {{data.message.message}} </p>
+                     <p *ngIf="data.notification_type >= 8" class="vieweProfile"><a routerLink="/view_profile/{{data.message.senderid}}" target="_blank" (click)="NotificationSeen(data.id)"><b>{{data.message.username}}</b></a>  {{data.message.message}} {{data.message.title}} </p>
+                  </div>
+                  <div class="rightSection">
+                    <div class="editUpload">
+                      <a *ngIf="data.notification_type == 1 && data.status == 0"  (click)="NotificationSeen(data.id);Accept(data.message.senderid)" class="editAccept">Accept</a>
+                      <a *ngIf="data.notification_type == 1 && data.status == 0 " (click)="NotificationSeen(data.id);Decline(data.message.senderid)" class="editDec">Decline</a>
+                      <p> {{data.created_date}} </p>
+                    </div>
+                    <div class="imgContent" >
+                      <img src="./assets/images/notification-drop-icon.png" (click)="showtoggle(data.id)" (clickElsewhere)="close(data.id)">
+                      <!-- <img *ngIf="myshow !=0" (click)="hidetoggle(data.id)"> -->
+                    </div>
+                  </div>
+                </div>
+                <div class="dropdownController displayNone" id="id_{{data.id}}">
+                  <ul class="text-left">
+                    <li (click)="deleteNotification(data.id)" class="dropdownDelete">
+                      <i class="fas fa-trash-alt"></i> 
+                      <div>
+                        <a>Delete</a>
+                        <p style="cursor: pointer;">Delete this notification</p>
+                      </div>
+                  </li>
+                  <li (click)="Mark(data.id)" class="dropdownHide">
+                    <i class="fas fa-check"></i> 
+                    <div>
+                      <a>Mark</a>
+                      <p style="cursor: pointer;">Mark as read this notification</p>
+                    </div>
+                </li>
+                <li (click)="hideNotification(data.notification_type)" class="dropdownHide">
+                  <i class="fas fa-times-circle"></i> 
+                  <div>
+                    <a>Turn off</a>
+                    <p style="cursor: pointer;">Stop receiving notifications like this</p>
+                  </div>
+              </li>
+            </ul>
+            
+          </div>
+        </div>
+        <!-- END PROFILE INFO -->
+        
+        
+      </div>
+      <!-- /END OF POST HEAD/ -->
+      
+    </div>
+    <!-- /END OF POST WRAPPER/ -->
+    <br>
+    <!-- START SECOND POST WRAPPER -->
+    <div class="postWrapper" *ngIf="hide_notification > 0">
+      <div class="postHead">
+        <h5 class="txtBlue"><i class="fas fa-clock"></i> Earlier</h5>
+        
+        <div class="{{ data.status == 0 ? 'profileInfo unread_n' : 'profileInfo'}}" *ngFor="let data of earlier_notificationdata">
+          <div class="flexboxwrap">
+            <div class="editImg" >
+               
+              <a *ngIf="data.file_status == false" routerLink="/view_profile/{{data.message.senderid}}" target="_blank"><img (click)="NotificationSeen(data.id)" src="{{media_url}}/uploads/images/avatar.png"></a>
+               <a *ngIf="data.file_status == true" routerLink="/view_profile/{{data.message.senderid}}" target="_blank"><img (click)="NotificationSeen(data.id)" src="{{media_url}}/uploads/images/{{data.message.pic_name}}"></a>
+              <p class="vieweProfile"><a routerLink="/view_profile/{{data.message.senderid}}" target="_blank" (click)="NotificationSeen(data.id)"><b>{{data.message.username}}</b></a>  {{data.message.message}} </p>
+            </div>
+            <div class="rightSection">
+              <div class="editUpload">
+                   <a *ngIf="data.notification_type == 1 && data.status == 0 "  (click)="NotificationSeen(data.id);Accept(data.message.senderid)" class="editAccept">Accept</a>
+                  <a *ngIf="data.notification_type == 1 && data.status == 0 " (click)="NotificationSeen(data.id);Decline(data.message.senderid)" class="editDec">Decline</a>
+                <p> {{data.created_date}} </p>
+              </div>
+              <div class="imgContent">
+               <img src="./assets/images/notification-drop-icon.png" (click)="showtoggle1(data.id)" (clickElsewhere)="close(data.id)">
+              </div>
+            </div>
+          </div>
+                 <div class="dropdownController displayNone" id="id_{{data.id}}">
+                  <ul class="text-left">
+                    <li (click)="deleteNotification(data.id)" class="dropdownDelete">
+                      <i class="fas fa-trash-alt"></i> 
+                      <div>
+                        <a>Delete</a>
+                        <p style="cursor: pointer;">Delete this notification</p>
+                      </div>
+                  </li>
+                  <li (click)="Mark(data.id)" class="dropdownHide">
+                    <i class="fas fa-check"></i> 
+                    <div>
+                      <a>Mark</a>
+                      <p style="cursor: pointer;">Mark as read this notification</p>
+                    </div>
+                </li>
+                <li (click)="hideNotification(data.notification_type)" class="dropdownHide">
+                  <i class="fas fa-times-circle"></i> 
+                  <div>
+                    <a>Turn off</a>
+                    <p style="cursor: pointer;">Stop receiving notifications like this</p>
+                  </div>
+              </li>
+            </ul>
+            
+          </div>
+        </div>
+        <!-- END PROFILE INFO -->
+        
+        
+      </div>
+      <!-- /END OF POST HEAD/ -->
+      
+    </div>
+    <!-- END SECOND POST WRAPPER -->
+    <br>
+     <div class="viewMoreBtn">
+
+                <button  class="viewbt button_style_01" (click)="SeeMore()" *ngIf="final != '' && hide_notification > 0 "><span>See more</span></button>
+
+              </div>
+              <br>
+
+
+    <!-- START THIRD POST WRAPPER -->
+    <div class="postWrapper postSuggestion">
+      <div class="postHead">
+        <h5 class="txtBlue"><i class="fab fa-rocketchat"></i> Suggested Opportunities & Connections</h5>
+        <div class="row sectionRow">
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 leftCol">
+            <ul class="conectionController">
+              <li class="current" ><a (click)="Connection()" >Connections</a></li>
+              <li ><a (click)="Opportunity()" *ngIf="type == 2">Opportunities</a></li>
+            </ul>
+          </div>
+          <div *ngIf="show1 == 1" class="col-lg-6 col-md-6 col-sm-12 col-xs-12 rightCol">
+            <a (click)="moreConnection()" *ngIf="totalSuggestionCount > 3">See all</a>
+            <!-- <a href=""><img src="./assets/images/left-arrow.png"></a>
+            <a href=""><img src="./assets/images/right-arrow.png"></a> -->
+          </div>
+
+          <div *ngIf="show1 == 2" class="col-lg-6 col-md-6 col-sm-12 col-xs-12 rightCol">
+            <a *ngIf="totaloppCount > 3" (click)="moreOpp()">See all</a>
+           <!--  <a href=""><img src="./assets/images/left-arrow.png"></a>
+            <a href=""><img src="./assets/images/right-arrow.png"></a> -->
+          </div>
+        </div>
+        
+        <!-- START CONNECTION TAB -->
+        <section class="row" *ngIf="tab1 == true">
+
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" *ngFor="let data of showSuggestion;let index=index">
+            <div *ngIf="currentCountSuggestion != 0" class="connectionContainer">
+              <img *ngIf="data.file_status == true" src="{{media_url}}/uploads/images/{{data.profile_pic}}">
+              <img *ngIf="data.file_status == false" src="{{media_url}}/uploads/images/avatar.png">
+              <h3>{{data.name}}</h3>
+              <p >Connection : {{data.count}}</p>
+              <br>
+              <p>Send Connection Request</p>
+              <div class="see-allBtn" >
+                <div class="connectBtn" >
+                  <div class="msgeff"></div>
+                  <a #someVar (click)=Request(data.user_login_id)>Send</a> <i class="fa fa-paper-plane" aria-hidden="true"></i><!-- 
+                  <a  (click)="cancel_reuest_api_v2(data.user_login_id)">Connection Request  </a> -->
+                </div>
+                
+              </div>
+            </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <div *ngIf="currentCountSuggestion == 0" class="connectionContainer">
+                  No connection's found
+                  </div>
+            </div>
+         
+          
+        </section>
+        <!-- END CONNECTION TAB -->
+        
+        <!-- START OPPORTUNITIES TAB -->
+        <section  class="row" *ngIf="tab2 == true">
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" *ngFor="let opp of suggestionOpportunity;let index=index">
+            <div *ngIf="currentCountOpp != 0" class="connectionContainer">
+               <img *ngIf="opp.file_status == true " src="{{media_url}}/uploads/images/{{opp.profile_pc}}">
+              <img *ngIf="opp.file_status == false" src="{{media_url}}/uploads/images/avatar.png">          
+              <h3>{{opp.name}}</h3>
+              <p>{{opp.title}}</p>
+              <br>
+              <p>Request Interview</p>
+              <div class="see-allBtn">
+                <div class="connectBtn">
+                  <div class="msgeff"></div>
+                  <a  (click)="oportunity(opp.oportunity_id,opp.user_id)">Send</a> <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" >
+            <div *ngIf="currentCountOpp == 0 || skillscheck.length == 0" class="connectionContainer">
+              No opportunity found.
+            </div>
+          </div>
+         
+        </section>
+        <!-- END OPPORTUNITIES TAB -->
+      </div>
+      
+    </div>
+    <!-- /END OF POST HEAD/ -->
+    
+  </div>
+  <!-- END THIRD POST WRAPPER -->
+</div>
+</div>
+</div>
+</div>
+
+</section>
+<style type="text/css">
+  .displayNone{
+    display: none;
+  }
+</style>

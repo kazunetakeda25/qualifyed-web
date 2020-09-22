@@ -1,0 +1,85 @@
+<app-profileheader></app-profileheader>
+
+<div>
+
+    <div class="contact-us">
+
+
+     <section class="information">
+        <div class="wrap">
+             <div class="row">
+                <!-- <p>Hey, welcome!</p> -->
+                <h3>Contact Us</h3>
+             </div>
+             <!--END OF WRAP -->
+         </div>
+         <!--END OF WRAP --> 
+     </section> 
+    <!--END OF INFORMATION -->
+
+    <section class="contactController">
+         <form [formGroup]="contact" (ngSubmit)="onSubmitContact()" class="input-form">
+       <div class="innerWrap">
+           <div class="wrap">
+              <div class="row">
+                          
+
+                          <p><i class="fa fa-asterisk" aria-hidden="true"></i> indicates required fields</p>
+                           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item" >
+                                       <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                       <label for="username">Email Address:</label>
+                                       <input *ngIf="set_disable == 0" class="form-styling" type="text" name="username" formControlName="fromemail" placeholder="Enter email address" [ngClass]="{ 'is-invalid': submitted && f.fromemail.errors }"/>
+                                       <input *ngIf="set_disable == 1" readonly="" class="form-styling" type="text" name="username" formControlName="fromemail" placeholder="Enter email address" [ngClass]="{ 'is-invalid': submitted && f.fromemail.errors }"/>
+                                       <div *ngIf="submitted && f.fromemail.errors" class="invalid-feedback">
+                                    <div *ngIf="f.fromemail.errors.required">Email is required</div>
+                                    <div *ngIf="f.fromemail.errors.email">Email must be a valid email address</div>
+                                 </div>
+                           </div>
+                           <!--END OF FORM-ITEM -->
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item" >
+                                       <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                       <label for="username">Reason You Are Contacting Us:</label>
+                                        <select formControlName="reason" [ngClass]="{ 'is-invalid': submitted && f.reason.errors }">
+                                     <option selected="" disabled="" value="">Select Reason</option>
+                                       <option   *ngFor="let data of reason;" value={{data.id}}>{{data.reason}}</option>
+                                        </select> 
+                                        <div *ngIf="submitted && f.reason.errors" class="invalid-feedback ">
+                                    <div *ngIf="f.reason.errors.required">Reason is required</div>
+                                 </div>
+                           </div>
+                           <!--END OF FORM-ITEM -->
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-item">
+                                       <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                       <label for="username">Tell Us About It:</label>
+                                       <textarea name="your-message" cols="4" rows="6" class="full-name" aria-invalid="false" placeholder="In 300 words or less, tell us why you are contacting us today" maxlength="300" formControlName="about" [ngClass]="{ 'is-invalid': submitted && f.about.errors }"></textarea>
+                                       <div *ngIf="submitted && f.about.errors" class="invalid-feedback ">
+                                    <div *ngIf="f.about.errors.required">Field  is required</div>
+                                 </div>
+                           </div>
+                           <!--END OF FORM-ITEM -->
+                           <div class="sendBtn">
+                                <div >
+                                    <!-- <a href="forgot.html" class="">  
+                                       <span>
+                                            Send Message
+                                        </span>
+                                     </a> -->
+                                     <button class="referenceBtn" type="submit">Send Message</button>
+                                 </div>
+                       </div>
+                    <!--END OF SENDBTN -->
+              </div>
+              <!--END OF ROW -->
+           </div>
+          <!--END OF INNERWRAP -->
+       </div>
+      <!--END OF INNERWRAP -->
+                        </form>
+
+    </section>
+   <!--END OF CONTACTCONTROLLER -->
+ </div>
+<!--END OF CREATE-ACCOUNT -->
+
+
+</div>

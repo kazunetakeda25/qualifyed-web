@@ -1,0 +1,106 @@
+<app-header></app-header>
+<div id="loder_main" *ngIf="showLoader == true"><div id="loader_view" ></div></div>
+
+<div class="PolicytopHeader">
+<div class="innerWrap">
+  <h3>HELP CENTER</h3>
+<h4><span *ngIf="fname != undefined">Hi {{fname}}, </span> We're here to help.</h4>
+  <!-- <input type="text" placeholder="Search Qualifyed Help">[(ngModel)]="name" -->
+  <input class="search-input" type="search" #box (keyup.enter)="onEnter(box.value, $event)" placeholder="Search Qualifyed Help"  autocomplete="off" name="searchText">
+
+       <button class="button search-button" (click)="onEnter(box.value, $event)" type="button"><span class="icon ion-search"><i class="fa fa-search"></i></span></button>
+  
+
+</div>
+
+</div>
+<section class="policySection">
+<div class="innerWrap">
+  <div class="container-fluid">
+     <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+           <h3>Welcome to <b>Qualifyed</b> help center</h3>
+        </div>
+       
+     </div>
+    
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-3 col-sm-12 col-xs-12">
+        <ul class="list-group" class="leftUl" *ngFor="let s of mail_category;let i=index">
+          <li  class="list-group-item"   *ngIf="s.category_count > 0"><p (click)="expandLi(s.id,i)">{{s.title}}<span (click)="expandLi(s.id,i)"><i class="{{(i+1) == currentId ? 'fa fa-angle-up' : 'fa fa-angle-down'}}" aria-hidden="true"></i></span> </p>
+          <ul  id="show_list{{i+1}}" class="second_ul displayNone">
+            <li class="allLinkSubCat" id="highlite_{{i}}" *ngFor="let sub of sub_category;let i=index;" (click)="get_ques(sub.parent_id,sub.id,i)">{{sub.title}}</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    
+    <div class="col-lg-7 col-sm-12 col-xs-12">
+       
+      <ul class="list-group" >
+        <li class="list-group-item" *ngFor="let que of question;let in = index">
+          <p class="help_question" >{{que.question}}
+            <span class="pull-right">
+              <i id="help_plus" (click)="open_ans(in)" class="{{currentQuestion == in+1 ? 'fa fa-minus' : 'fa fa-plus'}}" aria-hidden="true"></i>
+            </span>
+          </p>
+          <p id="open_ans{{in+1}}" class="displayNone anwerP">{{que.answer}}</p>
+      </li>
+    </ul>
+    <p *ngIf="len_ques == 0 || filter_len == 0 || serach_result == null"><b>Sorry for inconvenience</b>, there is no question found related to selected category or search data, you can send your feedback or queries to us <a href="/contact-us">Contact us <i class="fa fa-external-link" aria-hidden="true"></i></a></p>
+     <ul *ngIf="serach_result != null || serach_result != '' || serach_result != undefined" class="list-group" >
+        <li class="list-group-item" *ngFor="let que of serach_result;let i=index">
+          <p  class="help_question">{{que.question}}
+            <span class="pull-right">
+              <i (click)="open_ans(i)" class="{{currentQuestion == i+1 ? 'fa fa-minus' : 'fa fa-plus'}}" aria-hidden="true"></i>
+            </span>
+          </p>
+          <p id="open_ans{{i+1}}" class="displayNone anwerP">{{que.answer}}</p>
+      </li>
+    </ul>
+  </div>
+</div>
+</div>
+</div>
+</section>
+<style type="text/css">
+.leftUl li{
+display: block;
+width: 230PX;
+padding: 8px 16px;
+border-bottom: 1px solid #ddd;
+}
+.leftUl li span{
+float : right;
+}
+.second_ul li {
+margin: 5px;
+border:none !important;
+width: 192px !important;
+}
+.displayNone{display: none;}
+.define{
+max-width: 800px;
+border: 1px solid;
+border-color: green;
+}
+.anwerP{
+font-size: 14px;
+padding: 0px 20px;
+}
+p.help_question {
+font-weight: 600;
+padding: 10px 0px;
+}
+.highlite{
+  font-weight: 600;
+}
+.my{
+  color: #1761a0;
+}
+</style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>

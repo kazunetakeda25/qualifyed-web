@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>careerqualifyed</title>
+<link href="https://www.successagency.com/di/coming-soon-demo/times-a-wastin-5/tools/style.css" rel="stylesheet" type="text/css" media="screen" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<script type="text/javascript" src="https://www.successagency.com/di/coming-soon-demo/times-a-wastin-5/tools/jquery.min.js"></script> 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script> 
+<link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:700|Roboto+Slab:700' rel='stylesheet' type='text/css'>
+<meta name="viewport" content="width=device-width, initial-scale = 1.0, user-scalable = no">
+
+
+</head>
+<body>
+<div class="wrapper">
+	<div class="left-section"><img src="https://www.successagency.com/di/coming-soon-demo/times-a-wastin-5/images/watch.png" /></div>
+	<div class="right-section">
+		<h1 id="logo">careerqualifyed</h1>
+		<div class="seprator"></div>
+		<div class="main-content">
+			<h2>Our Website is coming soon</h2>
+			
+		</div>
+	</div>
+	<div class="watch-section"><img src="https://www.successagency.com/di/coming-soon-demo/times-a-wastin-5/images/watch.png" /></div>
+</div>
+
+
+</body>
+</html>

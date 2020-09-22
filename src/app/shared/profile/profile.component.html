@@ -1,0 +1,1428 @@
+<app-header></app-header>
+<div *ngIf="usertype == 1" >
+<section class="profileTophead businessTopbg newbusinessTopbg" >
+  <div class="bg-wrap" *ngFor="let data of data">
+    <div class="bg-white-wrapper">
+      <div class="wrap">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="flexWrapper"    style="cursor: pointer;" >
+              <div (click)="open_main()" class="profileLogo" *ngIf="file_status == true">
+                <img src="{{media_url}}/uploads/images/{{data.profile_pic_name}}">
+              </div>
+              <div (click)="open_main()" class="profileLogo" *ngIf="file_status == false;">
+                <img src="{{media_url}}/uploads/images/avatar.png">
+              </div>
+              <div class="profiledetail">
+                <p class="name" *ngIf="is_show_lname == 7"  (click)="open_main()"  style="cursor: pointer;"> <b>{{showLastName|titlecase}}</b></p>
+                <p class="name" *ngIf="is_show_lname == 1"  (click)="open_main()"  style="cursor: pointer;"><b> {{data.name|titlecase}} </b> </p>
+                <p *ngIf="is_show_connections == 1" class="content">
+                <i style="width: 32px;padding-right: 10px;" class="fa fa-briefcase"></i>{{data.industry_name}} </p>
+                <p *ngIf="is_show_connections == 1" class="content">
+                  <i style="width: 32px;padding-right: 10px;" class="fa fa-users"></i>
+                  <!-- <span><a routerLink="view-connection">Connections  {{conn_count}} </a></span> -->
+                  <span><a (click)="show_connection_msg()" *ngIf="conn_count == 0 || set_connection == 0 || friendStatus != 1"  >Connections  {{conn_count}} </a></span>
+                  <span><a  *ngIf="conn_count > 0 && friendStatus == 1" (click)="show_connectionn()">Connections  {{conn_count}} </a></span>
+                </p>
+                
+                <div class="icoBox">
+                  <ul>
+                    <li *ngIf="virtual_status_user != 0 && usertype !=mycheck"><a><abbr title="Virtual Work"><img src="assets/images/liveChat_img.png"></abbr></a></li>
+                    <li *ngIf="virtual_status_user == 0 && usertype !=mycheck"><a><abbr title="You are not enggaged with this user"><img src="assets/images/liveChat_img.png"></abbr></a></li>
+                  </ul>
+                </div>
+                
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /END OF ROW/ -->
+    </div>
+    <!-- /END OF WRAP/ -->
+  </div>
+  <!-- /END OF BG WRAP/ -->
+  <div class="bg-wrap-white profile_section">
+    <div class="bg-white-wrapper">
+      <div class="wrap">
+        <div class="" *ngFor="let data of data">
+          <div class="flexWrapper">
+            <div class="row">
+              <div class="col-lg-8 col-md-6 col-sm-12 col-xs-12 text-left">
+                
+              </div>
+              <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 text-right">
+                <div   class=" {{ friendStatus == 1  ?  'bussinessblog' : 'bussinessblog' }}   "  >
+                  <i class="fa fa-check" *ngIf="friendStatus == 1"></i>
+                  <p *ngIf="friendStatus == 1" class="blogname">Connected</p>
+                  <p *ngIf="friendStatus != 1" class="blogname text-center">More</p>
+                  <i *ngIf="show1 == 0 "  class="fa fa-ellipsis-h bots-box" aria-hidden="true" (click)="showdiv()"></i>
+                  <i *ngIf="show1 == 1" class="fa fa-ellipsis-h bots-box" aria-hidden="true" (click)="hidediv()"></i>
+                  <div class="user-dropdown"   *ngIf="show1 == 1">
+                    <ul>
+                      <li *ngIf="friendStatus == 1"><a (click)="unfriend()"><i class="fa fa-times" ></i> Remove connection</a></li>
+                      <li ><a (click)="reportAbouse(con_id,1)"><i class="fa fa-flag" aria-hidden="true"></i> Report Abuse</a></li>
+                      
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /END OF ROW/ -->
+    </div>
+    <!-- /END OF WRAP/ -->
+    <div class="wrap">
+      <div class="">
+        <div class="flexWrapper">
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+              <!-- (clickElsewhere)="closeModalFunction()" (clickOff)="closeModalFunction()" -->
+              <!-- START TAB SECTION -->
+              <div class="tab-controller" *ngFor="let data of data">
+                <ul class="tabs" *ngIf="data.user_type == 1 && myLoginId != con_id ">
+                  <li class="tab-link " data-tab="tab-1" (click)="videoPop()">View Bio Video</li>
+                  <li *ngIf="is_show_message == 3 && mycheck == 1" class="tab-link" data-tab="tab-2" (click)="checkRoom(data.loginid)">Message </li>
+                  <li *ngIf="is_show_message == 2 && mycheck == 2" class="tab-link" data-tab="tab-2" (click)="checkRoom(data.loginid)">Message </li>
+                  <li *ngIf="is_show_message == 4 " class="tab-link" data-tab="tab-2" (click)="checkRoom(data.loginid)">Message </li>
+                  <li *ngIf="is_show_message == 0 && hide_message == 0 " class="tab-link" data-tab="tab-2" (click)="checkRoom(data.loginid)">Message </li>
+                  <li *ngIf="hide_opp == 0" (click)="myFunction1()"  class="tab-link" data-tab="tab-3">View Opportunities </li>
+                  <li class=" tab-link" *ngIf="friendStatus == 4 || friendStatus == 3 || friendStatus == undefined " (click)="Request(data.loginid)">Send Connection Request  </li>
+                  <li class="tab-link" *ngIf="check_accept_status != myLoginId && friendStatus == 2 " (click)=" acceptRequest(data.loginid)" > Accept </li>
+                  <li class="tab-link" *ngIf="friendStatus == 2  " (click)="cancel_reuest_api_v2(data.loginid)"> Cancel Request </li>
+                </ul>
+                <ul class="tabs" *ngIf="data.user_type == 1 && myLoginId == con_id">
+                  <li class="tab-link " data-tab="tab-1" (click)="videoPop()">View Bio Video</li>
+                  <li *ngIf="hide_opp == 0" (click)="myFunction1()"  class="tab-link" data-tab="tab-3">View Opportunities </li>
+                  
+                </ul>
+              </div>
+              <!-- END TAB SECTION -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /END OF BG WRAP/ -->
+</section>
+<div *ngIf="show_connection == 0">
+  <section class="businessInfoContainer business-profile-new-container">
+    <div class="innerWrap">
+      <div class="innerPadding">
+        <div class="wrap">
+          <div class="row">
+            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+              
+              <!-- /END OF ICO BOX/ -->
+              <div class="infoContent" *ngFor="let data of data">
+                <h5 class="txtBlue"><i class="fa fa-file-text" aria-hidden="true"></i>  Bio</h5>
+                <p>{{data.description |titlecase}}</p>
+                <ul class="allDetailList">
+                  <li><i class="fa fa-globe" aria-hidden="true"></i> <span>Website:</span> &nbsp;<a href="{{data.website}}" target="_blank"> {{data.website}}</a>  </li>
+                  <li><i class="fas fa-building"></i> <span>Industry:</span> {{data.industry_name}}</li>
+                  <li><i class="fa fa-users" aria-hidden="true"></i> <span>Company Size:</span> {{data.company_size}}  employees</li>
+                  <li><i class="fas fa-city"></i> <span>Headquarters:</span> {{data.location |titlecase}}</li>
+                  <li><i class="fas fa-id-card"></i> <span>Type:</span>  {{data.company_type}} </li>
+                  <li><i class="fas fa-file-archive"></i> <span>Founded:</span>  {{data.date |   date: 'yyyy' }}</li>
+                </ul>
+              </div>
+              <!-- /END OF INFO CONTENT/ -->
+              <div class="personalInfobox" *ngFor="let data of data">
+                <div class="contentWrap">
+                  <h5 class="txtBlue"><i class="fas fa-user-circle"></i> Personal Information</h5>
+                  <ul>
+                    <li><i class="fas fa-building"></i> <span>City:</span> {{data.city |titlecase}} </li>
+                    <li><i class="fas fa-industry"></i> <span>State:</span> {{data.state_name}} </li>
+                    <li><i class="fas fa-map-pin"></i> <span>Zip Code:</span> {{data.zipcode}} </li>
+                    <li><i class="fa fa-map-signs" aria-hidden="true"></i>  <span>Address:</span> {{data.addressline1 |titlecase}} , {{data.addressline2 |titlecase}}, {{data.city |titlecase}},{{data.state_name}}</li>
+                    <li *ngIf="is_show_email == 1"><i class="fas fa-envelope-open"></i> <span>Email:</span>  {{data.email}}</li>
+                    <li  *ngIf="is_show_phone == 1"><i class="fa fa-phone" aria-hidden="true"></i> <span>Phone:</span> {{data.phone}}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+              <div *ngIf="postdata != '' ">
+                <div  class="postWrapper" *ngFor="let post of postData;let i=index;" id="post_{{i}}">
+                  <div class="postHead">
+                    <ul>
+                      <li>
+                        <!-- <div class="inlineFlexBox" *ngFor="let data of data">
+                          <div class="logoImg">
+                            <img src="./assets/uploads/images/{{data.profile_pic_name}}">
+                          </div>
+                          <div class="title">
+                            
+                            <p class="name" *ngIf="is_show_lname == 7"> {{showLastName|titlecase}} </p>
+                            <p class="name" *ngIf="is_show_lname == 1"> {{data.name|titlecase}} </p>
+                            <p class="subHead">{{data.industry_name}} · {{data.addressline1}}, {{data.city |titlecase}}</p>
+                          </div>
+                        </div> -->
+                        <div class="inlineFlexBox"  *ngIf="! post.userDisplayData" >
+                          <img class="logoImg" *ngIf="file_status == false"  src="{{media_url}}/uploads/images/avatar.png">
+                          <img  class="logoImg" *ngIf="file_status == true"  src="{{media_url}}/uploads/images/{{img}}">
+                          <div class="title" >
+                            <p  class="userTitle"  >{{myname}}</p>
+                            <!--  <a *ngIf="myLoginId != post.user_login_id" routerLink="/view_profile/post.user_login_id" class="userTitle"  >{{myname}}</a> -->
+                            <!--  <p class="subHead" class="userTitle"  >{{mydemo}}</p> -->
+                          </div>
+                        </div>
+                        <div class="inlineFlexBox" *ngIf="post.userDisplayData">
+                          <img class="logoImg" *ngIf="file_status == false"  src="{{media_url}}/uploads/images/avatar.png">
+                          <img  class="logoImg" *ngIf="file_status == true" src="{{media_url}}/uploads/images/{{post.userDisplayData.profile_picture}}">
+                          <div class="title" >
+                            <p class="userTitle" >{{post.userDisplayData.user_name}}</p>
+                            <!-- <p class="subHead">{{name.userDisplayData.first_display}} · {{name.userDisplayData.country_name}}, {{name.userDisplayData.state_name}}</p> -->
+                          </div>
+                        </div>
+                      </li>
+                      <li class="postTime">
+                        <p>{{post.created_date}}</p>
+                      </li>
+                    </ul>
+                  </div>
+                  <!-- /END OF POST HEAD/ -->
+                  <div class="postContent" >
+                    <!-- <p>{{post.post}}</p>
+                    <div class="postImg" *ngIf="post.type == 1 && post.picname != '' && post.media_id != '' " > <img src="{{media_url}}/createpost/images/{{post.picname}}" >
+                    </div>
+                    <div *ngIf="post.type == 2 && post.picname != '' && post.media_id != '' ">
+                      <video width="320" height="240" controls  loop>
+                        <source src="{{media_url}}/createpost/video/{{post.picname}}" type="video/mp4">
+                      </video>
+                    </div> -->
+                    <!-- <div *ngIf="!post.parent_data"> -->
+                    <div>
+                      
+                      
+                      <!-- <p *ngIf="post.opp_id == 0 || post.parent_id !=0">{{post.post}}</p> -->
+                       <p *ngIf="post.opp_id == 0 || post.parent_id !=0" [innerHTML]="post.post"></p>
+                      <p *ngIf="post.opp_id != 0 && post.parent_id ==0" >I'm looking for {{post.post}} <a  class="text_align_right" routerLink="/opportunities_detail/{{post.opp_id}}">...see more</a></p>                      <div class="postImg" *ngIf="post.type == 1 && post.picname != '' && post.media_id != '' " > <img src="{{media_url}}/createpost/images/{{post.picname}}" >
+                    </div>
+                    <div *ngIf="post.type == 2 && post.picname != '' && post.media_id != '' ">
+                      <video width="320" height="240" controls  loop>
+                        <source src="{{media_url}}/createpost/video/{{post.picname}}" type="video/mp4">
+                      </video>
+                    </div>
+                  </div>
+                  <div *ngIf="post.parent_data">
+                    
+                    <div class="postContent" style="border: 1.5px solid #ddd;">
+                      <div class="inlineFlexBox">
+                        <img class="logoImg" src="{{media_url}}/uploads/images/{{post.parent_data.p_profile}}">
+                        <div class="title">
+                          <p class="userTitle black-text">{{post.parent_data.p_user_name}}</p>
+                          <p class="subHead">Posted on :{{post.parent_data.p_created | date}}</p>
+                        </div>
+                      </div>
+
+                      <p *ngIf="post.parent_data.opp_id == 0">{{post.parent_data.p_post}}</p>
+                      <p *ngIf="post.parent_data.opp_id != 0" >I'm looking for {{post.parent_data.p_post}} <a class="text_align_right" routerLink="/opportunities_detail/{{post.parent_data.opp_id}}">...see more</a></p>
+                      <div class="postImg" *ngIf="post.parent_data.type == 1 && post.parent_data.picname != '' && post.parent_data.media_id != '' " > <img src="{{media_url}}/createpost/images/{{post.parent_data.picname}}" >
+                      </div>
+                      
+                      <div *ngIf="post.parent_data.type == 2 && post.parent_data.picname != '' && post.parent_data.media_id != '' ">
+                        <video width="320" height="240" controls  loop>
+                          <source src="{{media_url}}/createpost/video/{{post.parent_data.picname}}" type="video/mp4">
+                        </video>
+                      </div>
+                    </div>
+                    
+                  </div>
+                  <div class="actionElements">
+                    <ul>
+                      <li>
+                        <i style="cursor: pointer;" *ngIf="post.like_status == false" (click)="likefunction(post.id, $event.target,i);likeNotification(post.user_login_id,$event.target)" class="far fa-heart"></i>
+                        <i style="cursor: pointer;" *ngIf="post.like_status == true" (click)="likefunction(post.id,$event.target,i);likeNotification(post.user_login_id,$event.target)" class="fas fa-heart"></i>
+                        <span id="C_{{i}}">&nbsp;{{post.count}} &nbsp;</span>
+                      </li>
+                      <!--  <li class="showToggle" style="cursor: pointer;" (click)="showToggle(post.id)">
+                        <span (click)="getComment(post.id)"><i class="fab fa-rocketchat"></i></span>
+                        <span (click)="getComment(post.id)">&nbsp;{{post.comment_count}} &nbsp;</span>
+                      </li> -->
+                      <li  class="showToggle" style="cursor: pointer;" (click)="showToggleV2(post.id,i)">
+                        <span (click)="getComment(post.id)"><i class="fab fa-rocketchat"></i></span>
+                        <span >&nbsp;{{post.comment_count_post}} &nbsp;</span>
+                      </li>
+                      <!--  <li *ngIf="show == 1" class="showToggle" style="cursor: pointer;" (click)="showToggle1(post.id)">
+                        <span><i class="fab fa-rocketchat"></i></span>
+                        <span >&nbsp;{{post.comment_count}} &nbsp;</span>
+                      </li> -->
+                      <li>
+                        <!-- <span><i class="fas fa-share-square"></i></span>
+                        <span>0</span> -->
+                        <!-- <span (click)="myFunction2(post.id)" ><i class="fas fa-share-square"></i></span> -->
+                        <span (click)="myFunction2(post.id)" *ngIf="post.parent_id ==0 && post.parent_data && post.post != '' && post.post != null && post.post != undefined "><i class="fas fa-share-square"></i></span>
+                        <span (click)="myFunction2(post.id)"><i class="fas fa-share-square" *ngIf="! post.parent_data"></i></span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <!-- /END OF POST CONTENT/ -->
+                <div >
+                  <div  id="commentOpener_{{i}}" class="displayNone ">
+                    <form [formGroup]="commentForm" (ngSubmit)="Comment(post.id,i)" >
+                      <div class="commentBox" >
+                        <!--  <div *ngFor="let comments of commentAll" style="display: none;" class="{{post.id}}">
+                          -->
+                          <div *ngFor="let comments of allcomment;let i = index;"  class="{{post.id}}">
+                            <div *ngIf="comments.entity_id == post.id" class="shwComments"  >
+                              <div class="commentItems">
+                                <div class="userThumb " *ngFor="let img of data">
+                                  <img class="logoImg" *ngIf="file_status == false"  src="{{media_url}}/uploads/images/avatar.png">
+                                  <img class="logoImg" *ngIf="file_status == true" src="./assets/uploads/images/{{comments.profile_pic}}" >
+                                </div>
+                                <div class="flexWrapper">
+                                  <div class="userDetail" *ngFor="let data of data">
+                                    <!-- <p class="name" >{{data.name}}</p> -->
+                                    <p *ngIf="is_show_lname == 1" class="name" >{{comments.name}}</p>
+                                    <p class="name" *ngIf="is_show_lname == 3">{{comments.name}}</p>
+                                    <p class="name" *ngIf="is_show_lname == 7">{{comments.name}}</p>
+                                    <p class="postName">{{data.industry_name}}</p>
+                                    <p class="postedComments" >{{comments.comment}}</p>
+                                    <div *ngIf="comments.media_id != 0 && comments.video_name == null " class="bussiness_upload_img_comment">
+                                      <img  src="{{media_url}}/createpost/images/{{comments.image_name}}"  alt="">
+                                    </div>
+                                    <div *ngIf="comments.media_id != 0 && comments.image_name == null" class="bussiness_upload_vid_comment">
+                                      <video  width="340" controls>
+                                        <source src="{{media_url}}/createpost/video/{{comments.video_name}}" >
+                                        
+                                      </video>
+                                    </div>
+                                  </div>
+                                  <div class="commentDetails">
+                                    <div class="innerwrap">
+                                      <span class="timeClass" *ngIf="comments.entity_id == post.id">{{comments.created_date}}</span>
+                                      <!--  <span class="reportUser" (click)="reportFunction() "><i class="fa fa-ellipsis-h" aria-hidden="true"></i></span> -->
+                                    </div>
+                                  </div>
+                                  <!-- <div id="reportBox" class="reportDropdown">
+                                    <ul>
+                                      <li><a href=""><i class="fa fa-flag" aria-hidden="true"></i> Report</a></li>
+                                      <li><a href=""><i class="fa fa-link" aria-hidden="true"></i> Copy link to Comment</a></li>
+                                    </ul>
+                                  </div> -->
+                                </div>
+                              </div>
+                              <div class="postContent">
+                                <div class="comment_like_contain">
+                                  <span>
+                                    <i style="cursor: pointer;" *ngIf="comments.saved_status == 0 " (click)="likeOnComment(comments.id,post.id);like_reply_noti(comments.user_login_id,comments.saved_status)" class="far fa-heart" ></i>
+                                    <i style="cursor: pointer;" *ngIf="comments.saved_status == 1" (click)="likeOnComment(comments.id,post.id)" class="fas fa-heart"></i>
+                                  </span>
+                                  <!-- id="C_{{i}}" -->
+                                  <span >&nbsp;{{comments.comment_count}} &nbsp;</span>
+                                  
+                                  <a style="    margin-left: 16px;" (click)="showCommOnComm(i)"><i class="fa fa-comment"></i> {{comments.subcoment_count}}</a>
+                                </div>
+                              </div>
+                              <!-- <a (click)="showCommOnComm(i)">reply</a> -->
+                              <div class="reply_on_comment">
+                                <div class="comment_send_sectoin" >
+                                  
+                                  <div class="commentItems" *ngFor="let s of comments.subcoment;let i=index;">
+                                    <div class="userThumb " >
+                                      <img class="logoImg" *ngIf="file_status == false"  src="{{media_url}}/uploads/images/avatar.png">
+                                      <img class="logoImg" *ngIf="file_status == true" src="{{media_url}}/uploads/images/{{s.profile_pic}}" >
+                                    </div>
+                                    <div class="flexWrapper" >
+                                      
+                                      <div class="userDetail" >
+                                        <p class="name" style="width: 150px;">{{s.name}}</p>
+                                        
+                                      </div>
+                                      <div class="commentDetails">
+                                        <div class="innerwrap">
+                                          <!-- *ngIf="comments.entity_id == name.id" -->
+                                          <span class="timeClass" >{{s.created_date}}</span>
+                                        </div>
+                                      </div>
+                                      <p class="postedComments" >{{s.comment}}</p>
+                                    </div>
+                                  </div>
+                                  <div class="moreBtnParentDiv">
+                                    <span *ngIf="comments.subcoment_count  > 5 " class="business-show-btn" style="cursor: pointer;width: 20%;background: #1760a0;border: none;color: #fff;font-weight: 600; padding: 10px;margin-top: 10px;" (click)="load_more_comment_reply(comments.id)">More</span>
+                                  </div>
+                                </div>
+                                <div class="header_option">
+                                </div>
+                                <div class="inner_con closeReply displayNone" id="reply_{{i}}" >
+                                  <div class="reply_form" >
+                                    <form [formGroup]="commentReplyForm" (ngSubmit)="CommentReply(comments.id,post.id)">
+                                      <textarea (keypress)="openReplyPost()" formControlName="commentreply" placeholder="Add a reply..."></textarea>
+                                      
+                                      <button *ngIf="reply_post == 1" type="submit" (click)="comment_reply_noti(post.user_login_id)">Reply</button>
+                                    </form>
+                                  </div>
+                                </div>
+                                <!-- inner_con -->
+                              </div>
+                              <!-- reply_on_comment -->
+                            </div>
+                          </div>
+                          <div class="viewMoreBtn">
+                            <span class="viewbt button_style_01" *ngIf="post.comment_count_post > (lowerlimit+5)"
+                              (click)="showmoreComment(post.id)"><span >See more</span></span>
+                            </div>
+                            <div class="inputController comment_upload_con">
+                              <textarea (keypress)="show_comment_post_btnn()" formControlName="comment" placeholder="Add comment"></textarea>
+                              <div class="icoBox">
+                                <ul>
+                                  <li>
+                                    <div class="fileUpload">
+                                      <input accept="image/*" (change)="image_upload_comment($event,i)" class="file_multi_image file_multi_image_comment" formcontrolname="postImage" name="" type="file">
+                                      <img src="assets/images/camera.png">
+                                    </div>
+                                  </li>
+                                  <li>
+                                    <div class="fileUpload videoUpload">
+                                      <input accept=".HEVC,H.264,.MPEG-4,.m4v,.mov,video/*" class="file_multi_video file_multi_video_comment" (change)="video_upload_comment($event,i)" formcontrolname="postVideo" name="" type="file">
+                                      <img  src="assets/images/video.png">
+                                    </div>
+                                  </li>
+                                </ul>
+                              </div>
+                              <div class="imgUploadContainer displayNone" id="commentOpener1_comment{{i}}" style="width: 50%;">
+                                <!--*ngIf="showNotification"  -->
+                                <div   class="image_scroll" ><img id="blah" [src]="imageSrc" alt="your image"></div>
+                                <img class="thumb-ico" src="assets/images/close.svg" style=""   (click)="onCloseClick()" title="Remove image">
+                                <!-- <div *ngIf="hasImage == 1" class="edit_file">
+                                  <input type="file" id="postImage"  name="file[]" (change)="image()" class="file_multi_image thumb-input flIcon" accept="image/*" title="Change image" formControlName="postImage" style=""  *ngIf="hasImage == 1">
+                                </div> -->
+                                
+                              </div>
+                              <div class="imgUploadContainer displayNone" id="commentOpener1_comment_video{{i}}" style="width: 50%;">
+                                
+                                <img class="thumb-ico" src="assets/images/close.svg"  style=""  (click)="onCloseClick()" title="Remove video" >
+                                <div *ngIf=" hasVideo ==1" class="edit_file">
+                                  <input   type="file" id="postVideo" accept='video/*' name="file[]" (change)="video()" class="file_multi_video thumb-input flIcon"   *ngIf=" hasVideo ==1"  formControlName="postVideo"    name="" style="" title="Change video">
+                                </div>
+                                <!-- <div class="video_con" >
+                                  <video  controls >
+                                    <source id="video_here_video" src="mov_bbb.mp4" >
+                                    Your browser does not support HTML5 video.
+                                  </video>
+                                </div> -->
+                                <video width="400" controls>
+                                  <source src="mov_bbb.mp4" id="video_here_video{{i}}">
+                                  Your browser does not support HTML5 video.
+                                </video>
+                              </div>
+                            </div>
+                            <div class="inputSubmitter">
+                              <!-- <button type="submit"  (click)="comment_notification(post.user_login_id)">Post</button> -->
+                              <button type="submit" class="viewbt button_style_01" (click)="comment_notification(post.user_login_id)"><span>Post</span></button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div > <a href="" (click)="loadMore()" *ngIf="getCount > 0">SHOW MORE ({{getCount}})</a></div> -->
+                  <a  class="show-more-btn" (click)="loadMorePost()" *ngIf="getCount > 0 && hide_post_load != 0 ">SHOW MORE ({{getCount}})</a>
+                </div>
+                <div *ngIf="postdata == ''">
+                  <p>Not posted any post yet</p>
+                </div>
+                <!-- /END OF POST WRAPPER/ -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="dev == 1">
+        <form [formGroup]="createPost" (ngSubmit)="onSubmitPost()">
+          <div id="postModal" class="createPostModal">
+            <div class="modalInner">
+              <div class="modalHead">
+                <a (click)="closeModalFunction()" href="javascript:void(0)" class="closeIcon">X</a>
+              </div>
+              <div class="modalBody">
+                <img class="userProfile ac_c" src="{{media_url}}/uploads/images/{{img}}">
+                <!-- SELECT ITEMS -->
+                <input type="text" type="hidden" formControlName="parentId" value="{{postUserData.id}}">
+                <div class="selectItems" >
+                  <select name="post_privacy" formControlName="privacy">
+                    <option value="1" selected=""> Public</option>
+                    <option value="2">Private only</option>
+                    <option value="3">Connection</option>
+                  </select>
+                </div>
+                <!-- SELECT ITEMS -->
+                <!-- TEXTAREA -->
+                <div class="textareaPopup">
+                  <textarea  formControlName="postName" name="your-message"  class="full-name" aria-invalid="false" id="textMe" placeholder="Say something about this shared content?"></textarea>
+                  <div class="div2">
+                    <img class="logoImg acc_2" *ngIf="file_status == false"  src="{{media_url}}/uploads/images/avatar.png">
+                    <img class="logoImg acc_2" *ngIf="file_status == true" src="{{media_url}}/uploads/images/{{postUserData.profile_picture}}">
+                    <div class="title" >
+                      <p class="userTitle">{{postUserData.pro_name}}</p>
+                      <p class="subHead"></p>
+                    </div>
+                    <div class="postContent">
+                      <p class="postPara">{{postUserData.post}}</p>
+                      <div class="postImg" *ngIf="postUserData.type == 1 && postUserData.picname != '' && postUserData.media_id != '' " > <img src="{{media_url}}/createpost/images/{{postUserData.picname}}" >
+                      </div>
+                      <div *ngIf="postUserData.type == 2 && postUserData.picname != '' && postUserData.media_id != '' ">
+                        <video width="100%" height="240" controls>
+                          <source src="{{media_url}}/createpost/video/{{postUserData.picname}}" type="video/mp4">
+                        </video>
+                      </div>
+                      <div *ngIf="postUserData.type == 3 && postUserData.picname != '' && postUserData.media_id != '' ">
+                        Document
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="attachflexWrapper">
+                  <div class="post-btn">
+                    <button class="postBtn" (click)="closeFun()">Post</button>
+                  </div>
+                </div>
+                <!-- ATTACH ITEMS -->
+              </div>
+            </div>
+            <div id="postOver" class="postOverlay"></div>
+          </div>
+        </form>
+      </div>
+      <div id="postModalOpp" class="createPostModal opportunities-all" >
+        <div class="modalInner">
+          <div class="modalHead">
+            
+            <!-- <a  (click)="closeModalFunction()" href="javascript:void(0)" class="closeIcon">X</a> -->
+            <p style="text-align: center;padding-top: 10px;color: white;margin: 0;"> Send  Interview Request to Following Opportunities</p>
+            <a style="position: absolute;top: 0;z-index: 1;right: 11px;" (click)="closeModalFunction()" href="javascript:void(0)" class="closeIcon">X</a>
+          </div>
+          <div class="modalBody">
+            <h5 *ngIf="show_msg_opp != 1" style="color: #0473af;margin-bottom: 20px;">Opportunities</h5>
+            <section class="opportunities-user" >
+              <div class="innerWrap oppotunityInterview">
+                <div class="wrap tabbing_section">
+                  
+                  <div id="ac_T" class="row tabbing_content active_tab_content">
+                    <p style="margin-left:320px;" *ngIf="show_msg_opp == 1">Sorry,  no opportunity found,Please try again.</p>
+                    <div *ngFor="let acOpp of activeOpp" class="col-lg-4 col-md-4 col-sm-6 col-xs-12 business">
+                      <div class="profileBlog">
+                        <div class="profile-innerBlog" >
+                          <a *ngIf="acOpp.saved_status == 0" class="{{opdata.indexOf(acOpp.id) != -1 ? 'displayNone' : 'bookmark_job'}}" (click)="saveOpportunity(acOpp.id)"><i class="fa fa-bookmark"></i></a>
+                          <a *ngIf="acOpp.saved_status == 1 " class="{{opdata.indexOf(acOpp.id) != -1 ? 'displayNone' : 'bookmark_job checked'}}"><i class="fa fa-bookmark" (click)="unsaveOpportunity(acOpp.id)"></i></a>
+                          <div class="imgBlog">
+                            <!-- <img src="assets/images/opportunity-mg.png"> -->
+                            <p class="color_ico {{acOpp.class}}" routerLink="/opportunities_detail/{{acOpp.id}}">{{acOpp.abbrivation | uppercase}}</p>
+                          </div>
+                          <div class="studiesBlog">
+                            <h3 routerLink="/opportunities_detail/{{acOpp.id}}">{{acOpp.title}}</h3>
+                            <!-- <p>{{acOpp.description}}</p> -->
+                            <p routerLink="/opportunities_detail/{{acOpp.id}}">Skills Required : {{acOpp.skills_ids }}</p>
+                          </div>
+                          <span>
+                            <div class="lineBlog"></div>
+                            <!--  <p>Posted : {{acOpp.created_date}}</p> -->
+                          </span>
+                          
+                          <div class="see-allBtn">
+                            <div class="{{opdata.indexOf(acOpp.id) != -1 ? 'displayNone connectBtn' : 'connectBtn'}}">
+                              <div class="msgeff"></div>
+                              <a class="" (click)="applyopp(acOpp.id);appliedNotification(acOpp.title,con_id,acOpp.id)">Send request</a>
+                            </div>
+                            <p align="center" class="{{opdata.indexOf(acOpp.id) == -1 ? 'displayNone' : ''}}">Request already sent</p>
+                          </div>
+                          <!--END OF ALL-REQUESTSBTN -->
+                        </div>
+                        <!--END OF PROFILE-INNERBLOG -->
+                      </div>
+                      <!--END OF PROFILEBLOG -->
+                    </div>
+                    
+                    <!--END OF COL-LG-04 -->
+                    
+                    
+                  </div>
+                  <!-- / tabbing_content END OF ROW/ -->
+                  
+                  <!-- / tabbing_content END OF ROW/ -->
+                  
+                </div>
+                <!--END OF WRAP -->
+              </div>
+            </section>
+          </div>
+        </div>
+        <div id="postOver" class="postOverlay"></div>
+      </div>
+    </section>
+  </div>
+  
+</div>
+<div *ngIf="show_connection == 1 && usertype == 1">
+  
+  <!-- <app-view-connection></app-view-connection> -->
+  <section class="conneciton-businessBlog findConnection">
+    <div class="innerWrap">
+      <div class="wrap">
+        <div class="mainWrapper">
+          <div class="innerWrapper">
+            <div class="connectionTop">
+              <h4>Connections</h4>
+              <!-- <button (click)="open_main()">close</button> -->
+              <i (click)="open_main()" class="fa fa-close"></i>
+              <span class="results" *ngIf="connection_count == 1">{{connection_count}} connection</span>
+              <span class="results" *ngIf="connection_count != 1">{{connection_count}} connections</span>
+            </div>
+            
+            <div class="connectionList">
+              <!-- <div *ngIf ="pagination_count == -2">
+                <p>No  Connections yet</p>
+              </div> -->
+              <ul class="inlineList" *ngFor="let data of finalConnections">
+                <li>
+                  <div class="flexWrapper">
+                    <div class="requestBLog">
+                      <div class="req-mgBlog">
+                        <img *ngIf="data.file_status == false" src="{{media_url}}/uploads/images/avatar.png">
+                        <img *ngIf="data.file_status == true" src="{{media_url}}/uploads/images/{{data.logo}}">
+                      </div>
+                      <a (click)="go_profile(data.userid)">
+                        <div class="request-titlebox">
+                          <h3>{{data.name}}</h3>
+                          <p>{{data.city}} , {{data.state}} , {{data.country}}</p>
+                        </div>
+                      </a>
+                    </div>
+                    <div *ngIf="data.fr_status == false && data.userid != myLoginId" class="acceptBtn">
+                      <div  class="next-btn">
+                        <a  (click)="Request_con(data.userid)" class="">
+                          <span>
+                            Send Connection Request
+                          </span>
+                        </a>
+                      </div>
+                    </div>
+                    <div *ngIf="data.pending_fr_status == 2 && data.userid != myLoginId" class="acceptBtn">
+                      <div>
+                        <p>Connection Request Sent</p>
+                      </div>
+                    </div>
+                    <!--  REQUESTSBLOG -->
+                    
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="viewMoreBtn">
+          <button class="viewbtn" (click)="loadMore_con()" *ngIf="pagination_count > 0">View ({{pagination_count}}) more</button>
+        </div>
+      </div>
+      <!--END OF WRAP -->
+    </div>
+    <!--END OF INNERWRAP -->
+  </section>
+  <!--END OF RESULTSECTION -->
+</div>
+<div *ngIf="usertype == 2">
+  <div>
+    <section class="profileTophead businessTopbg newbusinessTopbg">
+      <div class="bg-wrap" *ngFor="let data of data">
+        <div class="bg-white-wrapper">
+          <div class="wrap">
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="flexWrapper">
+                  <div class="profileLogo"  (click)="open_main()"  style="cursor: pointer;">
+                    
+                    <img *ngIf="file_status == true" src="{{media_url}}/uploads/images/{{data.profile_pic_name}}">
+                    <img *ngIf="file_status == false" src="{{media_url}}/uploads/images/avatar.png">
+                  </div>
+                  <!-- <div class="profiledetail">
+                    <p class="name">QualifyED</p>
+                  </div> -->
+                  <div class="profiledetail">
+                    <p class="name" *ngIf="is_show_lname == 7"  (click)="open_main()"  style="cursor: pointer;"> {{showLastName|titlecase}} </p>
+                    <p class="name" *ngIf="is_show_lname == 1"  (click)="open_main()"  style="cursor: pointer;"> {{data.name|titlecase}} </p>
+                    <!--              <p *ngIf="is_show_connections == 1" class="content">
+                    <i style="width: 32px;padding-right: 10px;" class="fa fa-briefcase"></i>{{data.industry_name}} </p> -->
+                    <p *ngIf="is_show_connections == 1" class="content">
+                      <i style="width: 32px;padding-right: 10px;" class="fa fa-users"></i>
+                      <!-- <span>Connections  {{conn_count}} </span> -->
+                      <span><a (click)="show_connection_msg()" *ngIf="conn_count== 0 || set_connection == 0 || friendStatus != 1"  >Connections  {{conn_count}} </a></span>
+                      <span><a *ngIf="conn_count > 0 && friendStatus == 1" (click)="show_connectionn()">Connections  {{conn_count}} </a></span>
+                    </p>
+                    <div class="icoBox">
+                      <ul>
+                        <li><a (click)="videoPop()"><abbr title="Video Bio"><img src="assets/images/cam_img.png"></abbr></a></li>
+                        <li *ngIf="token != usertype"><a (click)="sdInterviewReq()"><abbr title="Standard Interview Request"><img src="assets/images/bsicon_img.png"></abbr></a></li>
+                        <li *ngIf="token != usertype"><a (click)="videoInterviewReq()"><abbr title="Video Interview Request"><img src="assets/images/livevdo_img.png"></abbr></a></li>
+                        <li *ngIf="virtual_status != 0 && usertype !=mycheck"><a><abbr title="Virtual Work"><img src="assets/images/liveChat_img.png"></abbr></a></li>
+                        <li *ngIf="virtual_status == 0 && usertype !=mycheck"><a><abbr title="You are not enggaged with this user"><img src="assets/images/liveChat_img.png"></abbr></a></li>
+                      </ul>
+                    </div>
+                    
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /END OF ROW/ -->
+        </div>
+        <!-- /END OF WRAP/ -->
+      </div>
+      <!-- /END OF BG WRAP/ -->
+      <div class="bg-wrap-white profile_section" >
+        <div class="bg-white-wrapper">
+          <div class="wrap">
+            <div class="" *ngFor="let data of data">
+              <div class="flexWrapper">
+                <div class="row">
+                  <div class="col-lg-8 col-md-6 col-sm-12 col-xs-12 text-left">
+                    
+                  </div>
+                  <!--  <div class="col-lg-4 col-md-3 col-sm-12 col-xs-12">
+                    <div class="bussinessblog"  *ngIf="friendStatus == 1">
+                      <i class="fa fa-check" *ngIf="friendStatus == 1"></i>
+                      <p *ngIf="friendStatus == 1" class="blogname">Connected</p>
+                      <i *ngIf="show1 == 0" class="fa fa-ellipsis-h bots-box" aria-hidden="true" (click)="showdiv()"></i>
+                      <i *ngIf="show1 == 1" class="fa fa-ellipsis-h bots-box" aria-hidden="true" (click)="hidediv()"></i>
+                      <div class="user-dropdown"   *ngIf="show1 == 1">
+                        <ul>
+                          <li><a (click)="unfriend()"><i class="fa fa-times" ></i> Remove connection</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div> -->
+                  <!-- fa fa-ellipsis-h {{friendStatus == 1  ?   bots-box : myclass1 }} " -->
+                  <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 text-right" >
+                    <div class=" {{ friendStatus == 1  ?  'bussinessblog' : 'bussinessblog ' }}   " >
+                      <i class="fa fa-check" *ngIf="friendStatus == 1"></i>
+                      <p *ngIf="friendStatus == 1" class="blogname">Connected</p>
+                      <p *ngIf="friendStatus != 1" class="blogname">More</p>
+                      <i *ngIf="show1 == 0 "  class=" fa fa-ellipsis-h bots-box " aria-hidden="true" (click)="showdiv()"></i>
+                      <i *ngIf="show1 == 1" class="fa fa-ellipsis-h bots-box" aria-hidden="true" (click)="hidediv()"></i>
+                      <div class="user-dropdown"   *ngIf="show1 == 1">
+                        <ul>
+                          <li *ngIf="friendStatus == 1"><a (click)="unfriend()"><i class="fa fa-times" ></i> Remove connection</a></li>
+                          <!-- <li ><a (click)="reportAbouse(con_id,2)">Report Abuse</a></li> -->
+                          <li ><a (click)="reportAbouse(con_id,2)"><i class="fa fa-flag" aria-hidden="true"></i> Report Abuse</a></li>
+                          
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /END OF ROW/ -->
+        </div>
+        <!-- /END OF WRAP/ -->
+        <div class="wrap">
+          <div class="container">
+            <div class="flexWrapper">
+              <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                  <!-- START TAB SECTION -->
+                  <div class="tab-controller" *ngFor="let data of data">
+                    <ul class="tabs" *ngIf="myLoginId != con_id">
+                      <!-- <li class="tab-link" (click)="videoPop()" data-tab="tab-1">View Bio Video</li> -->
+                      <li *ngIf="is_show_message == 3 && mycheck == 1" class="tab-link" data-tab="tab-2" (click)="checkRoom(data.login_id)">Message  </li>
+                      <li *ngIf="is_show_message == 2 && mycheck == 2" class="tab-link" data-tab="tab-2" (click)="checkRoom(data.login_id)">Message  </li>
+                      <li *ngIf="is_show_message == 4 " class="tab-link" data-tab="tab-2" (click)="checkRoom(data.login_id)">Message  </li>
+                      <li *ngIf="is_show_message == 0 " class="tab-link" data-tab="tab-2" (click)="checkRoom(data.login_id)">Message </li>
+                      <!--  <li class="tab-link" data-tab="tab-3">View Opportunities </li> -->
+                      <!--  <li class="tab-link" data-tab="tab-3">Connect </li> -->
+                      
+                      <li class=" tab-link" *ngIf="friendStatus == 4 || friendStatus == 3 || friendStatus == undefined " (click)="Request(data.login_id)">Send Connection Request  </li>
+                      <li class="tab-link" *ngIf="check_accept_status != myLoginId && friendStatus == 2 " (click)=" acceptRequest(data.login_id)" > Accept </li>
+                      <li class="tab-link" *ngIf="friendStatus == 2  " (click)="cancel_reuest_api_v2(data.login_id)"> Cancel Request </li>
+                    </ul>
+                    <ul class="tabs" *ngIf="myLoginId == con_id">
+                      <li class="tab-link" (click)="videoPop()" data-tab="tab-1">View Bio Video</li>
+                      
+                    </ul>
+                  </div>
+                  <!-- END TAB SECTION -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /END OF BG WRAP/ -->
+    </section>
+    <div *ngIf="show_connection == 0">
+      <section class="businessInfoContainer userProfile-Container uesrnew">
+        <div class="innerWrap">
+          <div class="innerPadding">
+            <div class="wrap">
+              <div class="row">
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                  
+                  <!-- /END OF ICO BOX/ -->
+                  <div class="infoContent" *ngFor="let data of data">
+                    <h5 class="txtBlue"><i class="fa fa-file-text" aria-hidden="true"></i>  Bio</h5>
+                    <p>{{data.about_bio |titlecase}}</p>
+                  </div>
+                  <!-- /END OF INFO CONTENT/ -->
+                  <div class="personalInfobox">
+                    <div class="contentWrap" *ngFor="let data of data">
+                      <h5 class="txtBlue"><i class="fas fa-user-circle"></i> Personal Information</h5>
+                      <ul>
+                        <li><i class="fas fa-building"></i> <span>City:</span>  {{data.city |titlecase}}</li>
+                        <li><i class="fas fa-industry"></i> <span>State:</span>  {{data.state_name | titlecase}}</li>
+                        <li *ngIf="data.zipCode != '' "><i class="fas fa-map-pin"></i> <span>Zip Code:</span>  {{data.zipCode}}</li>
+                        <li *ngIf="data.zipCode == '' "><i class="fas fa-map-pin"></i> <span>Zip Code:</span>  No Zip Code Found</li>
+                        <li><i class="fa fa-map-signs" aria-hidden="true"></i>  <span>Address:</span> {{data.city}} ,{{data.state_name}}  ,{{data.country_name}}</li>
+                        <li *ngIf="is_show_email == 1"><i class="fas fa-envelope-open"></i> <span>Email:</span>  {{data.email}}</li>
+                        <li  *ngIf="is_show_phone == 1"><i class="fa fa-phone" aria-hidden="true"></i> <span>Phone:</span> {{data.phone}}</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <!-- /START RESUME SECTION/ -->
+                  <div class="personalInfobox resumeSection" *ngIf="is_show_resume == 1">
+                    <div class="contentWrap" *ngFor="let resume of data ; let i=index;">
+                      <h5 class="txtBlue"  resume_name><i class="fa fa-file-text"></i> Resume</h5>
+                      <div *ngIf="resume.resume_name == null  " >
+                        <p class="pl-19">No resume found</p>
+                      </div>
+                      <div *ngIf="resume.resume_name == 'nodoc.jpg' " >
+                        <p class="pl-19">No resume found</p>
+                      </div>
+                      <div class="pdf-section"
+                        *ngIf=" resume.resume_name != null ">
+                        <p>
+                          <a (click)="onCreate()"><img src="assets/images/pdf-icon.png">{{resume.resume_name}}</a>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /END RESUME SECTION/ -->
+                  <!-- /START EDUCATION SECTION/ -->
+                  <div class="personalInfobox educationSection">
+                    <div class="contentWrap">
+                      <h5 class="txtBlue"><i class="fas fa-graduation-cap"></i> Education</h5>
+                      <div *ngIf="edudata == ''" >
+                        <p>No records found</p>
+                      </div>
+                      <div class="edu" *ngFor="let name of edudata ; let i=index;">
+                        <h4>{{name.school_name}}</h4>
+                        <h4>{{name.degree}}</h4>
+                        <p>{{name.collage_start_date| date: 'yyyy'}} - {{name.collage_end_date| date: 'yyyy'}}</p>
+                        <!-- <p class="educationAct">Activities and Societies Arjay Miller Scholar</p>
+                        <img src="assets/images/bussines-icon.png">  -->
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /END EDUCATION SECTION/ -->
+                  <!-- /START WORK SECTION/ -->
+                  <div class="personalInfobox educationSection workSection">
+                    <div class="contentWrap" *ngFor="let data of data ">
+                      <h5 class="txtBlue"><i class="fas fa-briefcase"></i> Work</h5>
+                      <div class="edu">
+                        <h4>Description of Work User Would Like to Do</h4>
+                        <p >{{data.work_additional_info}}</p>
+                      </div>
+                      <div class="edu">
+                        <h4>How Many Hours a Week User Able to Work</h4>
+                        <p>{{data.hours_per_week}}</p>
+                      </div>
+                      <div class="edu">
+                        <h4>Which Days/Hours User is Able to Work</h4>
+                        <p class="working_days" *ngFor="let s of workdaydata; let i=index;">
+                          <span class="profileTime">{{s.day}} Available time   </span> :   {{s.woking_hours}}</p>
+                        </div>
+                        <div class="edu">
+                          <h4>How Far Away From Location User Willing to Travel</h4>
+                          <p>{{data.travel_location}}</p>
+                        </div>
+                        <div class="edu">
+                          <h4>Does the User Have a Reliable Means of Transportation</h4>
+                          <div *ngIf="data.is_transportation == 1 " >
+                            <p>Yes</p>
+                          </div>
+                          <div *ngIf="data.is_transportation == 0 " >
+                            <p>No</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- /END WORK SECTION/ -->
+                    <!-- /START SKILLS SECTION/ -->
+                    <div class="personalInfobox skillsSection">
+                      <div class="contentWrap">
+                        <h5 class="txtBlue"><i class="far fa-chart-bar"></i> Skills</h5>
+                        <!--  <div class="skillsGraph">
+                          <img src="assets/images/skills-graph-img.png">
+                        </div> -->
+                        <div class="col-md-12 col-sm-12 col-xs-12" *ngIf="checkskills == 0 " >
+                          <p>No records found</p>
+                        </div>
+                        <div class="tpskill">
+                          <ul>
+                            <li  *ngFor="let s of skills ; let i=index;">{{s}}</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- /END SKILLS SECTION/ -->
+                    <!-- /START EXPERIENCE SECTION/ -->
+                    <div class="personalInfobox educationSection experienceSection">
+                      <div class="contentWrap" >
+                        <h5 class="txtBlue"><i class="far fa-lightbulb"></i> Experience</h5>
+                        <div class="col-md-12 col-sm-12 col-xs-12" *ngIf="expdata == ''" >
+                          <p>No records found</p>
+                        </div>
+                        <div class="edu" *ngFor="let s of expdata ; let i=index;">
+                          <!--                  <img src="assets/images/iphone-icon.png">
+                          -->
+                          <div class="freeArt">
+                            <h4>{{s.position}}</h4>
+                            <p>{{s.employer}}</p>
+                            <p>{{s.start_date | date}} - {{s.end_date| date}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- /END EXPERIENCE SECTION/ -->
+                  </div>
+                  <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                    <div *ngIf="postdata != ''">
+                      <div  class="postWrapper" *ngFor="let post of postData;let i = index" id="post_{{i}}">
+                        <div class="postHead">
+                          <ul>
+                            <li>
+                              <!-- <div class="inlineFlexBox" *ngFor="let data of data">
+                                <div class="logoImg">
+                                  <img src="./assets/uploads/images/{{data.profile_pic_name}}">
+                                </div>
+                                <div class="title">
+                                  
+                                  <p class="name" *ngIf="is_show_lname == 7"> {{showLastName|titlecase}} </p>
+                                  <p class="name" *ngIf="is_show_lname == 1"> {{data.name|titlecase}} </p>
+                                  <p class="subHead">{{data.industry_name}} · {{data.addressline1}}, {{data.city |titlecase}}</p>
+                                </div>
+                              </div> -->
+                              <div class="inlineFlexBox"  *ngIf="! post.userDisplayData" >
+                                <img class="logoImg " *ngIf="file_status == false"  src="{{media_url}}/uploads/images/avatar.png">
+                                <img  class="logoImg" *ngIf="file_status == true" src="{{media_url}}/uploads/images/{{img}}">
+                                <div class="title" >
+                                  <p  class="userTitle"  >{{myname}}</p>
+                                  <!--  <p class="subHead" class="userTitle"  >{{mydemo}}</p> -->
+                                </div>
+                              </div>
+                              <div class="inlineFlexBox" *ngIf="post.userDisplayData">
+                                <img class="logoImg " *ngIf="file_status == false"  src="{{media_url}}/uploads/images/avatar.png">
+                                <img  class="logoImg" *ngIf="file_status == true" src="{{media_url}}/uploads/images/{{post.userDisplayData.profile_picture}}">
+                                <div class="title" >
+                                  <p class="userTitle"  >{{post.userDisplayData.user_name}}</p>
+                                  <!-- <p class="subHead">{{name.userDisplayData.first_display}} · {{name.userDisplayData.country_name}}, {{name.userDisplayData.state_name}}</p> -->
+                                </div>
+                              </div>
+                            </li>
+                            <li class="postTime">
+                              <p>{{post.created_date}}</p>
+                            </li>
+                          </ul>
+                        </div>
+                        <!-- /END OF POST HEAD/ -->
+                        <div class="postContent" >
+                          <!-- <p>{{post.post}}</p>
+                          <div class="postImg" *ngIf="post.type == 1 && post.picname != '' && post.media_id != '' " > <img src="{{media_url}}/createpost/images/{{post.picname}}" >
+                          </div>
+                          <div *ngIf="post.type == 2 && post.picname != '' && post.media_id != '' ">
+                            <video width="320" height="240" controls  loop>
+                              <source src="{{media_url}}/createpost/video/{{post.picname}}" type="video/mp4">
+                            </video>
+                          </div> -->
+                          <div >
+                            <p *ngIf="post.opp_id == 0 || post.parent_id !=0">{{post.post}}</p>
+                            <p *ngIf="post.opp_id != 0 && post.parent_id ==0" >I'm looking for {{post.post}} <a  class="text_align_right" routerLink="/opportunities_detail/{{post.opp_id}}">...see more</a></p>                              <div class="postImg" *ngIf="post.type == 1 && post.picname != '' && post.media_id != '' " > <img src="{{media_url}}/createpost/images/{{post.picname}}" >
+                          </div>
+                          <div *ngIf="post.type == 2 && post.picname != '' && post.media_id != '' ">
+                            <video width="320" height="240" controls  loop>
+                              <source src="{{media_url}}/createpost/video/{{post.picname}}" type="video/mp4">
+                            </video>
+                          </div>
+                        </div>
+                        <div *ngIf="post.parent_data">
+                          
+                          <div class="postContent" style="border: 1.5px solid #ddd;">
+                            <div class="inlineFlexBox">
+                              <img class="logoImg" src="{{media_url}}/uploads/images/{{post.parent_data.p_profile}}">
+                              <div class="title">
+                                <p class="userTitle black-text">{{post.parent_data.p_user_name}}</p>
+                                <p class="subHead">Posted on :{{post.parent_data.p_created | date}}</p>
+                              </div>
+                            </div>
+                            <p *ngIf="post.parent_data.opp_id == 0">{{post.parent_data.p_post}}</p>
+                            <p *ngIf="post.parent_data.opp_id != 0" >I'm looking for {{post.parent_data.p_post}} <a class="text_align_right" routerLink="/opportunities_detail/{{post.parent_data.opp_id}}">...see more</a></p>
+                            <div class="postImg" *ngIf="post.parent_data.type == 1 && post.parent_data.picname != '' && post.parent_data.media_id != '' " > <img src="{{media_url}}/createpost/images/{{post.parent_data.picname}}" >
+                            </div>
+                            
+                            <div *ngIf="post.parent_data.type == 2 && post.parent_data.picname != '' && post.parent_data.media_id != '' ">
+                              <video width="320" height="240" controls  loop>
+                                <source src="{{media_url}}/createpost/video/{{post.parent_data.picname}}" type="video/mp4">
+                              </video>
+                            </div>
+                          </div>
+                          
+                        </div>
+                        <div class="actionElements">
+                          <ul>
+                            <li>
+                              <i style="cursor: pointer;" *ngIf="post.like_status == false" (click)="likefunction(post.id, $event.target,i);likeNotification(post.user_login_id,$event.target)" class="far fa-heart"></i>
+                              <i style="cursor: pointer;" *ngIf="post.like_status == true" (click)="likefunction(post.id,$event.target,i);likeNotification(post.user_login_id,$event.target)" class="fas fa-heart"></i>
+                              <span id="C_{{i}}">&nbsp;{{post.count}} &nbsp;</span>
+                            </li>
+                            <li class="showToggle" style="cursor: pointer;" (click)="showToggleV2(post.id,i)">
+                              <!-- <li> -->
+                              <span (click)="getComment(post.id)"><i class="fab fa-rocketchat"></i></span>
+                              <span (click)="getComment(post.id)">&nbsp;{{post.comment_count_post}} &nbsp;</span>
+                            </li>
+                            <li>
+                              <!-- <span><i class="fas fa-share-square"></i></span>
+                              <span>0</span> -->
+                              <!-- <span (click)="myFunction2(post.id)" ><i class="fas fa-share-square"></i></span> -->
+                              <span (click)="myFunction2(post.id)" *ngIf="post.parent_id ==0 && post.parent_data && post.post != '' && post.post != null && post.post != undefined "><i class="fas fa-share-square"></i></span>
+                              <span (click)="myFunction2(post.id)"><i class="fas fa-share-square" *ngIf="! post.parent_data"></i></span>
+                              <!-- <a (click)="myFunction2(post.id)" class="sharePost" href="javascript:void(0)" >Create Post</a> -->
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                      <!-- /END OF POST CONTENT/ -->
+                      <div >
+                        <div  id="commentOpener_{{i}}" class="displayNone ">
+                          <form [formGroup]="commentForm" (ngSubmit)="Comment(post.id,i)" >
+                            <div class="commentBox" >
+                              <!--  <div *ngFor="let comments of commentAll" style="display: none;" class="{{post.id}}">
+                                -->
+                                <div *ngFor="let comments of allcomment;let i=index;"  class="{{post.id}}">
+                                  <div *ngIf="comments.entity_id == post.id && testcomment == 1" class="shwComments"  >
+                                    <div class="commentItems">
+                                      <div class="userThumb " *ngFor="let img of data">
+                                        <img class="logoImg " *ngIf="file_status == false"  src="{{media_url}}/uploads/images/avatar.png">
+                                        <img class="logoImg" *ngIf="file_status == true"  src="./assets/uploads/images/{{comments.profile_pic}}" >
+                                      </div>
+                                      <div class="flexWrapper">
+                                        <div class="userDetail" *ngFor="let data of data">
+                                          <p *ngIf="is_show_lname == 1" class="name" >{{comments.name}}</p>
+                                          <p class="name" *ngIf="is_show_lname == 3">{{comments.name}}</p>
+                                          <p class="name" *ngIf="is_show_lname == 7">{{comments.name}}</p>
+                                          <!-- <p class="userTitle">{{data.fname |titlecase}} <span *ngIf="is_show_lname == 1">    {{data.lname |titlecase}}</span></p> -->
+                                          <!--  <p class="postName">{{data.industry_name}}</p> -->
+                                          <p class="postedComments" >{{comments.comment}}</p>
+                                          <div *ngIf="comments.media_id != 0 && comments.video_name == null"  class="bussiness_upload_img_comment">
+                                            <img *ngIf="comments.media_id != 0 && comments.video_name == null" src="{{media_url}}/createpost/images/{{comments.image_name}}"  alt="">
+                                          </div>
+                                          <div *ngIf="comments.media_id != 0 && comments.image_name == null " class="bussiness_upload_vid_comment">
+                                            <video *ngIf="comments.media_id != 0 && comments.image_name == null " width="340" controls>
+                                              <source src="{{media_url}}/createpost/video/{{comments.video_name}}" >
+                                              
+                                            </video>
+                                          </div>
+                                        </div>
+                                        <div class="commentDetails">
+                                          <div class="innerwrap">
+                                            <span class="timeClass" *ngIf="comments.entity_id == post.id">{{comments.created_date}}</span>
+                                            <!--  <span class="reportUser" (click)="reportFunction() "><i class="fa fa-ellipsis-h" aria-hidden="true"></i></span> -->
+                                          </div>
+                                        </div>
+                                        <!-- <div id="reportBox" class="reportDropdown">
+                                          <ul>
+                                            <li><a href=""><i class="fa fa-flag" aria-hidden="true"></i> Report</a></li>
+                                            <li><a href=""><i class="fa fa-link" aria-hidden="true"></i> Copy link to Comment</a></li>
+                                          </ul>
+                                        </div> -->
+                                      </div>
+                                    </div>
+                                    <div class="postContent">
+                                      <div class="comment_like_contain">
+                                        <span>
+                                          <i style="cursor: pointer;" *ngIf="comments.saved_status == 0 " (click)="likeOnComment(comments.id,post.id);like_reply_noti(comments.user_login_id,comments.saved_status)" class="far fa-heart" ></i>
+                                          <i style="cursor: pointer;" *ngIf="comments.saved_status == 1" (click)="likeOnComment(comments.id,post.id)" class="fas fa-heart"></i>
+                                        </span>
+                                        <!-- id="C_{{i}}" -->
+                                        <span >&nbsp;{{comments.comment_count}} &nbsp;</span>
+                                        <a style="    margin-left: 16px;" (click)="showCommOnComm(i)"><i class="fa fa-comment"></i> {{comments.subcoment_count}} </a>
+                                      </div>
+                                    </div>
+                                    <!-- <a (click)="showCommOnComm(i)">reply</a> -->
+                                    <div class="reply_on_comment">
+                                      <div class="comment_send_sectoin" >
+                                        
+                                        <div class="commentItems" *ngFor="let s of comments.subcoment;let i=index;">
+                                          <div class="userThumb " >
+                                            <img class="logoImg " *ngIf="file_status == false"  src="{{media_url}}/uploads/images/avatar.png">
+                                            <img class="logoImg" *ngIf="file_status == true" src="{{media_url}}/uploads/images/{{s.profile_pic}}" >
+                                          </div>
+                                          <div class="flexWrapper" >
+                                            
+                                            <div class="userDetail" >
+                                              <p class="name" style="width: 150px;">{{s.name}}</p>
+                                              <p class="postedComments" >{{s.comment}}</p>
+                                            </div>
+                                            <div class="commentDetails">
+                                              <div class="innerwrap">
+                                                <!-- *ngIf="comments.entity_id == name.id" -->
+                                                <span class="timeClass" >{{s.created_date}}</span>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div >
+                                          <span *ngIf="comments.subcoment_count  > 5 " class="business-show-btn" style="cursor: pointer;width: 20%;background: #1760a0;border: none;color: #fff;font-weight: 600; padding: 10px;margin-top: 10px;" (click)="load_more_comment_reply(comments.id)">More</span>
+                                        </div>
+                                      </div>
+                                      <div class="header_option">
+                                        <!--  <a href=""><i class="fa fa-thumbs-up"></i></a> -->
+                                        <!--  <span>
+                                          <i style="cursor: pointer;"  (click)="likeOnComment(comments.id, $event.target,i)" class="far1 fa-heart" >like</i>
+                                          <i style="cursor: pointer;"  ( (click)="likeOnComment(comments.id, $event.target,i)" class="far1 fa-heart">unlike</i>
+                                        </span> -->
+                                        <!--                   <span id="C_{{i}}">&nbsp;{{name.count}} &nbsp;</span>
+                                        -->
+                                      </div>
+                                      <div class="inner_con closeReply displayNone" id="reply_{{i}}" >
+                                        <div class="reply_form" >
+                                          <form [formGroup]="commentReplyForm" (ngSubmit)="CommentReply(comments.id,post.id)">
+                                            <textarea (keypress)="openReplyPost()" formControlName="commentreply" placeholder="Add a reply..."></textarea>
+                                            
+                                            <button *ngIf="reply_post == 1" type="submit" (click)="comment_reply_noti(post.user_login_id)">Reply</button>
+                                          </form>
+                                        </div>
+                                      </div>
+                                      <!-- inner_con -->
+                                    </div>
+                                    <!-- reply_on_comment -->
+                                  </div>
+                                </div>
+                                <div class="viewMoreBtn">
+                                  <!-- *ngIf="paginationresult_count > 0" -->
+                                  <button  class="viewbtn" (click)="loadMore()"  *ngIf="commentCount == 5">View ({{commentCount}}) more</button>
+                                </div>
+                                <div class="inputController comment_upload_con">
+                                  <textarea formControlName="comment" placeholder="Add comment"></textarea>
+                                  <div class="icoBox">
+                                    <ul>
+                                      <li>
+                                        <div class="fileUpload">
+                                          <input accept="image/*" (change)="image_upload_comment($event,i)" class="file_multi_image file_multi_image_comment" formcontrolname="postImage" name="" type="file">
+                                          <img src="assets/images/camera.png">
+                                        </div>
+                                      </li>
+                                      <li>
+                                        <div class="fileUpload videoUpload">
+                                          <input accept=".HEVC,H.264,.MPEG-4,.m4v,.mov,video/*" class="file_multi_video file_multi_video_comment" (change)="video_upload_comment($event,i)" formcontrolname="postVideo" name="" type="file">
+                                          <img  src="assets/images/video.png">
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                  <div class="imgUploadContainer displayNone" id="commentOpener1_comment{{i}}" style="width: 50%;">
+                                    <!--*ngIf="showNotification"  -->
+                                    <div   class="image_scroll" ><img id="blah" [src]="imageSrc" alt="your image"></div>
+                                    <img class="thumb-ico" src="assets/images/close.svg" style=""   (click)="onCloseClick()" title="Remove image">
+                                    <!-- <div *ngIf="hasImage == 1" class="edit_file">
+                                      <input type="file" id="postImage"  name="file[]" (change)="image()" class="file_multi_image thumb-input flIcon" accept="image/*" title="Change image" formControlName="postImage" style=""  *ngIf="hasImage == 1">
+                                    </div> -->
+                                    
+                                  </div>
+                                  <div class="imgUploadContainer displayNone" id="commentOpener1_comment_video{{i}}" style="width: 50%;">
+                                    
+                                    <img class="thumb-ico" src="assets/images/close.svg"  style=""  (click)="onCloseClick()" title="Remove video" >
+                                    <div *ngIf=" hasVideo ==1" class="edit_file">
+                                      <input   type="file" id="postVideo" accept='video/*' name="file[]" (change)="video()" class="file_multi_video thumb-input flIcon"   *ngIf=" hasVideo ==1"  formControlName="postVideo"    name="" style="" title="Change video">
+                                    </div>
+                                    <!-- <div class="video_con" >
+                                      <video  controls >
+                                        <source id="video_here_video" src="mov_bbb.mp4" >
+                                        Your browser does not support HTML5 video.
+                                      </video>
+                                    </div> -->
+                                    <video width="200" controls>
+                                      <source src="mov_bbb.mp4" id="video_here_video{{i}}">
+                                      Your browser does not support HTML5 video.
+                                    </video>
+                                  </div>
+                                </div>
+                                <div class="inputSubmitter">
+                                  <button type="submit" (click)="comment_notification(post.user_login_id)">Post</button>
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                      <div  >
+                        
+                        <a class="show-more-btn"   (click)="loadMorePost()" *ngIf="getCount > 0 && hide_post_load != 0 ">SHOW MORE ({{getCount}})</a>
+                      </div>
+                      <!-- <div > <a href="" (click)="loadMore()" *ngIf="getCount > 0">SHOW MORE ({{getCount}})</a></div> -->
+                    </div>
+                    <div *ngIf="postdata == ''">
+                      <p>Not posted any post yet</p>
+                    </div>
+                    <!-- /END OF POST WRAPPER/ -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="dev == 1">
+            <form [formGroup]="createPost" (ngSubmit)="onSubmitPost()">
+              <div id="postModal" class="createPostModal ">
+                <div class="modalInner">
+                  <div class="modalHead">
+                    <a (click)="closeModalFunction()" href="javascript:void(0)" class="closeIcon">X</a>
+                  </div>
+                  <div class="modalBody">
+                    <img class="userProfile ac_c" src="{{media_url}}/uploads/images/{{img}}">
+                    <!-- SELECT ITEMS -->
+                    <input type="text" type="hidden" formControlName="parentId" value="{{postUserData.id}}">
+                    <div class="selectItems" >
+                      <select name="post_privacy" formControlName="privacy">
+                        <option value="1" selected=""> Public</option>
+                        <option value="2">Private only</option>
+                        <option value="3">Connection</option>
+                      </select>
+                    </div>
+                    <!-- SELECT ITEMS -->
+                    <!-- TEXTAREA -->
+                    <div class="textareaPopup">
+                      <textarea  formControlName="postName" name="your-message"  class="full-name" aria-invalid="false" id="textMe" placeholder="Say something about this shared content?"></textarea>
+                      <div class="div2">
+                        <img class="logoImg " *ngIf="file_status == false"  src="{{media_url}}/uploads/images/avatar.png">
+                        <img class="logoImg " *ngIf="file_status == false" src="{{media_url}}/uploads/images/{{postUserData.profile_picture}}">
+                        <div class="title" >
+                          <p class="userTitle">{{postUserData.pro_name}}</p>
+                          <p class="subHead"></p>
+                        </div>
+                        <div class="postContent">
+                          <p class="postPara">{{postUserData.post}}</p>
+                          <div class="postImg" *ngIf="postUserData.type == 1 && postUserData.picname != '' && postUserData.media_id != '' " > <img src="{{media_url}}/createpost/images/{{postUserData.picname}}" >
+                          </div>
+                          <div *ngIf="postUserData.type == 2 && postUserData.picname != '' && postUserData.media_id != '' ">
+                            <video width="100%" height="240" controls>
+                              <source src="{{media_url}}/createpost/video/{{postUserData.picname}}" type="video/mp4">
+                            </video>
+                          </div>
+                          <div *ngIf="postUserData.type == 3 && postUserData.picname != '' && postUserData.media_id != '' ">
+                            Document
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="attachflexWrapper">
+                      <div class="post-btn">
+                        <button class="postBtn" (click)="closeFun()">Post</button>
+                      </div>
+                    </div>
+                    <!-- ATTACH ITEMS -->
+                  </div>
+                </div>
+                <div id="postOver" class="postOverlay"></div>
+              </div>
+            </form>
+          </div>
+          <div id="oppModal" class="createPostModal job_listing_popup">
+            <div class="modalInner">
+              <div class="modalHead" style="position: relative;">
+                <p style="text-align: center;padding-top: 10px;color: white;margin: 0;"> Send Standard Interview Request For Below Opportunity</p>
+                <a style="position: absolute;top: 0;z-index: 1;right: 11px;" (click)="closeModalFunction()" href="javascript:void(0)" class="closeIcon">X</a>
+              </div>
+              <div class="modalBody">
+                <p style="margin-left:194px;" *ngIf="show_opp_div_sd == 1">Sorry,  no opportunity found,Please try again.</p>
+                <h5 style="color: #0473af;margin-bottom: 20px;" *ngIf="show_opp_div_sd != 1">Opportunities</h5>
+                <div *ngFor="let data of myOpp">
+                  <div class="view_Opp">
+                    <div class="left_sec">
+                      <span class="color_ico {{data.class}}">{{data.abbrivation}}</span>
+                      <span class="opp_title">{{data.title}}</span>
+                    </div>
+                    <div class="right_sec">
+                      <span class="posted_date">Posted {{data.created_date}}</span>
+                      <!--   <div class="{{opdata.indexOf(data.id) != -1 ? 'displayNone connectBtn' : 'connectBtn'}}"> -->
+                      <button class="{{opdata.indexOf(data.id) != -1 ? 'displayNone' : 'button_style_01'}}" (click)="sendIntReq(data.id)"><span>Send Interview Request</span></button>
+                      <p align="center" class="{{opdata.indexOf(data.id) == -1 ? 'displayNone' : ''}}">Request already sent</p>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="textareaPopup">
+                </div> -->
+              </div>
+            </div>
+            <div id="postOver12" class="postOverlay"></div>
+          </div>
+          <div id="oppModal_video" class="createPostModal job_listing_popup">
+            <div class="modalInner">
+              <div class="modalHead" style="position: relative;">
+                <p style="text-align: center;padding-top: 10px;color: white;margin: 0;"> Send Video Interview Request For Below Opportunity</p>
+                <a style="position: absolute;top: 0;z-index: 1;right: 11px;" (click)="closeModalFunction()" href="javascript:void(0)" class="closeIcon">X</a>
+              </div>
+              <div class="modalBody">
+                <p style="margin-left:194px;" *ngIf="show_opp_div_sd == 1">Sorry,  no opportunity found,Please try again.</p>
+                <h5 style="color: #0473af;margin-bottom: 20px;" *ngIf="show_opp_div_sd != 1">Opportunities</h5>
+                <div *ngFor="let data of myOpp">
+                  <div class="view_Opp">
+                    <div class="left_sec">
+                      <span class="color_ico {{data.class}}">{{data.abbrivation}}</span>
+                      <span class="opp_title">{{data.title}}</span>
+                    </div>
+                    <div class="right_sec">
+                      <span class="posted_date">Posted {{data.created_date}}</span>
+                      <!-- opdata -->
+                      <!-- button_style_01 -->
+                      <button class="{{opdata.indexOf(data.id) != -1 ? 'displayNone' : 'button_style_01'}}" (click)="sendvideoIntReq(data.id)"><span>Send Interview Request</span></button>
+                      <p align="center" class="{{opdata.indexOf(data.id) == -1 ? 'displayNone' : ''}}">Request already sent</p>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="textareaPopup">
+                </div> -->
+              </div>
+            </div>
+            <div id="postOver12" class="postOverlay"></div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <div class="user_request_popup" id="reschedule_pop">
+      <div class="wrap">
+        <div class="close_user_request_popup" id="reschedule_pop_close"><i class="fa fa-times"></i></div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 header_user_listing">
+            <h6>Choose Date and time for interview</h6>
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <form [formGroup]="InterReq" (ngSubmit)="intReqSubmit()">
+              <div class="reschedule_popup">
+                <input style="padding: 10px;width: 50%;" [owlDateTime]="dt2" formControlName="date_time" class="form-styling" [owlDateTimeTrigger]="dt2" [min]="minDate1" placeholder="Choose Date and time for interview">
+                <owl-date-time #dt2></owl-date-time>
+                <div *ngIf="submitted && resErrSubmit.date_time.errors" class="invalid-feedback">
+                  <div *ngIf="resErrSubmit.date_time.errors.required">Date and time is required</div>
+                </div>
+                <br>
+                <textarea formControlName="comment" placeholder="Comment for schedule interview date and time" style="width: 50%; height: 69px; border: 1px solid #E5E7E9;padding: 10px;" class="form-styling"></textarea>
+                
+              </div>
+              <div class="right_sec text-right">
+                <button class="button_style_01" type="submit"><span>SAVE</span></button>
+                <a class="button_style_02" id="reschedule_pop_2" ><span>CANCEL</span></a>
+              </div>
+            </form>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    <div class="user_request_popup" id="reschedule_pop1">
+      <div class="wrap">
+        <div class="close_user_request_popup" id="reschedule_pop_close1"><i class="fa fa-times"></i></div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 header_user_listing">
+            <h6>Choose Date and time for interview</h6>
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <form [formGroup]="IntervideoReq" (ngSubmit)="intvideoReqSubmit()">
+              <div>
+                <input style="padding: 10px;width: 50%;" [owlDateTime]="dt3" formControlName="date_time" class="form-styling" [owlDateTimeTrigger]="dt3" [min]="minDate1" placeholder="Choose Date and time for interview">
+                <owl-date-time #dt3></owl-date-time>
+                <div *ngIf="submitted1 && resErrSubmit1.date_time.errors" class="invalid-feedback">
+                  <div *ngIf="resErrSubmit1.date_time.errors.required">Date and time is required</div>
+                </div>
+                <br>
+                <textarea formControlName="comment" placeholder="Comment for schedule interview date and time" style="width: 50%; height: 69px; border: 1px solid #E5E7E9;padding: 10px;" class="form-styling"></textarea>
+                
+              </div>
+              <div class="right_sec text-right">
+                <button class="button_style_01" type="submit"><span>SAVE</span></button>
+                <a class="button_style_02" id="reschedule_pop_21" ><span>CANCEL</span></a>
+              </div>
+            </form>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    <div *ngIf="show_connection == 1">
+      
+      <!-- <app-view-connection></app-view-connection> -->
+      <section class="conneciton-businessBlog findConnection">
+        <div class="innerWrap">
+          <div class="wrap">
+            <div class="mainWrapper">
+              <div class="innerWrapper">
+                <div class="connectionTop">
+                  <h4>Connections</h4>
+                  <!--  <button (click)="open_main()">close</button> -->
+                  <i (click)="open_main()" class="fa fa-close"></i>
+                  <span class="results" *ngIf="connection_count == 1">{{connection_count}} connection</span>
+                  <span class="results" *ngIf="connection_count != 1">{{connection_count}} connections</span>
+                </div>
+                
+                <div class="connectionList">
+                  <!-- <div *ngIf ="pagination_count == -2">
+                    <p>No  Connections yet</p>
+                  </div> -->
+                  <ul class="inlineList" *ngFor="let data of finalConnections">
+                    <li>
+                      <div class="flexWrapper">
+                        <div class="requestBLog">
+                          <div class="req-mgBlog">
+                            <img *ngIf="data.file_status == false" src="{{media_url}}/uploads/images/avatar.png">
+                            <img *ngIf="data.file_status == true" src="{{media_url}}/uploads/images/{{data.logo}}">
+                          </div>
+                          <a (click)="go_profile(data.userid)">
+                            <div class="request-titlebox">
+                              <h3>{{data.name}}</h3>
+                              <p>{{data.city}} , {{data.state}} , {{data.country}}</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!--  REQUESTSBLOG -->
+                        <div *ngIf="data.fr_status == false && data.userid != myLoginId" class="acceptBtn">
+                          <div  class="next-btn">
+                            <a  (click)="Request_con(data.userid)" class="">
+                              <span>
+                                Send Connection Request
+                              </span>
+                            </a>
+                          </div>
+                        </div>
+                        <div *ngIf="data.pending_fr_status == 2 && data.userid != myLoginId" class="acceptBtn">
+                          <div>
+                            <p>Connection Request Sent</p>
+                          </div>
+                        </div>
+                        
+                        
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="viewMoreBtn">
+              <button class="viewbtn" (click)="loadMore_con()" *ngIf="pagination_count > 0">View ({{pagination_count}}) more</button>
+            </div>
+          </div>
+          <!--END OF WRAP -->
+        </div>
+        <!--END OF INNERWRAP -->
+      </section>
+      <!--END OF RESULTSECTION -->
+    </div>
+  </div>
+  <style type="text/css">
+  .ac_c {height: 50px; border-radius: 50px; width: 50px; border: 2px solid #0473ae; }
+  .acc_2{height: 50px; border-radius: 50px; width: 50px; border: 2px solid #0473ae;float: left; }
+  .swal2-popup{width: 100% !important;}
+  .displayNone{display: none;}
+  </style>

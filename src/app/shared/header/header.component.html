@@ -1,0 +1,1190 @@
+<div id="loder_main" *ngIf="showLoader_wait == true"><div id="loader_view" ><div></div><div></div><div></div></div></div>
+
+<header class="headerSitewide">
+	<div class="innerblock">
+		<div class="wrap">
+			<div class="headTop">
+				<div class="row">
+					<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+						<div class="logoHolder">
+							<a routerLink="/">
+								<img src="assets/images/logo2-mg.png" alt="qualifiedLogo">
+							</a>
+						</div>
+					</div>
+					<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+						<div class="headerSearch" *ngIf="user_type2">
+							<form class="expanding-search-form">
+								<div class="search-dropdown" (click)="toggle1()" (clickElsewhere)="toggle1Close()" (clickOff)="toggle1Close()">
+									<button class="button search-dropdown-toggle" type="button" (click)="toggle1();" (dblclick)="toggle1Close()">	<i class="fa fa-bars" aria-hidden="true"></i>
+									</button>
+									<ul class="search-dropdown-menu" *ngIf="show1 == 1">
+										<li><a class="{{All != 1 ? 'liActive' : ''}}" (click)="Menu(0);toggle1Close()">ALL</a>
+										</li>
+										<!-- *ngIf="All == 1" -->
+										<li><a class="{{opp != 1 ? 'liActive' : ''}}" (click)="Menu(1);toggle1Close()">Opportunities</a>
+										</li>
+										<!-- *ngIf="opp == 1" -->
+										<li><a class="{{pop != 1 ? 'liActive' : ''}}" (click)="Menu(2);toggle1Close()">People</a>
+										</li>
+										<!-- *ngIf="pop == 1" -->
+										<li><a class="{{buss != 1 ? 'liActive' : ''}}" (click)="Menu(3);toggle1Close()">Bussiness</a>
+										</li>
+										<!-- *ngIf="buss == 1" -->
+
+										<input type="hidden" value="{{value}}">
+									</ul>
+								</div>
+								<!-- <form > -->
+								<input *ngIf="searchAll == 1" class="search-input" id="global-search" [(ngModel)]="name" type="search" #box (keyup.enter)="onEnter(box.value, $event)" placeholder="Search for people, opportunities, and more..." (keyup)="search($event.target.value,$event)" (keypress)="show_header()" autocomplete="off" name="searchText" >
+
+
+
+								<input *ngIf="searchAll == 2" class="search-input" id="global-search" [(ngModel)]="name" type="search" #box (keyup.enter)="onEnter(box.value, $event)" placeholder="Search for people, opportunities, and more..." (keyup)="searchOpp($event.target.value,$event)" (keypress)="show_header()"autocomplete="off" name="searchText">
+
+								<input *ngIf="searchAll == 3" class="search-input" id="global-search" [(ngModel)]="name" type="search" #box (keyup.enter)="onEnter(box.value, $event)" placeholder="Search for people, opportunities, and more..." (keyup)="searchUser($event.target.value,$event)" (keypress)="show_header()" autocomplete="off" name="searchText">
+
+								<input *ngIf="searchAll == 4" class="search-input" id="global-search" [(ngModel)]="name" type="search" #box (keyup.enter)="onEnter(box.value, $event)" placeholder="Search for people, opportunities, and more..." (keyup)="searchBus($event.target.value,$event)" (keypress)="show_header()"autocomplete="off" name="searchText">
+							<!-- </form> -->
+
+								<div>
+									<!-- <ul id="" >
+										<li >{{emp.name}}</li>
+										
+									</ul>  -->
+
+									<section (clickElsewhere)="hide_header()" class="searchBarContainer " id="search_result_box" *ngIf="customerData != '' && customerData != undefined && customerData != null && hide_header_test == 1">
+										<div class="innerWrap">
+											<div class="innerPadding">
+												<div class="wrap">
+													<div class="{{userArray.length > 0 ? 'row' : 'row displayNone'}}" >
+														<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+															<!-- /END OF ICO BOX/ -->
+															<div class="infoContent">
+																<p>People</p>
+															</div>
+															<!-- /END OF INFO CONTENT/ -->
+														</div>
+														<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 serchUserList">
+															<div class="postWrapper">
+																<div class="postHead">
+																	<ul>
+																		<li *ngFor="let user of userArray " >
+																			<!-- routerLink="/shared/view_profile/{{user.element_id}}" -->
+																			<a (click)="go(user.element_id)" >
+
+
+																				<!-- <img
+																				*ngIf="user.file_status == false" src="{{media_url}}/uploads/images/avatar.png" /> -->
+																				<img (click)="removetext();go(user.element_id)"
+																				 src="{{media_url}}/{{user.path}}" />
+																				<h4
+																				 (click)="removetext();go(user.element_id)">{{user.title}}</h4>
+																			</a>
+																			<!-- <p>{{emp.work_industry}} - {{emp.companysize}}+ employees</p> -->
+																		</li>
+																	</ul>
+																</div>
+															</div>
+														</div>
+													</div>
+													<!-- END BUSSINESS -->
+													<div class="{{bussArray.length > 0 ? 'row businessRow' : 'row businessRow displayNone'}}" >
+														<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+															<!-- /END OF ICO BOX/ -->
+															<div class="infoContent">
+																<p>Businesses</p>
+															</div>
+															<!-- /END OF INFO CONTENT/ -->
+														</div>
+														<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 serchUserList">
+															<div class="postWrapper">
+																<div class="postHead">
+																	<!-- <h5 class="txtBlue"><i class="fas fa-clock"></i> Recent</h5> -->
+																	<ul>
+																		<li *ngFor="let buss of bussArray ">
+																			<a  (click)="go(buss.element_id)"  >
+																				<img (click)="removetext();go(buss.element_id)"
+																				 src="{{media_url}}/{{buss.path}}"  />
+																				<!-- <img
+																				*ngIf="buss.file_status == false" src="{{media_url}}/uploads/images/avatar.png"  /> -->
+																				<h4 (click)="removetext();go(buss.element_id)">{{buss.title}}</h4>
+																			</a>
+																		</li>
+																	</ul>
+																</div>
+																<!-- /END OF POST HEAD/ -->
+															</div>
+															<!-- /END OF POST WRAPPER/ -->
+														</div>
+													</div>
+													<div class="{{oppArray.length > 0 ? 'row' : 'row displayNone'}}" >
+														<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+															<!-- /END OF ICO BOX/ -->
+															<div class="infoContent">
+																<p>Opportunity</p>
+															</div>
+															<!-- /END OF INFO CONTENT/ -->
+														</div>
+														<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 serchUserList">
+															<div class="postWrapper">
+																<div class="postHead">
+																	<ul>
+																		<li *ngFor="let opp of oppArray ">
+																			<!-- routerLink="/shared/opportunities_detail/{{opp.element_id}}" -->
+																			<a (click)="go_opp(opp.element_id)" >
+																				<img (click)="removetext();go_opp(opp.element_id)"
+																				 src="{{media_url}}/{{opp.path}}" />
+
+																				<!-- <img
+																				*ngIf="opp.file_status == false" src="{{media_url}}/uploads/images/avatar.png" /> -->
+																				<h4
+																				 (click)="removetext();go_opp(opp.element_id)">{{opp.title}}</h4>
+																			</a>
+																			<!-- <p>{{emp.work_industry}} - {{emp.companysize}}+ employees</p> -->
+																		</li>
+																	</ul>
+																</div>
+															</div>
+														</div>
+													</div>
+													<!-- END BUSSINESS -->
+												</div>
+											</div>
+										</div>
+									</section>
+								</div>
+								<label class="search-label" for="global-search">	<span class="sr-only">Global Search</span>
+								</label>
+									<button class="button search-button" type="button" (click)="onEnter(name)">	<span class="icon ion-search">
+								<i class="fa fa-search" aria-hidden="true"></i>
+							</span>
+							</button>	<!-- <a class="advanceOption" href="">Advanced</a> -->
+							
+							
+							</form>
+                                <div class="other_action">
+								<button class="button calendar_button" type="button" (click)="open_calender()"><i class="fa fa-calendar-o"></i></button>
+								<!-- <button class="button calendar_button" type="button" ><i class="fa fa-calendar-o"></i></button> -->
+								<button class="button chat_button" *ngIf="show_mgs == 0" type="button" (click)="open_quick()"><i class="fa fa-comments"></i></button>
+								<button class="button chat_button" *ngIf="show_mgs == 1" type="button" (click)="close_quick()"><i class="fa fa-comments"></i></button>
+
+                                
+								<!-- user_lists -->
+					 <!-- <div class="user_lists displayNone" id="user_lists"> -->
+					 <div class="user_lists " *ngIf="show_mgs == 1">
+					<div class="inner_con" >
+					<div class="messageLeftContainer">
+						<div class="top_sec">
+							<div class="blckOne">
+								<p>Messaging</p>
+							</div>
+							<div class="blckTwo">
+									<form class="search_con">
+									<input class="form-control" [(ngModel)]="chat_name" name="searchText" (keyup)="chatsearch($event.target.value)" #box (keyup.enter)="chatsearch(box.value)" type="search" placeholder="Search here">
+									<button (click)="chatsearch(name)"><i class="fa fa-search"></i></button>
+								</form>		
+							</div><!-- blckTwo -->
+							</div>
+							<!-- START FIRST -->
+							<div class="userList">
+									<p style="margin-left: 111px;" *ngIf="list_len == 0">	No chat found</p>
+								<ul *ngIf="searchData.length < 1">
+									<li *ngFor="let data of list" class="{{data.user_login_id == cc_id ? 'chatSM active_chat_user' : 'chatSM'}}" (click)="checkRoom(data.user_login_id);closeList()" (click)="Close_chat()" (click)="closeList()" (click)="close_quick()">
+										<span class="userThumb bgs-image"><img src="{{media_url}}/uploads/images/{{data.profile_pic}}">
+											<!--   <span class="status online"></span> -->
+										</span>
+										<div class="userLeft">
+											<h3> {{data.name}}</h3>
+											<p>{{data.message}}</p>
+										</div>
+										<div class="userRight">
+											<p *ngIf="data.timeType == 0">{{data.time | date : 'shortTime'}}</p>
+											<p *ngIf="data.timeType == 1">{{data.time}}</p>
+											<p *ngIf="data.timeType == 2">{{data.time | date}}</p>
+											<span class="msgCounter" *ngIf="data.count > 0">{{data.count}}</span>
+										</div>
+									</li>
+									
+								</ul>
+								<ul *ngIf="searchData.length > 0">
+									<li *ngFor="let newData of searchData" (click)="checkRoom(newData.user_login_id)">
+										<span class="userThumb bgs-image"><img src="{{media_url}}/uploads/images/{{newData.profile_pic}}">
+											<span class="status online"></span>
+										</span>
+										<div class="userLeft">
+											<h3> {{newData.name}}</h3>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+                   </div>
+					<!-- user_lists -->
+
+                                 </div>
+						</div>
+
+						<!-- /END OF HEADER SEARCH/ -->
+					</div>
+					<!-- /END OF COL/ -->
+
+					<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 userBlog">
+						<div *ngIf="user_type2; then thenBlock else elseBlock"></div>
+						<ng-template #thenBlock>
+							<div class="headerImg">
+								<div class="header-mgBlog" *ngFor="let name of nameData ; let i=index;">
+									<div class="jones-mg">
+										<a *ngIf="name.user_type == 2" routerLink="/user">
+											<!-- <div *ngIf="file_status == false">
+											<img *ngFor="let name of nameData ; let i=index;" src="{{media_url}}/uploads/images/avatar.png" id="pp_pic"></div> -->
+											<div >
+											<img *ngFor="let name of nameData ; let i=index;" src="{{media_url}}/uploads/images/{{name.profile_pic_name}}" id="pp_pic"></div>
+										</a>
+										<a *ngIf="name.user_type == 1" routerLink="/bussiness">
+											<!-- <div *ngIf="file_status == false">
+											<img *ngFor="let name of nameData ; let i=index;" src="{{media_url}}/uploads/images/avatar.png" id="pp_pic">
+										</div> -->
+										<div >
+											<img *ngFor="let name of nameData ; let i=index;" src="{{media_url}}/uploads/images/{{name.profile_pic_name}}" id="pp_pic">
+										</div>
+										</a>
+									</div>
+									<div class="jonesBlog" (click)="toggle(i)" (clickElsewhere)="close_nav(i)"  >
+										<a *ngIf="name.user_type == 2"  >
+											<p *ngFor="let name of nameData ; let i=index;">{{name.name}}</p>
+										</a>
+										<a *ngIf="name.user_type == 1"   >
+											<p *ngFor="let name of nameData ; let i=index;">{{name.name}}</p>
+										</a>
+										<!-- <div (click)="toggle()" (clickElsewhere)="closeToggle()" (clickOff)="closeToggle()"> -->
+
+											<i class="fa fa-angle-down" aria-hidden="true"    id="bt"></i>
+											<!-- //class="user-dropdownBlog" (clickElsewhere)="closeToggle()" -->
+											<div class="user-dropdownBlog displayNone" id="nav_header_{{i}}" >
+												<ul *ngFor="let name of nameData ; let i=index;">
+													<li *ngIf="name.user_type == 2">	<a style="color: #1760a0;" *ngIf="headerhref == '/user'" routerLink="/user">View Profile</a>
+														<a *ngIf="headerhref != '/user'" routerLink="/user">View Profile</a>
+													</li>
+													<li *ngIf="name.user_type == 1">	<a style="color: #1760a0;" *ngIf="headerhref == '/bussiness'" routerLink="/bussiness">View Profile</a>
+														<a *ngIf="headerhref != '/bussiness'" routerLink="/bussiness">View Profile</a>
+													</li>
+													<li *ngIf="name.user_type == 2"><a style="color: #1760a0;" *ngIf="headerhref == '/user/settings'" routerLink="/user/settings">Settings</a>
+													</li>
+													<li *ngIf="name.user_type == 2"><a *ngIf="headerhref != '/user/settings'" routerLink="/user/settings">Settings</a>
+													</li>
+													<li *ngIf="name.user_type == 1"><a style="color: #1760a0;" *ngIf="headerhref == '/bussiness/setting'" routerLink="/bussiness/setting">Settings</a>
+													</li>
+													<li *ngIf="name.user_type == 1"><a *ngIf="headerhref != '/bussiness/setting'" routerLink="/bussiness/setting">Settings</a>
+													</li>
+													<br>
+													<!-- <li><a routerLink="/logout">Logout</a> -->
+													<li><a (click)="logout()">Logout</a>
+													</li>
+												</ul>
+											<!-- </div> -->
+										</div>
+										<!-- USER-DROPDOWNBLOG -->
+									</div>
+								</div>
+								<!-- HEADER-MGBLOG -->
+							</div>
+							<!-- HEADERIMG -->
+						</ng-template>
+						<ng-template #elseBlock>
+							<div class="header-mgBlog">	<a class="blue_button fl-right" routerLink="/">Login</a>
+							</div>
+						</ng-template>
+					</div>
+					<!-- /END OF COL/ -->
+				</div>
+			</div>
+			<!-- /END OF HEAD TOP/ -->
+		</div>
+	</div>
+	
+
+	<div class="innerblock" *ngIf="logStatus == true">
+		<!-- /END OF WRAP/ -->
+		<div class="header-menu">
+			<div class="wrap">
+				<div class="navBar">
+					<ul *ngFor="let name of nameData ; let i=index;">
+						<li (click)="closeTag();highlight_nav('account_id')" id="account_id" class="" *ngIf="name.user_type == 2" routerLink="/user" ><a>
+						Account</a>
+						</li>
+						<li (click)="closeTag();highlight_nav('account_id')" id="account_id" class="" routerLink="/bussiness"  *ngIf="name.user_type == 1"><a>Account</a>
+						</li>
+						
+						<li (click)="closeTag();noti_count();highlight_nav('noti_id')" id="noti_id"  routerLink="/shared/notification"  *ngIf="name.user_type == 2"><a>
+						<span *ngIf="notification_count > 0" class="count-no">{{notification_count}}</span> Notifications</a>
+						</li>
+
+
+						<li (click)="closeTag();noti_count();highlight_nav('noti_id')" id="noti_id"  *ngIf="name.user_type == 1" routerLink="/shared/notification" ><a>
+						<span *ngIf="notification_count > 0" class="count-no">{{notification_count}}</span> Notifications</a>
+						</li>
+
+
+						<li  routerLink="/shared/messages"  *ngIf="name.user_type == 2" (click)="ConnectSocket();highlight_nav('msg_id')" id="msg_id"><a>Messages <span *ngIf="message_count > 0" class="count-no-message">{{message_count}}</span></a>
+						</li>
+						<li  routerLink="/shared/messages"  *ngIf="name.user_type == 1" (click)="ConnectSocket();highlight_nav('msg_id')" id="msg_id"><a>Messages <span *ngIf="message_count > 0" class="count-no-message">{{message_count}}</span></a>
+						</li>
+						<li (click)="highlight_nav('opp_id')" id="opp_id" *ngIf="name.user_type == 2" routerLink="/user/opportunities-user" ><a>Opportunities</a>
+						</li>
+						<li *ngIf="name.user_type == 1" (click)="highlight_nav('opp_id')" id="opp_id" routerLink="/bussiness/opportunities" ><a>Opportunities</a>
+						</li>
+						<li (click)="highlight_nav('contact_id')" id="contact_id" routerLink="/shared/contact-us" ><a>Contact Us</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>
+<!-- END OF HEADER -->
+<div class="sitewide-header-mobile">
+	<div class="primary-header">
+		<div class="outer">
+			<div class="logo">
+				<div class="logo-icn">
+					<div class="logo-icn-inner">
+						<div class="logoHolder">
+							<a routerLink="/">
+								<img src="assets/images/logo2-mg.png" alt="qualifiedLogo">
+							</a>
+						</div>
+					</div>
+				</div>
+				<!-- /END OF LOGO-ICN/ -->
+				<div class="headerImg" *ngIf="logStatus == true">
+					<div class="header-mgBlog" *ngFor="let name of nameData ">
+						<div class="jones-mg">
+							<a *ngIf="name.user_type == 2" routerLink="/user">
+											<!-- <div *ngIf="file_status == false">
+											<img *ngFor="let name of nameData ; let i=index;" src="{{media_url}}/uploads/images/avatar.png" id="pp_pic"></div> -->
+											<div >
+											<img *ngFor="let name of nameData ; let i=index;" src="{{media_url}}/uploads/images/{{name.profile_pic_name}}" id="pp_pic"></div>
+										</a>
+										<a *ngIf="name.user_type == 1" routerLink="/bussiness">
+											<!-- <div *ngIf="file_status == false">
+											<img *ngFor="let name of nameData ; let i=index;" src="{{media_url}}/uploads/images/avatar.png" id="pp_pic">
+										</div> -->
+										<div >
+											<img *ngFor="let name of nameData ; let i=index;" src="{{media_url}}/uploads/images/{{name.profile_pic_name}}" id="pp_pic">
+										</div>
+										</a>
+
+							<!-- <img *ngFor="let name of nameData ; let i=index;" src="{{media_url}}/uploads/images/{{name.profile_pic_name}}"> -->
+						</div>
+						<div (click)="toggle_show(i)"  (clickElsewhere)="close_mobi_header(i)"  class="jonesBlog" *ngFor="let name of nameData ; let i=index;"> 
+							<!-- <p *ngFor="let name of nameData ; let i=index;">{{name.name}}</p> -->
+							<a *ngIf="name.user_type == 2" >
+											<p *ngFor="let name of nameData ; let i=index;">{{name.name}}</p>
+										</a>
+										<a *ngIf="name.user_type == 1"  >
+											<p *ngFor="let name of nameData ; let i=index;">{{name.name}}</p>
+										</a>
+
+
+								<!-- <i class="fa fa-angle-down" (click)="toggle()" aria-hidden="true"></i> -->
+								<i class="fa fa-angle-down" aria-hidden="true"  ></i>
+							<div id="mobile_header_{{i}}" class="displayNone " style="position: absolute;top: 37px;z-index: 9999;background: #ffff;padding: 5px;width: 110px;border: 1px solid #ddd;">
+								<ul class="search-dropdown-menu" *ngFor="let name of nameData">
+									
+									<li *ngIf="name.user_type == 2" style="padding: 5px;background: #fff;">	<a style="color: #1760a0;" *ngIf="headerhref == '/user'" routerLink="/user">View Profile</a>
+										<a style="color: #000;" *ngIf="headerhref != '/user'" routerLink="/user">View Profile</a>
+									</li>
+									<li *ngIf="name.user_type == 1" style="padding: 5px;background: #fff;">	<a style="color: #1760a0;" *ngIf="headerhref == '/bussiness'" routerLink="/bussiness">View Profile</a>
+										<a style="color: #000;" *ngIf="headerhref != '/bussiness'" routerLink="/bussiness">View Profile</a>
+									</li>
+									<li *ngIf="headerhref == '/bussiness/setting'" style="padding: 5px;background: #fff;"><a style="color: #1760a0;"  routerLink="/bussiness/setting">Settings</a>
+									</li>
+									<li *ngIf="headerhref != '/bussiness/setting'" style="padding: 5px;background: #fff;"><a style="color: #000;"  routerLink="/bussiness/setting">Settings</a>
+									</li>
+									<br>
+									<!-- <li style="width: 94px;padding: 5px;background: #fff;"><a style="color: #000;" routerLink="/settings">Setting</a></li>
+
+									<br> -->
+									<li style="padding: 5px;background: #fff;"><a style="color: #000;" (click)="logout()">Logout</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- HEADER-MGBLOG -->
+				</div>
+				<!-- HEADERIMG -->
+				<div class="flex-item hamBox" (click)="showSecondTog()" *ngIf="logStatus == true">
+					<div class="holder">
+						<div class="hamburger-menu">
+							<div class="line-menu"></div>
+							<div class="line-menu half end"></div>
+							<div class="line-menu"></div>
+						</div>
+					</div>
+					<!-- /END OF HOLDER/ -->
+				</div>
+				<!--/END OF FLEX/-->
+				<div class="headerImg" style="justify-content: flex-end;" *ngIf="logStatus == false">
+					<div class="header-mgBlog" style="justify-content: flex-end;">	<a class="blue_button fl-right" routerLink="/">Login</a>
+					</div>
+					<!-- HEADER-MGBLOG -->
+				</div>
+			</div>
+			<!-- /END OF LOGO/ -->
+		</div>
+		<!-- /END OF OUTER/ -->
+	</div>
+	<!-- /END OF PRIMARY-HEADER/ -->
+	<div class="secondry-header" *ngIf="logStatus == true" >
+		<div class="flex" >
+			<div class="flex-item hamSearch">
+				<div class="headerSearch">
+					<form class="expanding-search-form">
+						<div class="search-dropdown" *ngFor="let name of nameData ; let i=index;">
+							<button class="button search-dropdown-toggle" type="button" (click)="toggle_search(i);"  (clickElsewhere)="close_mobi_search(i)" >	<i   class="fa fa-bars" aria-hidden="true"></i>
+							</button>
+							<div class="displayNone" id="mobile_toggle_search_{{i}}">
+							<ul class=" search-dropdown-menu" >
+								<li><a class="{{All != 1 ? 'liActive' : ''}}" (click)="Menu(0);toggle1Close()">ALL</a>
+								</li>
+								<!-- *ngIf="All == 1" -->
+								<li><a class="{{opp != 1 ? 'liActive' : ''}}" (click)="Menu(1);toggle1Close()">Opportunities</a>
+								</li>
+								<!-- *ngIf="opp == 1" -->
+								<li><a class="{{pop != 1 ? 'liActive' : ''}}" (click)="Menu(2);toggle1Close()">People</a>
+								</li>
+								<!-- *ngIf="pop == 1" -->
+								<li><a class="{{buss != 1 ? 'liActive' : ''}}" (click)="Menu(3);toggle1Close()">Bussiness</a>
+								</li>
+								<!-- *ngIf="buss == 1" -->
+
+								<input type="hidden" value="{{value}}">
+							</ul>
+							</div>
+						</div>
+						<input *ngIf="searchAll == 1" class="search-input" id="global-search" [(ngModel)]="name" type="search" #box (keyup.enter)="onEnter(box.value, $event)" placeholder="Search for people, opportunities, and more..." (keyup)="search($event.target.value,$event)" autocomplete="off" name="searchText">
+
+
+
+								<input *ngIf="searchAll == 2" class="search-input" id="global-search" [(ngModel)]="name" type="search" #box (keyup.enter)="onEnter(box.value, $event)" placeholder="Search for people, opportunities, and more..." (keyup)="searchOpp($event.target.value,$event)" autocomplete="off" name="searchText">
+
+								<input *ngIf="searchAll == 3" class="search-input" id="global-search" [(ngModel)]="name" type="search" #box (keyup.enter)="onEnter(box.value, $event)" placeholder="Search for people, opportunities, and more..." (keyup)="searchUser($event.target.value,$event)" autocomplete="off" name="searchText">
+
+								<input *ngIf="searchAll == 4" class="search-input" id="global-search" [(ngModel)]="name" type="search" #box (keyup.enter)="onEnter(box.value, $event)" placeholder="Search for people, opportunities, and more..." (keyup)="searchBus($event.target.value,$event)" autocomplete="off" name="searchText">
+							<!-- </form> -->
+								<div>
+									<!-- <ul id="" >
+										<li >{{emp.name}}</li>
+										
+									</ul>  -->
+									<section class="searchBarContainer" id="search_result_box" *ngIf="customerData != '' && customerData != undefined && customerData != null">
+										<div class="innerWrap">
+											<div class="innerPadding">
+												<div class="wrap">
+													<div class="{{userArray.length > 0 ? 'row' : 'row displayNone'}}" >
+														<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+															<!-- /END OF ICO BOX/ -->
+															<div class="infoContent">
+																<p>People</p>
+															</div>
+															<!-- /END OF INFO CONTENT/ -->
+														</div>
+														<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 serchUserList">
+															<div class="postWrapper">
+																<div class="postHead">
+																	<ul>
+																		<li *ngFor="let user of userArray " >
+																			<a (click)="go(user.element_id)" >
+
+
+																				<!-- <img
+																				*ngIf="user.file_status == false" src="{{media_url}}/uploads/images/avatar.png" /> -->
+																				<img (click)="removetext();go(user.element_id)"
+																				 src="{{media_url}}/{{user.path}}" />
+																				<h4
+																				 (click)="removetext();go(user.element_id)">{{user.title}}</h4>
+																			</a>
+																			<!-- <p>{{emp.work_industry}} - {{emp.companysize}}+ employees</p> -->
+																		</li>
+																	</ul>
+																</div>
+															</div>
+														</div>
+													</div>
+													<!-- END BUSSINESS -->
+													<div class="{{bussArray.length > 0 ? 'row businessRow' : 'row businessRow displayNone'}}" >
+														<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+															<!-- /END OF ICO BOX/ -->
+															<div class="infoContent">
+																<p>Businesses</p>
+															</div>
+															<!-- /END OF INFO CONTENT/ -->
+														</div>
+														<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 serchUserList">
+															<div class="postWrapper">
+																<div class="postHead">
+																	<!-- <h5 class="txtBlue"><i class="fas fa-clock"></i> Recent</h5> -->
+																	<ul>
+																		<li *ngFor="let buss of bussArray ">
+																			<a  (click)="go(buss.element_id)" >
+																				<img (click)="removetext();go(buss.element_id)"
+																				 src="{{media_url}}/{{buss.path}}"  />
+																				<!-- <img
+																				*ngIf="buss.file_status == false" src="{{media_url}}/uploads/images/avatar.png"  /> -->
+																				<h4 (click)="removetext();go(buss.element_id)">{{buss.title}}</h4>
+																			</a>
+																		</li>
+																	</ul>
+																</div>
+																<!-- /END OF POST HEAD/ -->
+															</div>
+															<!-- /END OF POST WRAPPER/ -->
+														</div>
+													</div>
+													<div class="{{oppArray.length > 0 ? 'row' : 'row displayNone'}}" >
+														<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+															<!-- /END OF ICO BOX/ -->
+															<div class="infoContent">
+																<p>Opportunity</p>
+															</div>
+															<!-- /END OF INFO CONTENT/ -->
+														</div>
+														<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 serchUserList">
+															<div class="postWrapper">
+																<div class="postHead">
+																	<ul>
+																		<li *ngFor="let opp of oppArray ">
+																			<a (click)="go_opp(opp.element_id)" >
+																				<img (click)="removetext();go_opp(opp.element_id)"
+																				 src="{{media_url}}/{{opp.path}}" />
+
+																				<!-- <img
+																				*ngIf="opp.file_status == false" src="{{media_url}}/uploads/images/avatar.png" /> -->
+																				<h4
+																				 (click)="removetext();go_opp(opp.element_id)">{{opp.title}}</h4>
+																			</a>
+																			<!-- <p>{{emp.work_industry}} - {{emp.companysize}}+ employees</p> -->
+																		</li>
+																	</ul>
+																</div>
+															</div>
+														</div>
+													</div>
+													<!-- END BUSSINESS -->
+												</div>
+											</div>
+										</div>
+									</section>
+								</div>
+						<label class="search-label" for="global-search">	<span class="sr-only">Global Search</span>
+						</label>
+						<!-- <section class="searchBarContainer" *ngIf="customerData != '' && customerData != undefined && customerData != null">
+							<div class="innerWrap">
+								<div class="wrap">
+									<div class="row businessRow">
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 serchUserList">
+										<div class="postWrapper">
+												<div class="postHead">
+													<ul>
+														<li *ngFor="let emp of customerData let i=index;">
+															<a routerLink="/shared/view_profile/{{emp.id}}" target="_blank">
+																<img src="./assets/uploads/images/{{emp.profile_pic}}" />
+																<h4>{{emp.title}}</h4>
+															</a>
+															
+														</li>
+													</ul>
+												</div>
+												
+											</div>
+											
+										</div>
+									</div>
+									
+								</div>
+							</div>
+						</section> -->
+					</form>
+					<button class="button search-button" type="button" (click)="onEnter(name)"> 	<span class="icon ion-search">
+						<i class="fa fa-search" aria-hidden="true"></i>
+					</span>
+					</button>
+					<div class="other_action">
+						<button class="button calendar_button" type="button" (click)="open_calender()"><i class="fa fa-calendar-o"></i></button>
+						<button class="button chat_button" *ngIf="show_mgs == 0" type="button" (click)="open_quick()"><i class="fa fa-comments"></i></button>
+						<button class="button chat_button" *ngIf="show_mgs == 1" type="button" (click)="close_quick()"><i class="fa fa-comments"></i></button>
+
+						<!-- user_lists -->
+						<div class="user_lists " *ngIf="show_mgs == 1">
+						<!-- <div class="user_lists displayNone" id="user_lists"> -->
+						<div class="inner_con" >
+						<div class="messageLeftContainer">
+							<div class="top_sec">
+								<div class="blckOne">
+									<p>Messaging</p>
+								</div>
+								<div class="blckTwo">
+										<form class="search_con">
+										<input class="form-control" [(ngModel)]="chat_name" name="searchText" (keyup)="chatsearch($event.target.value)" #box (keyup.enter)="chatsearch(box.value)" type="search" placeholder="Search here">
+										<button (click)="chatsearch(name)"><i class="fa fa-search"></i></button>
+									</form>		
+								</div><!-- blckTwo -->
+								</div>
+								<!-- START FIRST -->
+								<div class="userList">
+									<p style="margin-left: 111px;" *ngIf="list_len == 0">	No chat found</p>
+									<ul *ngIf="searchData.length < 1">
+										<li *ngFor="let data of list" class="{{data.user_login_id == cc_id ? 'chatSM active_chat_user' : 'chatSM'}}" (click)="checkRoom(data.user_login_id);closeList()" (click)="Close_chat()" (click)="closeList()" (click)="close_quick()">
+											<span class="userThumb bgs-image"><img src="{{media_url}}/uploads/images/{{data.profile_pic}}">
+												<!--   <span class="status online"></span> -->
+											</span>
+											<div class="userLeft">
+												<h3> {{data.name}}</h3>
+												<p>{{data.message}}</p>
+											</div>
+											<div class="userRight">
+												<p *ngIf="data.timeType == 0">{{data.time | date : 'shortTime'}}</p>
+												<p *ngIf="data.timeType == 1">{{data.time}}</p>
+												<p *ngIf="data.timeType == 2">{{data.time | date}}</p>
+												<span class="msgCounter" *ngIf="data.count > 0">{{data.count}}</span>
+											</div>
+										</li>
+										
+									</ul>
+									<ul *ngIf="searchData.length > 0">
+										<li *ngFor="let newData of searchData" (click)="checkRoom(newData.user_login_id)">
+											<span class="userThumb bgs-image"><img src="{{media_url}}/uploads/images/{{newData.profile_pic}}">
+												<span class="status online"></span>
+											</span>
+											<div class="userLeft">
+												<h3> {{newData.name}}</h3>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+	                   </div>
+						<!-- user_lists -->
+
+					</div>	
+					<!-- <a class="advanceOption" href="">Advanced</a> -->
+				</div>
+				<!-- /END OF HEADER SEARCH/ -->
+			</div>
+			<!--/END OF FLEX/-->
+		</div>
+		<!-- /END OF FLEX/ -->
+	</div>
+	<!-- /END OF SECONDRY-HEADER/ -->
+</div>
+<!-- /END OF SITEWIDE-HEADER-MOBILE/ -->
+<div class="modal--backdrop"></div>
+<div class="menu--drawer mobile-menus">
+	<div class="menu-wrapper">
+		<!-- <div class="close-menu" (click)="closeTag()">
+				<svg version="1.1" id="Layer_1" class="menu-close-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="14px" height="14px" viewBox="0 0 20.5 20.5" style="enable-background:new 0 0 20.5 20.5;" xml:space="preserve">
+					<g>
+					<line class="st0" x1="0.7" y1="0.7" x2="19.8" y2="19.8"></line>
+				</g>
+				<g>
+				<line class="st0" x1="0.7" y1="19.8" x2="19.8" y2="0.7"></line>
+			</g>
+		</svg>
+	</div> -->
+		<!-- /END OF CLOSE-MENU/ -->
+		<div class="menu-inner">
+			<div class="menu-teritary navigations">
+				<ul class="block-lists" *ngFor="let name of nameData ; let i=index;">
+					<li class="" *ngIf="name.user_type == 2" routerLink="/user" ><a>
+				Account</a>
+					</li>
+					<li class="" routerLink="/bussiness"  *ngIf="name.user_type == 1"><a>Account</a>
+					</li>
+					<!-- 	<li    routerLink="/notification"  *ngIf="name.user_type == 2"><a >Notifications</a></li>
+				<li    *ngIf="name.user_type == 1" routerLink="/notification" ><a >Notifications</a></li> -->
+					<!-- <li routerLink="/notification"  *ngIf="name.user_type == 2"><a><span class="count-no">{{notification_count}}</span> Notifications</a>
+					</li>
+					<li *ngIf="name.user_type == 1" routerLink="/notification" ><a><span class="count-no">{{notification_count}}</span> Notifications</a>
+					</li>
+					<li routerLink="/messages"  *ngIf="name.user_type == 2" (click)="ConnectSocket()"><a>Messages </a>
+					</li>
+					<li routerLink="/messages"  *ngIf="name.user_type == 1" (click)="ConnectSocket()"><a>Messages </a>
+					</li> -->
+					<li (click)="closeTag()"  routerLink="/shared/notification"  *ngIf="name.user_type == 2"><a>
+						<span *ngIf="notification_count > 0" class="count-no">{{notification_count}}</span> Notifications</a>
+						</li>
+
+
+						<li (click)="closeTag()"  *ngIf="name.user_type == 1" routerLink="/shared/notification" ><a>
+						<span *ngIf="notification_count > 0" class="count-no">{{notification_count}}</span> Notifications</a>
+						</li>
+
+
+						<li  routerLink="/shared/messages"  *ngIf="name.user_type == 2" (click)="ConnectSocket()"><a>Messages <span *ngIf="message_count > 0" class="count-no-message">{{message_count}}</span></a>
+						</li>
+						<li  routerLink="/shared/messages"  *ngIf="name.user_type == 1" (click)="ConnectSocket()"><a>Messages <span *ngIf="message_count > 0" class="count-no-message">{{message_count}}</span></a>
+						</li>
+					<li *ngIf="name.user_type == 2" routerLink="/user/opportunities-user" ><a>Opportunities</a>
+					</li>
+					<li *ngIf="name.user_type == 1" routerLink="/bussiness/opportunities" ><a>Opportunities</a>
+					</li>
+					<li routerLink="/contact-us" ><a>Contact Us</a>
+					</li>
+				</ul>
+				<!-- /END OF UL/ -->
+			</div>
+			<!-- /END OF MENU-TERITARY/ -->
+		</div>
+		<!-- /END OF MENU-INNER/ -->
+	</div>
+	<!-- /END OF MENU-WRAPPER/ -->
+</div>
+
+<!-- bottom_sticky_chat -->
+	<div id="message_window"  class="chat_window_container bottom_sticky_chat displayNone"   >
+	
+
+	   	<i class="fa fa-times close_bottom_sticky_chat" (click)="Close_chat()"></i>
+	   	<div class="top_sec " (click)="stickChat()">
+							
+			<div class="{{pic.user_login_id == cc_id ? 'head_sec' : 'head_sec displayNone'}} " *ngFor="let pic of list"  style="">
+				<img  class="user_image" src="{{media_url}}/uploads/images/{{pic.profile_pic}}">
+				<div class="content" >
+					<h6 *ngIf="pic.user_login_id == id">{{pic.name}}</h6>
+				</div>
+				<!-- <abbr *ngIf="sendSection == true" title="Video Chat"> <span id="start_videochat" (click)="startChat()" class="start_videochat fa fa-video"></span></abbr> -->
+			</div>
+			
+			<!-- <ul>
+														<li><a href="" class="fa fa-minus" href=""></a></li>
+														<li><a href="" class="fa fa-times" href=""></a></li>
+			</ul> -->
+		</div><!-- top -->
+	              <div class="{{sendSection == true ? 'mid_sec' : 'mid_sec overflow_hidden'}}" id="data" >
+											<div *ngFor="let data of newChat">
+												<div class="date_con_chat text-center" *ngIf="data.id == '' ">
+													<p class="chat_date_view" *ngIf="data.cust == 0 && data.created_date != 'Yesterday' && data.created_date != 'Today' ">{{data.created_date | date }}</p>
+													<p class="chat_date_view" *ngIf="data.cust == 1">{{data.created_date}}</p>
+												</div>
+												<div  class="{{data.message_from == myid ? 'my_chat text_box text-right' :'second_person_chat text-left'}}">
+													<!-- <img class="user_image"  src="./assets/images/message-user02.png" >-->
+													<div class="text_box" *ngIf="data.id != '' ">
+														<p >
+															<img src="{{data.media}}" *ngIf="data.type == 1 && data.media != undefined" class="attacImage" width="250">
+															<span *ngIf="data.type == 2" (click)="showImg(data.media, data.type)"><a href=""><i class="fa fa-video" aria-hidden="true"></i> Video </a></span>
+															<span *ngIf="data.type == 3"><a href="{{data.media}}" download><i class="fa fa-file-archive-o" aria-hidden="true"></i> Zip/Document </a></span>
+															<span class="text-black" [innerHTML]="data.message"></span>
+														</p>
+														<span>{{data.created_date | date : 'shortTime'}}</span>
+													</div>
+													
+												</div>
+											</div>
+											<div *ngFor="let data of messages" class="{{data.id == myid ? 'my_chat text_box text-right' :'second_person_chat text-left'}}">
+												<!-- <img class="user_image" *ngIf="data.id != myid" src="./assets/images/message-user02.png" > -->
+												<p>I will display &#128532;</p>
+												<div class="text_box">
+													<p [innerHTML]='data.message'></p>
+													<!-- <span>{{data.created_date | date}}</span -->
+												</div>
+											</div>
+											<div class="accept_pop_outer" *ngIf="showPermission == true">
+												<div class="accept_pop">
+													<p *ngIf="permissionboxMsg == '' " class="p1"><b>Allow user to chat</b></p>
+													<p *ngIf="permissionboxMsg == '' " class="p2">'<b>{{user_name}}</b>' want to chat with you , click on allow to start chat with '<b>{{user_name}}</b>' or click deny to deny request.</p>
+													<p class="p2">{{permissionboxMsg}}</p>
+													<button *ngIf="showButton == true" class="b1" (click)="permissionAction(1)">Allow</button>
+													<button *ngIf="showButton == true" class="b2" (click)="permissionAction(0)">Deny</button>
+												</div>
+											</div>
+											<!-- <div class="my_chat text_box text-right">
+																						<p>Let's start the project</p>
+																						<span>07:30am</span>
+											</div> -->
+	               </div><!-- mid_sec -->
+	   		<div class="bottom_sec" *ngIf="sendSection == true">
+												<div class="upload_pop" *ngIf="imgResultAfterCompress">
+													<!-- <img src="" style="width: 100%;" id="image_show"> -->
+													<img *ngIf="imgResultAfterCompress" [src]="imgResultAfterCompress" alt="">
+													<img class="thumb-ico" src="assets/images/close.svg" title="Remove image" (click)="removeAttach()">
+													<div class="edit_file">
+														<button (click)="compressFile(this)" class="file_multi_image thumb-input2 flIcon"></button>
+														<!--  <input type="file" id="postImage"  name="file[]"  accept="image/*" (change)="images($event)" title="Change image" > -->
+													</div>
+												</div>
+												<div class="upload_pop" *ngIf="imgResultBeforeCompress">
+													<div style="position: absolute; min-height: 33px; border: 1px solid #ddd; padding: 7px; margin: 10px 23px;">{{files[0].name}}</div>
+													<img class="thumb-ico" src="assets/images/close.svg" title="Remove image" (click)="removeAttach()">
+													<div class="edit_file" >
+														<input class="file_multi_image thumb-input2 flIcon" type="file" id="postImage"  name="file[]"  accept="image/*" (change)="other($event)" title="Change image" >
+													</div>
+												</div>
+												<!-- <ngx-emoj class="emoji_container"
+												(onemojipick)="handleEmoji($event)"
+												(onchardelete)="handleCharDelete($event)"
+												[width]="'50%'"
+												[height]="'200px'"
+												[theme]="{
+												martShowHeader: true,
+												martHeaderPadding: {x: '0', y: '0'},
+												martFooterPadding: {x: '0', y: '0'},
+												martHeaderFontSize: '14px',
+												martHeaderBG: '#e3e7e8',
+												martFooterBG: '#e3e7e8',
+												martBG: '#ebeff2',
+												martCategoryColor: '#94a0a6',
+												martCategoryColorActive: '#455a64',
+												martActiveCategoryIndicatorColor: '#00897b',
+												martEmojiFontSize: '100%',
+												martCategoryFontSize: '16px',
+												martBorderRadius: '5px',
+												martActiveCategoryIndicatorHeight: '4px',
+												martEmojiPadding: {x: '40px', y: '40px'}
+												}"
+												[maxRecentEmoji]="10"
+												[searchEmojiPlaceholderText]="'Search Emoji'"
+												[emojiNotFoundText]="'No data'">
+												</ngx-emoj> -->
+												<form [formGroup]="messageForm" (ngSubmit)="Message()">
+													<!-- <div class="emoji_container">
+																<ul class="tab_container">
+																			<li (click)="activeEmoticonDiv(1)">😁</li>
+																			<li (click)="activeEmoticonDiv(2)">🤲</li>
+																</ul>
+																<ul class="emojiC" id="div1">
+																			<li (click)="addEmoticon($event)">😁</li>
+																			<li (click)="addEmoticon($event)">😂</li>
+																			<li (click)="addEmoticon($event)">😃</li>
+																			<li (click)="addEmoticon($event)">😄</li>
+																			<li (click)="addEmoticon($event)">😅</li>
+																			<li (click)="addEmoticon($event)">😆</li>
+																			<li (click)="addEmoticon($event)">😇</li>
+																			<li (click)="addEmoticon($event)">😈</li>
+																			<li (click)="addEmoticon($event)">😉</li>
+																			<li (click)="addEmoticon($event)">😊</li>
+																			<li (click)="addEmoticon($event)">😋</li>
+																			<li (click)="addEmoticon($event)">😌</li>
+																			<li (click)="addEmoticon($event)">😍</li>
+																			<li (click)="addEmoticon($event)">😎</li>
+																			<li (click)="addEmoticon($event)">😏</li>
+																			<li (click)="addEmoticon($event)">😐</li>
+																			<li (click)="addEmoticon($event)">😑</li>
+																			<li (click)="addEmoticon($event)">😒</li>
+																			<li (click)="addEmoticon($event)">😓</li>
+																			<li (click)="addEmoticon($event)">😔</li>
+																			<li (click)="addEmoticon($event)">😕</li>
+																			<li (click)="addEmoticon($event)">😖</li>
+																			<li (click)="addEmoticon($event)">😗</li>
+																			<li (click)="addEmoticon($event)">😘</li>
+																			<li (click)="addEmoticon($event)">😙</li>
+																			<li (click)="addEmoticon($event)">😚</li>
+																			<li (click)="addEmoticon($event)">😛</li>
+																			<li (click)="addEmoticon($event)">😜</li>
+																			<li (click)="addEmoticon($event)">😝</li>
+																			<li (click)="addEmoticon($event)">😞</li>
+																			<li (click)="addEmoticon($event)">😠</li>
+																			<li (click)="addEmoticon($event)">😡</li>
+																			<li (click)="addEmoticon($event)">😢</li>
+																			<li (click)="addEmoticon($event)">😣</li>
+																			<li (click)="addEmoticon($event)">😤</li>
+																			<li (click)="addEmoticon($event)">😥</li>
+																			<li (click)="addEmoticon($event)">😦</li>
+																			<li (click)="addEmoticon($event)">😧</li>
+																			<li (click)="addEmoticon($event)">😨</li>
+																			<li (click)="addEmoticon($event)">😩</li>
+																			<li (click)="addEmoticon($event)">😪</li>
+																			<li (click)="addEmoticon($event)">😫</li>
+																			<li (click)="addEmoticon($event)">😬</li>
+																			<li (click)="addEmoticon($event)">😭</li>
+																			<li (click)="addEmoticon($event)">😮</li>
+																			<li (click)="addEmoticon($event)">😯</li>
+																			<li (click)="addEmoticon($event)">😰</li>
+																			<li (click)="addEmoticon($event)">😱</li>
+																			<li (click)="addEmoticon($event)">😲</li>
+																			<li (click)="addEmoticon($event)">😳</li>
+																			<li (click)="addEmoticon($event)">😴</li>
+																			<li (click)="addEmoticon($event)">😵</li>
+																			<li (click)="addEmoticon($event)">😶</li>
+																			<li (click)="addEmoticon($event)">😷</li>
+																			<li (click)="addEmoticon($event)">🙁</li>
+																			<li (click)="addEmoticon($event)">🙂</li>
+																			<li (click)="addEmoticon($event)">🙃</li>
+																			<li (click)="addEmoticon($event)">🙄</li>
+																			<li (click)="addEmoticon($event)">🤐</li>
+																			<li (click)="addEmoticon($event)">🤑</li>
+																			<li (click)="addEmoticon($event)">🤒</li>
+																			<li (click)="addEmoticon($event)">🤓</li>
+																			<li (click)="addEmoticon($event)">🤔</li>
+																			<li (click)="addEmoticon($event)">🤕</li>
+																			<li (click)="addEmoticon($event)">🤠</li>
+																			<li (click)="addEmoticon($event)">🤡</li>
+																			<li (click)="addEmoticon($event)">🤢</li>
+																			<li (click)="addEmoticon($event)">🤣</li>
+																			<li (click)="addEmoticon($event)">🤤</li>
+																			<li (click)="addEmoticon($event)">🤥</li>
+																			<li (click)="addEmoticon($event)">🤧</li>
+																			<li (click)="addEmoticon($event)">🤨</li>
+																			<li (click)="addEmoticon($event)">🤩</li>
+																			<li (click)="addEmoticon($event)">🤪</li>
+																			<li (click)="addEmoticon($event)">🤫</li>
+																			<li (click)="addEmoticon($event)">🤬</li>
+																			<li (click)="addEmoticon($event)">🤭</li>
+																			<li (click)="addEmoticon($event)">🤮</li>
+																			<li (click)="addEmoticon($event)">🤯</li>
+																			<li (click)="addEmoticon($event)">🧐</li>
+																</ul>
+																<ul id="div2" class="div2 emojiC displayNone">
+																			<li (click)="addEmoticon($event)">☝</li>
+																			<li (click)="addEmoticon($event)">⛹</li>
+																			<li (click)="addEmoticon($event)">✊</li>
+																			<li (click)="addEmoticon($event)">✋</li>
+																			<li (click)="addEmoticon($event)">✌</li>
+																			<li (click)="addEmoticon($event)">✍</li>
+																			<li (click)="addEmoticon($event)">🎅</li>
+																			<li (click)="addEmoticon($event)">🏂</li>
+																			<li (click)="addEmoticon($event)">🏃</li>
+																			<li (click)="addEmoticon($event)">🏄</li>
+																			<li (click)="addEmoticon($event)">🏇</li>
+																			<li (click)="addEmoticon($event)">🏊</li>
+																			<li (click)="addEmoticon($event)">🏋</li>
+																			<li (click)="addEmoticon($event)">🏌</li>
+																			<li (click)="addEmoticon($event)">👂</li>
+																			<li (click)="addEmoticon($event)">👃</li>
+																			<li (click)="addEmoticon($event)">👆</li>
+																			<li (click)="addEmoticon($event)">👇</li>
+																			<li (click)="addEmoticon($event)">👈</li>
+																			<li (click)="addEmoticon($event)">👉</li>
+																			<li (click)="addEmoticon($event)">👊</li>
+																			<li (click)="addEmoticon($event)">👋</li>
+																			<li (click)="addEmoticon($event)">👌</li>
+																			<li (click)="addEmoticon($event)">👍</li>
+																			<li (click)="addEmoticon($event)">👎</li>
+																			<li (click)="addEmoticon($event)">👏</li>
+																			<li (click)="addEmoticon($event)">👐</li>
+																			<li (click)="addEmoticon($event)">👦</li>
+																			<li (click)="addEmoticon($event)">👧</li>
+																			<li (click)="addEmoticon($event)">👨</li>
+																			<li (click)="addEmoticon($event)">👩</li>
+																			<li (click)="addEmoticon($event)">👮</li>
+																			<li (click)="addEmoticon($event)">👰</li>
+																			<li (click)="addEmoticon($event)">👱</li>
+																			<li (click)="addEmoticon($event)">👲</li>
+																			<li (click)="addEmoticon($event)">👳</li>
+																			<li (click)="addEmoticon($event)">👴</li>
+																			<li (click)="addEmoticon($event)">👵</li>
+																			<li (click)="addEmoticon($event)">👶</li>
+																			<li (click)="addEmoticon($event)">👷</li>
+																			<li (click)="addEmoticon($event)">👸</li>
+																			<li (click)="addEmoticon($event)">👼</li>
+																			<li (click)="addEmoticon($event)">💁</li>
+																			<li (click)="addEmoticon($event)">💂</li>
+																			<li (click)="addEmoticon($event)">💃</li>
+																			<li (click)="addEmoticon($event)">💅</li>
+																			<li (click)="addEmoticon($event)">💆</li>
+																			<li (click)="addEmoticon($event)">💇</li>
+																			<li (click)="addEmoticon($event)">💪</li>
+																			<li (click)="addEmoticon($event)">🕴</li>
+																			<li (click)="addEmoticon($event)">🕵</li>
+																			<li (click)="addEmoticon($event)">🕺</li>
+																			<li (click)="addEmoticon($event)">🖐</li>
+																			<li (click)="addEmoticon($event)">🖕</li>
+																			<li (click)="addEmoticon($event)">🖖</li>
+																			<li (click)="addEmoticon($event)">🙅</li>
+																			<li (click)="addEmoticon($event)">🙆</li>
+																			<li (click)="addEmoticon($event)">🙇</li>
+																			<li (click)="addEmoticon($event)">🙋</li>
+																			<li (click)="addEmoticon($event)">🙌</li>
+																			<li (click)="addEmoticon($event)">🙍</li>
+																			<li (click)="addEmoticon($event)">🙎</li>
+																			<li (click)="addEmoticon($event)">🙏</li>
+																			<li (click)="addEmoticon($event)">🚣</li>
+																			<li (click)="addEmoticon($event)">🚴</li>
+																			<li (click)="addEmoticon($event)">🚵</li>
+																			<li (click)="addEmoticon($event)">🚶</li>
+																			<li (click)="addEmoticon($event)">🛀</li>
+																			<li (click)="addEmoticon($event)">🛌</li>
+																			<li (click)="addEmoticon($event)">🤘</li>
+																			<li (click)="addEmoticon($event)">🤙</li>
+																			<li (click)="addEmoticon($event)">🤚</li>
+																			<li (click)="addEmoticon($event)">🤛</li>
+																			<li (click)="addEmoticon($event)">🤜</li>
+																			<li (click)="addEmoticon($event)">🤝</li>
+																			<li (click)="addEmoticon($event)">🤞</li>
+																			<li (click)="addEmoticon($event)">🤟</li>
+																			<li (click)="addEmoticon($event)">🤦</li>
+																			<li (click)="addEmoticon($event)">🤰</li>
+																			<li (click)="addEmoticon($event)">🤱</li>
+																			<li (click)="addEmoticon($event)">🤲</li>
+																			<li (click)="addEmoticon($event)">🤳</li>
+																			<li (click)="addEmoticon($event)">🤴</li>
+																			<li (click)="addEmoticon($event)">🤵</li>
+																			<li (click)="addEmoticon($event)">🤶</li>
+																			<li (click)="addEmoticon($event)">🤷</li>
+																			<li (click)="addEmoticon($event)">🤸</li>
+																			<li (click)="addEmoticon($event)">🤹</li>
+																			<li (click)="addEmoticon($event)">🤽</li>
+																			<li (click)="addEmoticon($event)">🤾</li>
+																			<li (click)="addEmoticon($event)">🧑</li>
+																			<li (click)="addEmoticon($event)">🧒</li>
+																			<li (click)="addEmoticon($event)">🧓</li>
+																			<li (click)="addEmoticon($event)">🧔</li>
+																			<li (click)="addEmoticon($event)">🧕</li>
+																			<li (click)="addEmoticon($event)">🧖</li>
+																			<li (click)="addEmoticon($event)">🧗</li>
+																			<li (click)="addEmoticon($event)">🧘</li>
+																			<li (click)="addEmoticon($event)">🧙</li>
+																			<li (click)="addEmoticon($event)">🧚</li>
+																			<li (click)="addEmoticon($event)">🧜</li>
+																			<li (click)="addEmoticon($event)">🧝</li>
+																</ul>
+													</div> -->
+													<textarea id="message_type_textarea" (keyup)="Message($event)" class="form-control" formControlName="message" placeholder="Type message..." rows="1"></textarea>
+													<div class="button_sec" >
+														<div id="toolbox" class="displayNone toolbox" style="">
+															<ul>
+																<li (click)="compressFile()" style="display: block;border-bottom: 1px solid #ddd; cursor: pointer;"><i class="fa fa-file-image-o" aria-hidden="true"></i> <span>Image</span></li>
+																<li class="btn btn-upload" style="display: block;border-bottom: 1px solid #ddd; cursor: pointer;"><i class="fa fa-file-video-o" aria-hidden="true"></i> <span>Video</span> <input type="file" (change)="images($event)" value="" formControlName="file"> </li>
+																<li class="btn btn-upload" style="display: block;border-bottom: 1px solid #ddd; cursor: pointer;"><i class="fa fa-file-archive-o" aria-hidden="true"></i> <span>Document/zip</span> <input type="file" (change)="other($event)" value="" formControlName="file"></li>
+															</ul>
+														</div>
+														<span (click)="showToolBox()" type="submit" class="{{files == '' ? 'btn btn-upload' : 'btn btn-upload displayNone'}}">
+															
+															<i class="fa fa-paperclip"></i>
+														</span>
+														<button type="submit" class="btn btn-send">
+														<i class="fa fa-paper-plane"></i>
+														</button>
+													</div>
+												</form>
+											</div>
+	                                      <div class="bottom_sec" *ngIf="sendSection != true">
+												<p align="center" class="not_chat_text">You cannot send message to this conservation. </p>
+											</div>
+	 <!-- 	         </span>
+	       <button type="submit" class="btn btn-send">
+	       <i class="fa fa-paper-plane"></i>
+	       </button>
+	  -->
+	</div>
+	<!-- bottom_sticky_chat -->
+
+
+<div *ngIf="shine == 1" class="top_bar_calender" id="">
+		<div class="wrap">
+			<div class="close_calender" (click)="close_calender()"><i class="fa fa-times"></i></div>
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 header_user_listing">
+					<h6>My Appointments</h6>
+				</div>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+					<div class="set_calender_note"> Note : Please double click to add new task</div>
+					<ejs-schedule   id="check"  width='100%' height='400px' [selectedDate]='selectedDate'
+  [eventSettings]='eventSettings' (actionComplete)='onactionComplete($event)' (popupOpen)='onPopupOpen($event)'>
+  	
+<e-views>
+    <e-view option='Month'></e-view>
+      </e-views>
+<!-- Header template -->
+    <ng-template #quickInfoTemplatesHeader let-data>
+      <div *ngIf="data.elementType == 'cell' || data.elementType == 'event'">
+        <div class="e-popup-header">
+          <div class="e-header-icon-wrapper">
+            <div *ngIf="data.elementType == 'event'" class="subject">{{data.Subject}}</div>
+            <button class="e-close e-close-icon e-icons" title="Close" (click)="onCloseClick()"></button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <!-- Content Template -->
+    <ng-template #quickInfoTemplatesContent let-data>
+     
+      <div *ngIf="data.elementType == 'event'" class="e-event-content">
+        <div *ngIf="data.interview_type != undefined || data.interview_type != null"><span *ngIf="token_type == 1">User Name : </span> <span *ngIf="token_type == 2">Company Name : </span>{{data.title}}</div>
+        <!-- <div >{{data.Subject}}</div> -->
+        <div *ngIf="data.interview_type != undefined || data.interview_type != null">Interview Type :<span *ngIf="data.interview_type == 1">Standard Interview</span><span *ngIf="data.interview_type == 2">Video Interview</span></div>
+        <div >Date and Time: {{data.StartTime.toLocaleString()}}</div>
+        <button *ngIf="data.interview_type == undefined || data.interview_type == null" (click)="remove_event_calender(data.id)">Delete</button>
+      </div>
+    </ng-template>
+
+   
+     <ng-template #editorTemplate>
+     	<div class="remove_my_div">
+        <table class="custom-event-editor" width="100%" cellpadding="5">
+            <tbody>
+                <tr>
+                    <td class="e-textlabel">Title</td>
+                    <td colspan="10">
+                        <input id="Subject" class="e-field e-input" type="text" value="" name="Subject" style="width: 100%" />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td colspan="10">
+                        <input id="StartTime" class="e-field e-input" type="hidden" name="StartTime" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="e-textlabel">Select Time</td>
+                    <td colspan="10">
+                            <!-- `<ejs-timepicker  [(ngModel)]='custom_time'placeholder='Select a time' ></ejs-timepicker>` -->
+                            <input  class="input_filled" [formControl]='time_value' [ngxTimepicker]="picker">
+                          <ngx-material-timepicker   #picker></ngx-material-timepicker>
+
+                    </td>
+                </tr>
+               <tr class="pt10">
+                    <td class="e-textlabel">Remind me</td>
+                    <td colspan="4">
+                   <input [formControl]='remindme' type="checkbox" name="vehicle1" value="Bike" (change)="change_event($event)"> 
+                   </td>
+                    <td class="pl10" colspan="4" *ngIf="show_event_options == 1">
+                   
+                        <select [formControl]='remindme_time' >
+                         <option value="" disabled="" >Select reminder time</option>
+                          <option value=" 1">before 1 hour</option>
+                          <option value=" 2">before 2 hour</option>
+                          <option value=" 3">before 3 hour</option>
+                          <option value=" 4">before 4 hour</option>
+                          <option value=" 5">before 5 hour</option>
+                          <option value=" 6">before 6 hour</option>
+                          <!-- <option value=" 7 hour">before 7 hour</option>
+                          <option value=" 8 hour">before 8 hour</option>
+                          <option value=" 9 hour">before 9 hour</option>
+                          <option value=" 10 hour">before 10 hour</option>
+                          <option value=" 11 hour">before 11 hour</option>
+                          <option value=" 12 hour">before 12 hour</option>
+                          <option value=" 24 hour">before 24 hour</option> -->
+                          
+                        </select>
+                   </td>
+                </tr>             
+                
+            </tbody>
+        </table>
+        </div>
+    </ng-template>
+  </ejs-schedule>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+<style type="text/css">
+	.displayNone {		
+		display: none;
+	}
+
+	.liActive{
+	    color: #fff !important;
+    	background-color: #2299ff;
+	}
+	.highlight_navv{
+		    border-bottom: solid 2px black;
+	}
+</style>
