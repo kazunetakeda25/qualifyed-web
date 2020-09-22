@@ -1,0 +1,825 @@
+<!-- <div id="message">{{email}} by {{userid}} <a routerLink="/logout" class="button">Logout</a></div> -->
+<app-header></app-header>
+<div>
+<!-- /END OF MENU-DRAWER, MOBILE-MENUS/ *ngIf="showLoader_wait == true"-->
+<div id="loder_main" *ngIf="showLoader == true"><div id="loader_view" ></div></div>
+<!-- <div id="cover-spin" *ngIf="showLoader == true"></div>
+--><section class="profileTophead userProfile">
+	
+	<div class="bg-wrap ">
+		<div class="wrap">
+			<div class="row">
+				<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+					<div class="flexWrapper">
+						<div class="profileLogo" *ngIf="file_status == false">
+							<img *ngFor="let name of nameData ; let i=index;" src="{{media_url}}/uploads/images/avatar.png">
+						</div>
+						<div class="profileLogo" *ngIf="file_status == true">
+							<img *ngFor="let name of nameData ; let i=index;" src="{{media_url}}/uploads/images/{{name.profile_pic_name}}">
+						</div>
+						<div class="profiledetail">
+							<p class="name" *ngFor="let name of nameData ; let i=index;">{{name.fname}}  {{name.lname}}</p>
+							<button routerLink="/user/edit-profile">Edit Profile</button>
+							<div class="icoBox">
+								<ul>
+									<li><a (click)="videoPop()"><abbr title="Video Bio"><img src="assets/images/cam.png"></abbr></a></li>
+									
+									<!-- <li><a routerLink="/messages"><abbr title="Virtual Work"><img src="assets/images/liveChat.png"></abbr></a></li> -->
+									
+									<!--     <li><a href=""><abbr title="Standard Interview Request"><img src="assets/images/bsicon.png"></abbr></a></li>
+									<li><a href=""><abbr title="Video Interview Request"><img src="assets/images/livevdo.png"></abbr></a></li> -->
+									
+								</ul>
+							</div>
+							<!-- /END OF ICO BOX/ -->
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+					<div class="top-controller">
+						<ul>
+							<a routerLink="/shared/viewuserconnection">
+								<li>
+									<p class="txtBlue">{{connection_count}}</p>
+									<p>Connections</p>
+								</li>
+							</a>
+							<a routerLink="/shared/profileview">
+								<li>
+									<p class="txtBlue">{{profileview_count}}</p>
+									<p>Profile Views</p>
+								</li>
+							</a>
+							<a routerLink="/shared/bioview">
+								<li>
+									<p class="txtBlue">{{bio_video_view_count}}</p>
+									<p>Video Bio Views</p>
+								</li>
+							</a>
+							<a routerLink="/shared/interview-req">
+								<li>
+									<p class="txtBlue">{{interviewcount}}</p>
+									<p>Interviews</p>
+								</li>
+							</a>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- /END OF ROW/ -->
+		</div>
+		<!-- /END OF WRAP/ -->
+	</div>
+	<!-- /END OF BG WRAP/ -->
+</section>
+<section class="businessInfoContainer userProfile-Container ">
+	<div class="innerWrap">
+		<div class="innerPadding">
+			<div class="wrap">
+				<div class="row">
+					<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12" id="toggle_content_n">
+						<div (click)="show_details_tog()"  class="togle_detail_container"><span class="togle_detail_btn">Show/Hide Details</span></div>
+						<div  class="toggle_content_n">
+							<!-- <div class="icoBox">
+										<ul>
+													<li><a (click)="videoPop()"><abbr title="Video Bio"><img src="assets/images/cam.png"></abbr></a></li>
+													
+													<li><a routerLink="/messages"><abbr title="Virtual Work"><img src="assets/images/liveChat.png"></abbr></a></li>
+													
+													<li><a href=""><abbr title="Standard Interview Request"><img src="assets/images/bsicon.png"></abbr></a></li>
+													<li><a href=""><abbr title="Video Interview Request"><img src="assets/images/livevdo.png"></abbr></a></li>
+													
+										</ul>
+							</div> -->
+							<!-- /END OF ICO BOX/ -->
+							<div class="infoContent">
+								<h5 class="txtBlue"><i class="fa fa-file-text" aria-hidden="true"></i> Bio</h5>
+								<p *ngFor="let bio of nameData ; let i=index;">{{bio.about_bio}}</p>
+								
+							</div>
+							<!-- /END OF INFO CONTENT/ -->
+							<div class="personalInfobox">
+								<div class="contentWrap">
+									<h5 class="txtBlue"><i class="fas fa-user-circle"></i> Personal Information</h5>
+									<ul *ngFor="let phone of nameData ; let i=index;">
+										<li *ngFor="let city of nameData ; let i=index;"><i class="fas fa-building"></i> <span>City:</span>  {{city.city}}</li>
+										<li *ngFor="let state of nameData ; let i=index;"><i class="fas fa-industry"></i> <span>State:</span>  {{state.state_name}}</li>
+										<li *ngIf="phone.zipCode != '' "><i class="fas fa-map-pin"></i> <span>Zip Code:</span>  {{phone.zipCode}}</li>
+										<li *ngIf="phone.zipCode == '' "><i class="fas fa-map-pin"></i> <span>Zip Code:</span>  No record found</li>
+										<li *ngFor="let s of nameData ; let i=index;"><i class="fa fa-map-signs" aria-hidden="true"></i>  <span>Address:</span> {{s.city}} ,{{s.state_name}}  ,{{s.country_name}}</li>
+										<li *ngFor="let email of nameData ; let i=index;"><i class="fas fa-envelope-open"></i> <span>Email:</span>  {{email.email}}</li>
+										<li *ngIf="phone.phone != '' "><i class="fa fa-phone" aria-hidden="true"></i> <span>Phone:</span>  {{phone.phone}}</li>
+										<li  *ngIf="phone.phone == '' "><i class="fa fa-phone" aria-hidden="true"></i> <span>Phone:</span>  No record found</li>
+									</ul>
+								</div>
+							</div>
+							<!-- /START RESUME SECTION/ -->
+							<div class="personalInfobox resumeSection" *ngFor="let resume of nameData ; let i=index;">
+								<div class="contentWrap">
+									<h5 class="txtBlue"  resume_name><i class="fa fa-file-text"></i> Resume</h5>
+									<!--   <div *ngIf="resume.resume_name == 'nodoc.jpg' " >
+												<p>No resume found</p>
+									</div>
+									-->
+									<div *ngIf="resume.resume_name == null  " >
+										<p class="pl-19">No resume found</p>
+									</div>
+									<div *ngIf="resume.resume_name == 'nodoc.jpg' " >
+										<p class="pl-19">No resume found</p>
+									</div>
+									
+									<div class="pdf-section"
+										*ngIf=" resume.resume_name != null && resume.resume_name != 'nodoc.jpg'">
+										
+										<p><a (click)="onCreate1(resume.resume_name)"><img src="assets/images/pdf-icon.png">{{resume.resume_name}}</a></p>
+									</div>
+								</div>
+							</div>
+							<!-- /END RESUME SECTION/ -->
+							<!-- /START EDUCATION SECTION/ -->
+							<div class="personalInfobox educationSection">
+								<div class="contentWrap">
+									<h5 class="txtBlue"><i class="fas fa-graduation-cap"></i> Education</h5>
+									<div *ngIf="edudata == ''" >
+										<p>No records found</p>
+									</div>
+									<div class="edu" *ngFor="let name of edudata ; let i=index;">
+										<h4>{{name.school_name}}</h4>
+										<h4>{{name.degree}}</h4>
+										<p>{{name.collage_start_date| date: 'yyyy'}} - {{name.collage_end_date| date: 'yyyy'}}</p>
+										<!-- <p class="educationAct">Activities and Societies Arjay Miller Scholar</p>
+										<img src="assets/images/bussines-icon.png">  -->
+									</div>
+									
+								</div>
+							</div>
+							<!-- /END EDUCATION SECTION/ -->
+							<!-- /START WORK SECTION/ -->
+							<div class="personalInfobox educationSection workSection">
+								<div class="contentWrap">
+									<h5 class="txtBlue"><i class="fas fa-briefcase"></i> Work</h5>
+									<div class="edu">
+										<h4>Description of Work User Would Like to Do</h4>
+										<p *ngFor="let info of nameData ; let i=index;">{{info.work_additional_info}}</p>
+									</div>
+									<div class="edu">
+										<h4>How Many Hours a Week User Able to Work</h4>
+										<p *ngFor="let hours of nameData ; let i=index;">{{hours.hours_per_week}}</p>
+									</div>
+									<div class="edu">
+										<h4>Which Days/Hours User is Able to Work</h4>
+										<p class="working_days" *ngFor="let s of workdaydata; let i=index;">
+											<span class="profileTime">{{s.day}} Available time   </span> :   {{s.woking_hours}} </p>
+										</div>
+										<div class="edu">
+											<h4>How Far Away From Location User Willing to Travel</h4>
+											<p *ngFor="let travel of nameData ; let i=index;">{{travel.travel_location}}</p>
+										</div>
+										<div class="edu" *ngFor="let t of nameData ; let i=index;">
+											<h4>Does the User Have a Reliable Means of Transportation</h4>
+											<!-- <p *ngFor="let t of nameData ; let i=index;">{{t.is_transportation}}</p>  -->
+											<div *ngIf="t.is_transportation == 1 " >
+												<p>Yes</p>
+											</div>
+											<div *ngIf="t.is_transportation == 0 " >
+												<p>No</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- /END WORK SECTION/ -->
+								<!-- /START SKILLS SECTION/ -->
+								<div class="personalInfobox skillsSection">
+									<div class="contentWrap">
+										<h5 class="txtBlue"><i class="far fa-chart-bar"></i> Skills</h5>
+										<!--  <div class="skillsGraph">
+													<img src="assets/images/skills-graph-img.png">
+										</div> -->
+										<div *ngIf="skillsdata == ''" >
+											<p>No records found</p>
+										</div>
+										<div class="tpskill">
+											<ul>
+												
+												<li  *ngFor="let s of skills ; let i=index;">{{s}}</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<!-- /END SKILLS SECTION/ -->
+								<!-- /START EXPERIENCE SECTION/ -->
+								<div class="personalInfobox educationSection experienceSection">
+									<div class="contentWrap" >
+										<h5 class="txtBlue"><i class="far fa-lightbulb"></i> Experience</h5>
+										<div *ngIf="expdata == ''" >
+											<p>No records found</p>
+										</div>
+										<div class="edu" *ngFor="let s of expdata ; let i=index;">
+											<!--                  <img src="assets/images/iphone-icon.png">
+											-->                 <div class="freeArt">
+												<h4>{{s.position}}</h4>
+												<p>{{s.employer}}</p>
+												<p>{{s.start_date | date : "yyyy"}} - {{s.end_date| date : "yyyy"}}</p>
+											</div>
+										</div>
+										
+										
+									</div>
+								</div>
+								<!-- /END EXPERIENCE SECTION/ -->
+							</div>
+							<!-- toggle_content_n -->
+						</div>
+						<div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 userpost-container">
+							<div class="createPostBox" >
+								<div class="Contentwrapper">
+									<!-- <p class="heading">Create a post</p> -->
+									<div class="profileimgBox">
+										
+										<div class="flexboxwrap" *ngIf="file_status == false">
+											<img class="circleBox"   src="{{media_url}}/uploads/images/avatar.png">
+											<div class="label">What’s on your mind?</div>
+										</div>
+										<div class="flexboxwrap" *ngIf="file_status == true">
+											<img class="circleBox"  *ngFor="let name of nameData ; let i=index;" src="{{media_url}}/uploads/images/{{name.profile_pic_name}}">
+											<div class="label">What’s on your mind?</div>
+										</div>
+										
+										<div class="inputController"  >
+											<a (click)="myFunction()"  class="sharePost" href="javascript:void(0)" >Create a post <i class="fa fa-plus-square"></i></a>
+										</div>
+										<!-- /END OF INPUT CONTROLLER/ -->
+										<div class="inputSubmitter">
+											<div class="flexwrap">
+												<!--                       <p class="sharepost">Share with <a href="">Public</a></p>
+												-->
+											</div>
+										</div>
+									</div>
+									<!-- /END OF PROFILE IMG BOX/ -->
+								</div>
+								<!-- /END OF CONTENT WRAPPER/ -->
+							</div>
+							<div class="postWrapper" *ngFor="let name of postData ; let i=index;" id="post_{{i}}">
+								<div class="postHead" >
+									<ul>
+										<li>
+											<!-- *ngFor="let name of nameData ; let i=index;" -->
+											<div class="inlineFlexBox"  *ngIf="! name.userDisplayData" >
+												<img class="logoImg" *ngIf="file_status == false"  src="{{media_url}}/uploads/images/avatar.png">
+												<img class="logoImg" *ngIf="file_status == true" src="{{media_url}}/uploads/images/{{img}}">
+												<div class="title" >
+													<p  class="userTitle black-text "  >{{myname}}</p>
+													<p class="subHead" class="userTitle"  >{{mydemo}}</p>
+												</div>
+											</div>
+											<div class="inlineFlexBox" *ngIf="name.userDisplayData">
+												<img class="logoImg" *ngIf="file_status == false"  src="{{media_url}}/uploads/images/avatar.png">
+												<img class="logoImg" *ngIf="file_status == true" src="{{media_url}}/uploads/images/{{name.userDisplayData.profile_picture}}">
+												<div class="title" >
+													<a class="userTitle black-text" (click)=go_profile(name.user_login_id) >{{name.userDisplayData.user_name}}</a>
+													<p class="subHead">{{name.userDisplayData.first_display}} · {{name.userDisplayData.country_name}}, {{name.userDisplayData.state_name}}</p>
+												</div>
+											</div>
+										</li>
+										<li class="postTime" >
+											<!-- *ngIf="! name.userDisplayData" -->
+											<p>{{name.created_date}} &nbsp;&nbsp;<i  (click)="showAction(i)" (clickElsewhere)="close(i)"  class="fa fa-ellipsis-v"  ></i></p>
+											<!--  <div id="action_{{i}}" style="position: absolute;background: #fff;border: 1px solid #ddd;text-align: left;padding: 10px;right: 18px;top: 56px;z-index: 99;" class="displayNone">
+														
+														<i  *ngIf="showBtn1 != i && login_id == name.user_login_id" class='fas fa-pencil-alt' (click)="option8(i);showAction(i)" style="width: 100%; background: #fff; border-bottom: 1px solid #ddd; padding: 7px;"> Edit </i>
+														<i  *ngIf="showBtn1 === i && login_id == name.user_login_id"  class='fas fa-pencil-alt' (click)="close8(i);showAction(i)" style="width: 100%; background: #fff; border-bottom: 1px solid #ddd; padding: 7px;"> Edit </i>
+														<i *ngIf="login_id == name.user_login_id" class="fas fa-trash-alt" style="width: 100%; background: #fff; padding: 7px;" (click)="deletePost(name.id, i)"> Delete </i>
+														<i *ngIf="login_id != name.user_login_id" class="fa fa-flag" aria-hidden="true" ><a (click)="reportAbouse(name.id,3)">Report Abuse</a></i>
+											</div> -->
+											<!-- <div id="action_{{i}}" style="position: absolute;background: #fff;border: 1px solid #ddd;text-align: left;padding: 10px;right: 18px;top: 63px;" class="displayNone"> -->
+											<div id="action_{{i}}" style="position: absolute;background: #fff;border: 1px solid #ddd;text-align: left;padding: 10px;right: 18px;top: 56px;z-index: 99;" class="displayNone user_edit">
+												<i  *ngIf="showBtn1 != i && login_id == name.user_login_id" class='fas fa-pencil-alt' (click)="option8(i);showAction(i)" style="width: 100%; background: #fff; border-bottom: 1px solid #ddd; padding: 7px;"> Edit </i>
+												<i  *ngIf="showBtn1 === i && login_id == name.user_login_id"  class='fas fa-pencil-alt' (click)="close8(i);showAction(i)" style="width: 100%; background: #fff; border-bottom: 1px solid #ddd; padding: 7px;"> Edit </i>
+												<i *ngIf="login_id == name.user_login_id" class="fas fa-trash-alt" style="width: 100%; background: #fff; padding: 7px;" (click)="deletePost(name.id, i)"> Delete </i>
+												<i *ngIf="login_id != name.user_login_id" class="fa fa-flag" aria-hidden="true" ><a (click)="reportAbouse(name.id,3)">Report Abuse</a></i>
+											</div>
+										</li>
+									</ul>
+								</div>
+								
+								
+								<!-- /END OF POST HEAD/ -->
+								<div class="postContent">
+									<p *ngIf="name.opp_id == 0 || name.parent_id !=0" [innerHTML]="name.post"></p>
+									<p *ngIf="name.opp_id != 0 && name.parent_id ==0" >I'm looking for {{name.post}} <a class="pull-right" routerLink="/opportunities_detail/{{name.opp_id}}">...see more</a></p>									<div *ngIf="name.parent_data">
+									<div class="postContent" style="border: 1.5px solid #ddd;">
+										<div class="inlineFlexBox">
+											<img class="logoImg" src="{{media_url}}/uploads/images/{{name.parent_data.p_profile}}">
+											<div class="title">
+												<p class="userTitle black-text">{{name.parent_data.p_user_name}}</p>
+												<p class="subHead">Posted on :{{name.parent_data.p_created | date}}</p>
+											</div>
+										</div>
+										<p *ngIf="name.parent_data.opp_id == 0">{{name.parent_data.p_post}}</p>
+										<p *ngIf="name.parent_data.opp_id != 0" >I'm looking for {{name.parent_data.p_post}} <a class="pull-right" routerLink="/opportunities_detail/{{name.parent_data.opp_id}}">...see more</a></p>											<div class="postImg" *ngIf="name.parent_data.type == 1 && name.parent_data.picname != '' && name.parent_data.p_media != '' " >
+										<div class="postImg__inner">
+											<img src="{{media_url}}/createpost/images/{{name.parent_data.picname}}" >
+										</div>
+									</div>
+									<div *ngIf="name.parent_data.type == 2 && name.parent_data.picname != '' && name.parent_data.p_media != '' ">
+										<video  controls>
+											<source src="{{media_url}}/createpost/video/{{name.parent_data.picname}}" type="video/mp4">
+										</video>
+									</div>
+								</div>
+							</div>
+							<!--  <div> <img  src="./assets/createpost/images/{{name.picname}}">
+							</div> -->
+							<div class="postImg" *ngIf="name.type == 1 && name.picname != '' && name.media_id != '' " >
+								<div class="postImg__inner">
+									<img src="{{media_url}}/createpost/images/{{name.picname}}"  >
+								</div>
+							</div>
+							<div *ngIf="name.type == 2 && name.picname != '' && name.media_id != '' ">
+								<video width="320" height="240" controls  loop>
+									<source src="{{media_url}}/createpost/video/{{name.picname}}" type="video/mp4">
+									
+									
+								</video>
+							</div>
+							<div *ngIf="name.type == 3 && name.picname != '' && name.media_id != '' ">
+								Document
+							</div>
+							<div [attr.id]="'undoBtn'+i" *ngIf="showBtn1===i">
+								<form [formGroup]="createPost1" (ngSubmit)="onSubmitPost1(name.id)">
+									<div class="textareaPopup" id="hideEdit">
+										<input type="hidden" formControlName="id">
+										<textarea rows="5" cols="67" formControlName="postName" name="your-message" id="textMe" class="full-name" aria-invalid="false" placeholder="What do you want to talk about ?"></textarea>
+										<div class="post-btn">
+											<span class="postBtn" (click)="closeFun1()" >Cancel</span>
+											<button class="postBtn"  >Save</button>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="actionElements">
+								<ul>
+									<li>
+										<span>
+											<i style="cursor: pointer;" *ngIf="name.like_status == false" (click)="likefunction(name.id, $event.target,i);likeNotification(name.user_login_id,$event.target)" class="far fa-heart" ></i>
+											<i style="cursor: pointer;" *ngIf="name.like_status == true" (click)="likefunction(name.id,$event.target,i);likeNotification(name.user_login_id,$event.target)" class="fas fa-heart"></i>
+										</span>
+										<span id="C_{{i}}">&nbsp;{{name.count}} &nbsp;</span>
+									</li>
+									<li class="showToggle" style="cursor: pointer;" (click)="showToggleV2(name.id,i)">
+										<span><i class="fab fa-rocketchat"></i></span>
+										<span >&nbsp;{{name.comment_count_post}} &nbsp;</span>
+									</li>
+									<!-- <li *ngIf="show == 1" class="showToggle" style="cursor: pointer;" (click)="showToggle1(name.id,i)">
+												<span><i class="fab fa-rocketchat"></i></span>
+												<span >&nbsp;{{name.comment_count}} &nbsp;</span>
+									</li> -->
+									<li>
+										<span (click)="myFunction2(name.id)" *ngIf="name.parent_id ==0 && name.parent_data && name.post != '' && name.post != null && name.post != undefined "><i class="fas fa-share-square"></i></span>
+										<span (click)="myFunction2(name.id)"><i class="fas fa-share-square" *ngIf="! name.parent_data"></i></span>
+										
+									</li>
+								</ul>
+							</div>
+							
+						</div>
+						<!-- /END OF POST CONTENT/ -->
+						<!-- <div style="display: none;" class="{{name.id}}"> -->
+						<div id="commentOpener_{{i}}" class="displayNone">
+							<form [formGroup]="commentForm" (ngSubmit)="Comment(name.id,i)">
+								<div class="commentBox">
+									<div class="inputController comment_upload_con">
+										<textarea (keypress)="show_comment_post_btnn()" formControlName="comment" placeholder="Add comment"></textarea>
+										<!-- <div class="icoBox">
+												<ul>
+														<li>
+																<div class="fileUpload">
+																		<input accept="image/*" class="file_multi_image" formcontrolname="postImage" name="" type="file">
+																		<img src="assets/images/camera.png">
+																</div>
+														</li>
+														<li>
+																<div class="fileUpload videoUpload">
+																		<input accept="video/*" class="file_multi_video ng-untouched ng-pristine ng-valid" formcontrolname="postVideo" name="" type="file">
+																		<img  src="assets/images/video.png">
+																</div>
+														</li>
+												</ul>
+										</div>
+										-->
+										<div class="icoBox">
+											<ul>
+												<li>
+													<div class="fileUpload">
+														<input accept="image/*" (change)="image_upload_comment($event,i)" class="file_multi_image file_multi_image_comment" formcontrolname="postImage" name="" type="file">
+														<img src="assets/images/camera.png">
+													</div>
+												</li>
+												<li>
+													<div class="fileUpload videoUpload">
+														<input accept=".HEVC,H.264,.MPEG-4,.m4v,.mov,video/*" class="file_multi_video file_multi_video_comment" (change)="video_upload_comment($event,i)" formcontrolname="postVideo" name="" type="file">
+														<img  src="assets/images/video.png">
+													</div>
+												</li>
+											</ul>
+										</div>
+										<div class="imgUploadContainer mini_upload_bx_img displayNone" id="commentOpener1_comment{{i}}" style="width: 50%;">
+											<!--*ngIf="showNotification"  -->
+											<div   class="image_scroll" ><img id="blah" [src]="imageSrc" alt="your image"></div>
+											<img class="thumb-ico" src="assets/images/close.svg" style=""   (click)="onCloseClick()" title="Remove image">
+											<!-- <div *ngIf="hasImage == 1" class="edit_file">
+														<input type="file" id="postImage"  name="file[]" (change)="image()" class="file_multi_image thumb-input flIcon" accept="image/*" title="Change image" formControlName="postImage" style=""  *ngIf="hasImage == 1">
+											</div> -->
+											
+										</div>
+										<div class="imgUploadContainer displayNone" id="commentOpener1_comment_video{{i}}" style="width: 50%;">
+											
+											<img class="thumb-ico" src="assets/images/close.svg"  style=""  (click)="onCloseClick()" title="Remove video" >
+											<div *ngIf=" hasVideo ==1" class="edit_file">
+												<input   type="file" id="postVideo" accept=".HEVC,H.264,.MPEG-4,.m4v,.mov,video/*" name="file[]" (change)="video()" class="file_multi_video thumb-input flIcon"   *ngIf=" hasVideo ==1"  formControlName="postVideo"    name="" style="" title="Change video">
+											</div>
+											<!-- <div class="video_con" >
+														<video  controls >
+																	<source id="video_here_video" src="" >
+																	Your browser does not support HTML5 video.
+														</video>
+											</div> -->
+											<div class="video_up_control">
+												<div class="vu_control_inner">
+													<video width="400" controls>
+														<source src="" id="video_here_video{{i}}">
+													</video>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="inputSubmitter">
+										<button type="submit"  (click)="comment_notification(name.user_login_id)" class="viewbt button_style_01"><span>Post</span></button>
+									</div>
+									<!-- <div *ngFor="let comments of allcomment;let i = index;" class="{{name.id}}"> -->
+									<div *ngFor="let comments of allcomment;let j = index;" class="{{name.id}}">
+										<div *ngIf="comments.entity_id == name.id" class="shwComments"  >
+											<div class="commentItems">
+												<div class="userThumb " >
+													<!-- <img class="logoImg" src="./assets/uploads/images/{{comments.profile_pic}}" > -->
+													<img class="logoImg" src="{{media_url}}/uploads/images/{{comments.profile_pic}}" >
+												</div>
+												<div class="flexWrapper">
+													
+													<div class="userDetail" *ngFor="let name of nameData">
+														<p class="name" style="width: 150px;">{{comments.name}}</p>
+														<!-- <p class="postName">{{name.industry_name}}</p> -->
+														<p class="postedComments" >{{comments.comment}}</p>
+														<div *ngIf="comments.media_id != 0 && comments.video_name == null " class="bussiness_upload_img_comment">
+															<img *ngIf="comments.media_id != 0 && comments.video_name == null " src="{{media_url}}/createpost/images/{{comments.image_name}}"  alt="">
+														</div>
+														<div *ngIf="comments.media_id != 0 && comments.image_name == null " class="bussiness_upload_vid_comment">
+															<video *ngIf="comments.media_id != 0 && comments.image_name == null " width="340" controls>
+																<source src="{{media_url}}/createpost/video/{{comments.video_name}}" >
+															</video>
+														</div>
+													</div>
+													<!--  <div class="userDetail" *ngFor="let s of finalReply">
+																<div *ngIf="s.entity_id == comments.id">
+																			<p class="name" style="width: 150px;">{{s.name}}</p>
+																			<p class="postedComments" >{{s.comment}}</p>
+																</div>
+													</div> -->
+													<div class="commentDetails">
+														<div class="innerwrap">
+															<span class="timeClass" *ngIf="comments.entity_id == name.id">{{comments.created_date}}</span>
+															<span *ngIf="login_id != comments.user_login_id" class="reportUser" (click)="reportFunction(i) " href="javascript:void(0)"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></span>
+														</div>
+													</div>
+													<div  class="reportDropdown displayNone" id="commentOpener1_{{j}}" >
+														<ul>
+															<li ><a (click)="reportAbouse(comments.id,4)"><i class="fa fa-flag" aria-hidden="true"></i> Report Abuse</a></li>
+															<!-- <li><a href=""><i class="fa fa-link" aria-hidden="true"></i> Copy link to Comment</a></li> -->
+														</ul>
+													</div>
+													<!-- <div id="postModal_Report" class="createPostModal">
+																<div class="modalInner">
+																			<div class="modalHead">
+																						<p style="text-align: center;padding-top: 10px;color: white;margin: 0;">Report And Abuse</p>
+																						<a  style="position: absolute;top: 0;z-index: 1;right: 11px;" (click)="closeModalFunction()" href="javascript:void(0)" class="closeIcon">X</a>
+																			</div>
+																			<div class="modalBody">
+																						<p>Please share the reason for report & abuse. </p>
+																						<form [formGroup]="report_comment" (ngSubmit)="report_comment_sub(comments.id)">
+																									<textarea formControlName="report_comment" >write here</textarea>
+																									<button type="submit">Report</button>
+																						</form>
+																			</div>
+																</div>
+																<div id="postOver" class="postOverlay"></div>
+													</div> -->
+												</div>
+												
+											</div>
+											<!-- *ngIf="commOnComm == 1" -->
+											<!-- <span>
+														
+														<i style="cursor: pointer;"  (click)="likeOnComment(comments.id,$event.target,i)" class=" fa-heart">like</i>
+											</span> -->
+											<div class="postContent">
+												<!-- <div class="comment_like_contain">
+														
+														
+														<span>
+																<i style="cursor: pointer;" *ngIf="comments.saved_status == 0 " (click)="likeOnComment($event.target,comments.id,name.id, j);like_reply_noti(comments.user_login_id,comments.saved_status)" class="far fa-heart" ></i>
+																<i style="cursor: pointer;" *ngIf="comments.saved_status == 1" (click)="likeOnComment($event.target,comments.id,name.id, j)" class="fas fa-heart"></i>
+														</span>
+														
+														<span >&nbsp;{{comments.comment_count}} &nbsp;</span>
+														<a style="    margin-left: 16px;" (click)="showCommOnComm(i)"><i class="fa fa-comment"></i></a>
+												</div>
+												-->
+												<div class="comment_like_contain">
+													<span>
+														<i style="cursor: pointer;" (click)="likeOnComment($event.target,comments.id,name.id, j);like_reply_noti(comments.user_login_id,$event.target)" class="{{comments.saved_status == 1 ? 'fas fa-heart' : 'far fa-heart'}}"></i>
+													</span>
+													<span >&nbsp;{{comments.comment_count}} &nbsp;</span>
+													<a (click)="showCommOnComm(i,j, comments.subcoment_count)"><i class="fa fa-comment"></i> {{comments.subcoment_count}}</a>
+												</div>
+											</div>
+											
+											<!-- <a (click)="showCommOnComm(i)">reply</a> -->
+											<div class="reply_on_comment">
+												<div class="comment_send_sectoin comentReplyClass displayNone" id="commentReply{{i}}{{j}}">
+													
+													<div  class="commentItems" *ngFor="let s of comments.subcoment;let i=index;">
+														<div class="userThumb " >
+															<img class="logoImg " *ngIf="file_status == false"  src="{{media_url}}/uploads/images/avatar.png">
+															<img class="logoImg" *ngIf="file_status == true" src="{{media_url}}/uploads/images/{{s.profile_pic}}" >
+														</div>
+														<div class="flexWrapper" >
+															
+															<div class="userDetail" >
+																<p class="name" style="width: 150px;">{{s.name}}</p>
+																
+															</div>
+															<div class="commentDetails">
+																<div class="innerwrap">
+																	<span class="timeClass" >{{s.created_date}}</span>
+																</div>
+															</div>
+															<p class="postedComments" >{{s.comment}}</p>
+														</div>
+													</div>
+													<div class="moreBtnParentDiv">
+														<span id="commentReply___{{i}}__{{j}}_btn" *ngIf="comments.subcoment_count  > 5 && comments.subcoment_count == currentReplyCount && upperlimit1 < currentReplyCount" class="business-show-btn moreReplyBtn displayNone" (click)="load_more_comment_reply(comments.id)">More</span>
+													</div>
+												</div>
+												<div class="header_option">
+													<!-- <a href=""><i class="fa fa-thumbs-up"></i></a> -->
+												</div>
+												<div class="inner_con closeReply displayNone" id="reply_{{i}}_{{j}}" >
+													<div class="reply_form" >
+														<form [formGroup]="commentReplyForm" (ngSubmit)="CommentReply(comments.id,name.id)">
+															<textarea (keypress)="openReplyPost()" formControlName="commentreply" placeholder="Add a reply..."></textarea>
+															
+															<button *ngIf="reply_post == 1" type="submit" (click)="comment_reply_noti(name.user_login_id)" >Reply</button>
+														</form>
+													</div>
+												</div>
+												<!-- inner_con -->
+											</div>
+											<!-- reply_on_comment -->
+											
+											
+										</div>
+									</div>
+									<!-- <a *ngIf="name.comment_count > 5 && final != '' "  class="viewbt" (click)="showmoreComment(name.id)">See more</a> -->
+									<!-- <div class="inputController"><div class="spacer10"></div>
+									<a class="viewbt button_style_01"><span _ngcontent-cpa-c3="">See more</span></a><div class="spacer10"></div></div> -->
+									
+									<div class="viewMoreBtn ">
+										<span *ngIf="name.comment_count_post > (lowerlimit+5)"  class="viewbt button_style_01" (click)="showmoreComment(name.id)"><span >See more</span></span>
+									</div>
+									
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="business-show-btn">
+						<a  (click)="loadMore()" *ngIf="getCount > 0">SHOW MORE ({{getCount}})</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</section>
+<form [formGroup]="createPost" (ngSubmit)="onSubmitPost()">
+<div id="postModal" class="createPostModal">
+	<div class="modalInner">
+		<div class="modalHead">
+			
+			<a (click)="closeModalFunction()" href="javascript:void(0)" class="closeIcon">X</a>
+		</div>
+		<div class="modalBody">
+			<img class="userProfile ac_c" *ngIf="file_status == false"  src="{{media_url}}/uploads/images/avatar.png">
+			<img *ngIf="file_status == true" class="userProfile ac_c" src="{{media_url}}/uploads/images/{{img}}">
+			<!-- SELECT ITEMS -->
+			<div class="selectItems">
+				<select name="post_privacy" value="select_post_privacy" formControlName="privacy">
+					<option value="1"> Public</option>
+					<option value="2">Private only</option>
+					<option value="3">Connection</option>
+				</select>
+			</div>
+			<!-- SELECT ITEMS -->
+			
+			<!-- TEXTAREA -->
+			<div class="textareaPopup">
+				<!-- <textarea formControlName="postName" name="your-message" id="textMe" class="full-name" aria-invalid="false" placeholder="What's on your mind?"></textarea> -->
+				<div mwlTextInputHighlightContainer>
+					<textarea mwlTextInputElement
+					formControlName="postName"
+					class="full-name editableDiv"
+					placeholder="What's on your mind?"
+					#textarea
+					(input)="addTags()" ></textarea>
+					<mwl-text-input-highlight
+					[tags]="tags"
+					[textInputElement]="textarea"
+					[tagCssClass]="'bg-blue'"
+					(tagMouseEnter)="addDarkClass($event.target)"
+					(tagMouseLeave)="removeDarkClass($event.target)"
+					(tagClick)="tagClicked = $event.tag">
+					</mwl-text-input-highlight>
+				</div>
+				<div class="imgUploadContainer" >
+					<!--*ngIf="showNotification"  -->
+					<div *ngIf="hasImage == 1" class="image_scroll"><img src="#" *ngIf="hasImage == 1" id="image_here"></div>
+					<img class="thumb-ico" src="assets/images/close.svg" style="" *ngIf="hasImage == 1"   (click)="onCloseClick()" title="Remove image">
+					<div *ngIf="hasImage == 1" class="edit_file">
+						<input type="file" id="postImage"  name="file[]" (change)="image()" class="file_multi_image thumb-input flIcon" accept="image/*" title="Change image" formControlName="postImage" style=""  *ngIf="hasImage == 1">
+					</div>
+					<!-- <img src="assets/images/edit.svg" style="height: 21px;position: absolute;margin: 0;left: 220px;right: 0;background: #ddd;width: 20px; cursor: pointer;" *ngIf="imgURL" (click)="onCloseClick()" > -->
+				</div>
+				<div class="imgUploadContainer " >
+					<img class="thumb-ico" src="assets/images/close.svg"  style="" *ngIf="hasVideo == 1 " (click)="onCloseClick()" title="Remove video" >
+					<div *ngIf=" hasVideo ==1" class="edit_file">
+						<input   type="file" id="postVideo" accept=".HEVC,H.264,.MPEG-4,.m4v,.mov,video/*" name="file[]" (change)="video()" class="file_multi_video thumb-input flIcon"   *ngIf=" hasVideo ==1"  formControlName="postVideo"    name="" style="" title="Change video">
+					</div>
+					<div class="video_con" *ngIf="hasVideo == 1">
+						<video  controls >
+							<source src="" id="video_here" >
+							Your browser does not support HTML5 video.
+						</video>
+					</div>
+				</div>
+				<div class="imgUploadContainer" >
+					<img class="thumb-ico" src="assets/images/close.svg"  *ngIf="haspdf == 1 " (click)="onCloseClick()" >
+					<div *ngIf=" haspdf ==1" class="edit_file">
+						<input  type="file"  name="file[]" (change)="pdf()" class="file_multi_pdf thumb-input flIcon"
+						*ngIf=" haspdf ==1" (change)="pdf()" formControlName="postAttach"    name="">
+					</div>
+					<iframe id="pdf_here" frameborder="0" scrolling="no" width="400" height="600" controls
+					*ngIf="haspdf == 1"></iframe>
+					
+				</div>
+			</div>
+			<!-- TEXTAREA -->
+			
+			<!-- IMG UPLOAD -->
+			
+			<!-- IMG UPLOAD -->
+			
+			<!-- ADD ITEMS -->
+			<!--  <div class="addItems">
+						
+						<div class="addtag2">Help the right people see your post</div>
+			</div> -->
+			<!-- ADD ITEMS  -->
+			
+			<!-- ATTACH ITEMS -->
+			<div class="attachflexWrapper">
+				<div class="attachItems" >
+					<div class="icoBox" *ngIf="!hasImage  && !hasVideo  && !haspdf " >
+						<!-- || !showNotification" -->
+						<ul>
+							<li>
+								<!-- <div class="fileUpload"><input   type="file" accept='image/*' (change)="preview(file.files)" formControlName="postImage"    name=""><img src="assets/images/camera.png"></div> -->
+								<div class="fileUpload"><input type="file" id="myfile" #myInput name="file[]" (change)="images($event) ; image()" class="file_multi_image " accept="image/*" formControlName="postImage"   name=""><img src="assets/images/camera.png"></div>
+							</li>
+							<li>
+								<div class="fileUpload videoUpload"><input type="file" name="file[]" (change)="videos($event) ;video()" class="file_multi_video" accept=".HEVC,H.264,.MPEG-4,.m4v,.mov,video/*" formControlName="postVideo"   name=""><img src="assets/images/video.png"></div>
+							</li>
+							<!-- <li>
+										<div class="fileUpload"><input type="file" name="file[]" (change)="doc($event) ;pdf()" class="file_multi_pdf" formControlName="postAttach"    name=""><img src="assets/images/save.png"></div>
+							</li> -->
+						</ul>
+					</div>
+				</div>
+				<div class="post-btn">
+					<button class="postBtn" (click)="closeFun()" >Post</button>
+				</div>
+			</div>
+			<!-- ATTACH ITEMS -->
+		</div>
+	</div>
+	<div id="postOver" class="postOverlay"></div>
+</div>
+</form>
+
+</div>
+<form [formGroup]="sharePost" (ngSubmit)="onSubmitsharePost()">
+<div id="postModal2" class="createPostModal">
+<div class="modalInner">
+	<div class="modalHead">
+		
+		<a (click)="closeModalFunction()" href="javascript:void(0)" class="closeIcon">X</a>
+	</div>
+	<div class="modalBody">
+		<img class="userProfile ac_c" *ngIf="file_status == false"  src="{{media_url}}/uploads/images/avatar.png">
+		<img class="userProfile  ac_c" *ngIf="file_status == true" src="assets/images/user-thumb3.png">
+		<!-- SELECT ITEMS -->
+		<input type="text" type="hidden" formControlName="parentId" value="{{postUserData.id}}">
+		<div class="selectItems" >
+			<select name="post_privacy" formControlName="privacy">
+				<option value="1" selected=""> Public</option>
+				<option value="2">Private only</option>
+				<option value="3">Connection</option>
+			</select>
+		</div>
+		<!-- SELECT ITEMS -->
+		
+		<!-- TEXTAREA -->
+		<div class="textareaPopup">
+			<textarea  formControlName="postName" name="your-message"  class="full-name" aria-invalid="false" id="textMe" placeholder="Say something about this shared content"></textarea>
+			<div class="div2 ">
+				<img class="logoImg acc_2" *ngIf="file_status == false"  src="{{media_url}}/uploads/images/avatar.png">
+				<img class="logoImg acc_2" *ngIf="file_status == true" src="{{media_url}}/uploads/images/{{postUserData.profile_picture}}">
+				<div class="title" >
+					<p class="userTitle">{{postUserData.pro_name}}</p>
+					<p class="subHead"></p>
+				</div>
+			</div>
+			<div class="postContent">
+				<p class="postPara">{{postUserData.post}}</p>
+				<div class="postImg" *ngIf="postUserData.type == 1 && postUserData.picname != '' && postUserData.media_id != '' " >
+					<div class="postImg__inner">
+						<img src="{{media_url}}/createpost/images/{{postUserData.picname}}" >
+					</div>
+				</div>
+				<div *ngIf="postUserData.type == 2 && postUserData.picname != '' && postUserData.media_id != '' ">
+					<video width="100%" height="240" controls>
+						<source src="{{media_url}}/createpost/video/{{postUserData.picname}}" type="video/mp4">
+					</video>
+				</div>
+				<div *ngIf="postUserData.type == 3 && postUserData.picname != '' && postUserData.media_id != '' ">
+					Document
+				</div>
+			</div>
+		</div>
+		
+		<div class="attachflexWrapper">
+			
+			<div class="post-btn">
+				<button class="postBtn" (click)="closeFun()">Post</button>
+			</div>
+		</div>
+		<!-- ATTACH ITEMS -->
+	</div>
+</div>
+<div id="postOver" class="postOverlay"></div>
+</div>
+</form>
+<div id="postModal_Report" class="createPostModal">
+<div class="modalInner">
+<div class="modalHead">
+	<p style="text-align: center;padding-top: 10px;color: white;margin: 0;">Report And Abuse</p>
+	<a  style="position: absolute;top: 0;z-index: 1;right: 11px;" (click)="closeModalFunction()" href="javascript:void(0)" class="closeIcon">X</a>
+</div>
+<div class="modalBody">
+	<p>Please share the reason for report & abuse. </p>
+	<form [formGroup]="report_comment" (ngSubmit)="report_comment_sub()">
+		<textarea  class="full-name" aria-invalid="false" formControlName="report_comment" >write here</textarea>
+		<button class="postBtn" type="submit">Report</button>
+	</form>
+</div>
+</div>
+<div id="postOver" class="postOverlay"></div>
+</div>
+<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="js/custom.js"></script>
+<script type="text/javascript" src="js/swiper.min.js"></script>
+<script>
+function myFunction() {
+var x = document.getElementById("postModal");
+if (x.style.display === "block") {
+x.style.display = "none";
+} else {
+x.style.display = "block";
+}
+}
+</script>
+<style type="text/css">
+.ac_c {height: 50px; border-radius: 50px; width: 50px; border: 2px solid #0473ae; }
+.acc_2{height: 50px; border-radius: 50px; width: 50px; border: 2px solid #0473ae;float: left; }
+.swal2-popup{width: 100% !important;}
+.displayNone{display: none;}
+</style>

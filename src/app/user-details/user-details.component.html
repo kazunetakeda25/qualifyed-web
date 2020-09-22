@@ -1,0 +1,1082 @@
+<div id="cover-spin" *ngIf="showLoader == true"></div>
+<div>
+   <div class="create-account-user">
+      <header>
+         <div class="innerWrap">
+            <div class="wrap">
+               <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4">
+                     <div class="ca-logo">
+                        <a routerLink="/"><img src="../assets/images/ca-logo-mg.png"> </a>
+                     </div>
+                  </div>
+                  <!--END OF COL -->
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
+                     <div class="switchBlog">
+                        <label class="switch_user_label">Switch to</label>
+                        <div class="userBtn">
+                           <a routerLink="/bussiness" class="themebtn">
+                              <span>
+                                 Business
+                              </span>
+                           </a>
+                        </div>
+                     </div>
+                  </div>
+                  <!--END OF COL -->
+               </div>
+               <!--END OF ROW -->
+            </div>
+            <!--END OF WRAP -->
+         </div>
+         <!--END OF INNERWRAP -->
+      </header>
+      <!--END OF HEADER -->
+      <div class="tab-controller">
+         <ul class="tabs">
+            <li class="tab-link current" data-tab="tab-1" id="tab-tab-1" >
+               Personal Info
+            </li>
+            <li class="tab-link" data-tab="tab-2"  id="tab-tab-2">
+               About Work
+            </li>
+            <li class="tab-link" data-tab="tab-3"  id="tab-tab-3">
+               References
+            </li>
+            <li class="tab-link" data-tab="tab-4"  id="tab-tab-4">
+               Confirmation
+            </li>
+         </ul>
+      </div>
+      <!--END OF TAB-CONTROLLER -->
+      <div id="tab-1" class="tab-content current">
+         <section class="information">
+            <div class="wrap">
+               <div class="row">
+                  <p>Hey, welcome!</p>
+                  <h3>Please enter your personal information</h3>
+               </div>
+               <!--END OF WRAP -->
+            </div>
+            <!--END OF WRAP -->
+         </section>
+         <!--END OF INFORMATION -->
+         <form [formGroup]="aboutYou" (ngSubmit)="onSubmitAbout()" class="input-form">
+            <input type="hidden" formControlName="tab" value="tab-2">
+            <input type="hidden" formControlName="currentTab" value="tab-1">
+            <section class="about-business">
+               <div class="innerWrap">
+                  <div class="wrap">
+                     <div class="row">
+                        <h4>About You</h4>
+                        <p> <i class="fa fa-asterisk" aria-hidden="true"></i> indicates required fields</p>
+                        <div class="form-business">
+                           <div class="input-form">
+                              <div class="wrap">
+                                 <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item" >
+                                       <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                       <label for="fname">First Name</label>
+                                       <input class="form-control" type="text"  formControlName="fname"  placeholder="Enter First Name" (keypress)="keyPress1($event)" [ngClass]="{ 'is-invalid': submitted && f.fname.errors }">
+                                       <div *ngIf="submitted && f.fname.errors" class="invalid-feedback ">
+                                          <div *ngIf="f.fname.errors.required">First name is required</div>
+                                          <div *ngIf="f.fname.errors.maxlength">First Name must be less than 50 words</div>
+                                          
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item" >
+                                       <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                       <label for="lname">Last Name</label>
+                                       <input class="form-control" type="text" formControlName="lname" placeholder="Enter Last Name" (keypress)="keyPress1($event)" [ngClass]="{ 'is-invalid': submitted && f.lname.errors }">
+                                       <div *ngIf="submitted && f.lname.errors" class="invalid-feedback ">
+                                          <div *ngIf="f.lname.errors.required">Last name is required</div>
+                                          <div *ngIf="f.lname.errors.maxlength">Last Name must be less than 50 words</div>
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item" >
+                                       <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                       <label for="email">Email Address</label>
+                                       <input class="form-control" type="text" formControlName="email" (blur)="myemailfun($event.target.value)" placeholder="Enter Email"  [ngClass]="{ 'is-invalid': submitted && f.email.errors }"  >
+                                       <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                                          <div *ngIf="f.email.errors.required">Email is required</div>
+                                          <div *ngIf="f.email.errors.pattern">Email must be a valid email address</div>
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item" >
+                                       <label for="phone">Phone (recommended)</label>
+                                       <input class="form-control numberOnly" type="text" (keypress)="keyPress($event)"  formControlName="phone" placeholder="Enter Mobile Number" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }">
+                                       <div *ngIf="submitted && f.phone.errors" class="invalid-feedback ">
+                                          <div *ngIf="f.phone.errors.minlength">Phone number must be greater than 5 digits</div>
+                                          <div *ngIf="f.phone.errors.maxlength">Phone number  must be less than 15 digits</div>
+                                       </div>
+                                    </div>
+                                   <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item" >
+                                       <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                       <label for="country">Country</label>
+                                       <select class="form-control"  formControlName="country" [ngClass]="{ 'is-invalid': submitted && f.country.errors }" (change)="State($event.target.value)">
+                                         <!--  <option selected="" disabled="" value="">Select Country</option> -->
+                                          <option   *ngFor="let data of country;" [value]=data.id>{{data.name}}</option>
+                                       </select>
+                                       <div *ngIf="submitted && f.country.errors" class="invalid-feedback ">
+                                          <div *ngIf="f.country.errors.required">Country is required</div>
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item" >
+                                       <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                       <label for="username">State</label>
+                                       <select class="form-control" formControlName="state" [ngClass]="{ 'is-invalid': submitted && f.state.errors }">
+                                          <option selected="" disabled="" value="">Select State</option>
+                                          <option   *ngFor="let data of city;" [value]=data.id>{{data.name}}</option>
+                                       </select>
+                                       <div *ngIf="submitted && f.state.errors" class="invalid-feedback ">
+                                          <div *ngIf="f.state.errors.required">State is required</div>
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item" >
+                                       <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                       <label for="city">City</label>
+                                       <input class="form-control" type="text" maxlength="50" formControlName="city" placeholder="Enter City"  [ngClass]="{ 'is-invalid': submitted && f.city.errors }">
+                                       <div *ngIf="submitted && f.city.errors" class="invalid-feedback ">
+                                          <div *ngIf="f.city.errors.required">City is required</div>
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item zip" >
+                                       <label for="username">Zip Code (recommended)</label>
+                                       <input class="form-control" type="text" formControlName="zipCode" placeholder="Enter Zip Code" [ngClass]="{ 'is-invalid': submitted && f.zipCode.errors }">
+                                       <div *ngIf="submitted && f.zipCode.errors" class="invalid-feedback ">
+                                          <div *ngIf="f.zipCode.errors.maxlength">Zipcode must be of 10 character only</div>
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item calendarBlog" id="datepicker" >
+                                       <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                       <label for="dateFounded">Date Of Birth</label>
+                                       <input matInput [matDatepicker]="picker1" (click)="picker1.open()" [min]="minDate" [max]="maxDate" class="form-control" formControlName="dob" readonly="readonly" [ngClass]="{ 'is-invalid': submitted && f.dob.errors }">
+                                       <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                       <mat-datepicker #picker1></mat-datepicker>
+                                       <!--  <input type="date"  class="form-control" formControlName="dob" [ngClass]="{ 'is-invalid': submitted && f.dob.errors }"> -->
+                                       <div *ngIf="submitted && f.dob.errors" class="invalid-feedback">
+                                          <div *ngIf="f.dob.errors.required">Date of birth is required</div>
+                                       </div>
+                                       
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 genderBlog" >
+                                       <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                       <label for="username">Gender</label>
+                                       <div class="radio-btn">
+                                          <div class="md-radio">
+                                             <input id="1" type="radio" class="form-control" formControlName="gender" value="1" name="gender" [ngClass]="{ 'is-invalid': submitted && f.gender.errors }" >
+                                             <label for="1">Male</label>
+                                          </div>
+                                          <div class="md-radio">
+                                             <input class="form-control" id="2" type="radio" formControlName="gender" value="2" name="gender" [ngClass]="{ 'is-invalid': submitted && f.gender.errors }" >
+                                             <label for="2">Female</label>
+                                          </div>
+                                       </div>
+                                       <input type="text" readonly class="form-control" name="" style="all:unset;">
+                                       <input class="form-control" type="hidden" [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
+                                       <div *ngIf="submitted && f.gender.errors" class="invalid-feedback">
+                                          <div *ngIf="f.gender.errors.required">Gender is required</div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <!--END OF FORM -->
+                        </div>
+                        <!--END OF FORM-BUSINESS -->
+                     </div>
+                     <!--END OF ROW -->
+                  </div>
+                  <!--END OF WRAP -->
+               </div>
+               <!--END OF INNERWRAP -->
+            </section>
+            <!--END OF ABOUT-BUSINESS -->
+            <section class="about-business">
+               <div class="innerWrap" style="margin-top: 20px;">
+                  <div class="wrap">
+                     <div class="row">
+                        <h4 class="additional">More About You</h4>
+                        <!--  <p> <i class="fa fa-asterisk" aria-hidden="true"></i> indicates required fields</p> -->
+                        <div class="form-business">
+                           <!-- <form [formGroup]="" class="input-form"> -->
+                           <div  class="input-form">
+                              <div class="wrap">
+                                 <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item2" >
+                                       <label for="username">Upload Picture</label>
+                                       <div class="file-upload">
+                                          <div class="file-select">
+                                             <div class="file-select-button" id="fileName"></div>
+                                             <div class="file-select-name" id="noFile">Drag and drop or browse</div>
+                                             <input type="file" class="form-control" accept="image/*" (change)="images($event);open_div()" formControlName="uploadPicture" id="chooseFile" name="chooseFile" >
+                                          </div>
+                                           <div id="postModal" class="image_croper_container_outer existing_container" style="display:none;">
+                                    <div class="image_croper_container">
+                                       <div class="header_sec">
+                                          <h6>Edit Profile Picture</h6>
+                                          <i (click)="closeModalFunction()"  class="fa fa-close"></i>
+                                       </div>
+                                       <div class="mid_container">
+                                         
+                                           <image-cropper  class="existing_image"
+                                        [imageChangedEvent]="imageChangedEvent"
+                                        [maintainAspectRatio]="true"
+                                        [aspectRatio]="4 / 4"
+                                        [resizeToWidth]="128"
+                                        (imageCropped)="imageCropped($event)"
+                                        >
+                                        </image-cropper>
+                                       </div><!--mid_container  -->
+                                       <div class="button_container_new">
+                                          <div class="left_sec">
+                                             <div class="button_style_01">
+                                               <span (click)="closeModalFunction()">Cancel</span></div>
+                                              <!--  <span (click)="onUpload()">Save</span></div> -->
+                                          </div><!-- left_sec -->
+                                          <div class="right_sec">
+                                             <!-- <div class="button_style_03" (click)="onPicture()"><span>Delete</span></div> -->
+                                             <div class="button_style_04 input_controller">
+                                                <!-- <span *ngIf="upload_set_default == 0" >
+                                                    <input type="file" class="form-control" accept="image/*" (change)="images($event)"  >
+                                                   <label>Upload New</label>
+                                                </span> -->
+                                                <span  >
+                                                   <!--  <span (click)="closeModalFunction()">Save</span> -->
+                                                    <span (click)="closeModalFunction_save()">Save</span>
+                                                   
+                                                </span>
+                                             </div>
+                                          </div><!-- right_sec -->
+                                       </div>
+                                    </div><!-- image_croper_container -->
+                                 </div><!-- image_croper_container_outer -->
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item2" >
+                                       <label for="username">Upload Resume</label>
+                                       <div class="file-upload fileup">
+                                          <div class="file-select">
+                                             <div class="file-select-button" id="fileName1"></div>
+                                             <div class="file-select-name nofile" id="noFile1">Drag and drop or browse
+                                             </div>
+                                             <input class=" form-control" type="file" name="chooseFile1" id="chooseFile1" formControlName="uploadResume" accept=".pdf,.doc,.docx,/*" (change)="resume($event)">
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item2" >
+                                       <label for="username">Upload Bio Video</label>
+                                       <div class="file-upload fileup">
+                                          <div class="file-select">
+                                             <div class="file-select-button" id="fileName2"></div>
+                                             <div class="file-select-name nofile" id="noFile2">Drag and drop or browse
+                                             </div>
+                                             <input class="form-control" type="file" name="chooseFile2" id="chooseFile2" formControlName="uploadBioVideo" accept="video/*" (change)="bioVideo($event)" >
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item" >
+                                       <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                       <label for="username">Primary Field of Interest</label>
+                                       <select class="form-control" formControlName="primaryFieldIntrest" [ngClass]="{ 'is-invalid': submitted && f.primaryFieldIntrest.errors }">
+                                          <option selected="" disabled="" value="">Please Select</option>
+                                          <option   *ngFor="let data of primaryfield;" value={{data.id}}>{{data.name}}</option>
+                                       </select>
+                                       <div *ngIf="submitted && f.primaryFieldIntrest.errors" class="invalid-feedback ">
+                                          <div *ngIf="f.primaryFieldIntrest.errors.required">Primary field is required</div>
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item" >
+                                       <label for="username">Secondary field of Interest</label>
+                                       <select class="form-control" formControlName="secondaryFieldInterest" >
+                                          <option selected="" disabled="" value="">Please Select</option>
+                                          <option   *ngFor="let data of primaryfield;" value={{data.id}}>{{data.name}}</option>
+                                       </select>
+                                    </div>
+                                    
+                                 </div>
+                              </div>
+                           </div>
+                           <!--END OF FORM -->
+                        </div>
+                        <!--END OF FORM-BUSINESS -->
+                     </div>
+                     <!--END OF ROW -->
+                  </div>
+                  <!--END OF WRAP -->
+               </div>
+               <!--END OF INNERWRAP -->
+            </section>
+            <section class="about-business">
+               <div class="innerWrap" style="margin-top: 20px;">
+                  <div class="wrap">
+                     <div class="row">
+                        <h4 class="additional">More About Education </h4>
+                        <!--  <p> <i class="fa fa-asterisk" aria-hidden="true"></i> indicates required fields</p> -->
+                        <div class="form-business">
+                           <!-- <form [formGroup]="" class="input-form"> -->
+                           <div  class="input-form">
+                              <div class="wrap">
+                                 <div class="row">
+                                    
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item" >
+                                       <!--  <i class="fa fa-asterisk" aria-hidden="true"></i> -->
+                                       <label for="username">College Attending </label>
+                                       <input class="form-control" type="text" formControlName="collegeAttending"  placeholder="Please enter school , college name" autocomplete="off" value="" [ngClass]="{ 'is-invalid': submitted && f.collegeAttending.errors }">
+                                       
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item" >
+                                       <!--  <i class="fa fa-asterisk" aria-hidden="true"></i> -->
+                                       <label for="username">Degree </label>
+                                       <input class="form-control" type="text" formControlName="degree"  placeholder="Enter degree name" autocomplete="off" value=""  [ngClass]="{ 'is-invalid': submitted && f.degree.errors }">
+                                       
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item calendarBlog"  id="datepicker" >
+                                       <!-- <i class="fa fa-asterisk" aria-hidden="true"></i> -->
+                                       <label for="dateofbirth">College Start Date </label>
+                                       <input matInput [matDatepicker]="picker2" (click)="picker2.open()" class="form-control" id="start_date"  readonly="readonly" [max]="maxDate1" formControlName="collegeStartDate"   autocomplete="off" value=""  [ngClass]="{ 'is-invalid': submitted && f.collegeStartDate.errors }" >
+                                       <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                       <mat-datepicker #picker2></mat-datepicker>
+                                       
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item calendarBlog" >
+                                       <!--                                     <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                       -->                                    <label for="dateofbirth">College End Date </label>
+                                       <input matInput [matDatepicker]="picker3" (click)="picker3.open()" class="form-control" formControlName="CollegeEndDate"  readonly="readonly" [max]="maxDate1" [min]="min_collage_date" id="end_date" autocomplete="off" value=""  [ngClass]="{ 'is-invalid': submitted && f.CollegeEndDate.errors }">
+                                       <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                                       <mat-datepicker #picker3></mat-datepicker>
+                                       
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <!--END OF FORM -->
+                        </div>
+                        <!--END OF FORM-BUSINESS -->
+                     </div>
+                     <!--END OF ROW -->
+                  </div>
+                  <!--END OF WRAP -->
+               </div>
+               <!--END OF INNERWRAP -->
+            </section>
+            <!--END OF ABOUT-BUSINESS -->
+            <section class="create-password">
+               <div class="innerWrap">
+                  <div class="wrap">
+                     <div class="row">
+                        <h4 class="create-pass">Create a Password</h4>
+                        <p> <i class="fa fa-asterisk" aria-hidden="true"></i> indicates required fields</p>
+                        <div class="form-business">
+                           <!--              <form [formGroup]="" class="input-form">
+                              -->
+                              <div class="input-form">
+                                 <div class="wrap">
+                                    <div class="row">
+                                       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item custom_passwr_class">
+                                          <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                          <label class="form-control-placeholder" for="password">Password</label>
+                                          
+                                          <!-- <show-hide-password size="lg" btnStyle="primary" [btnOutline]="false"> -->
+                                          <!--   <input type="password" name="password" placeholder="Password" autocomplete="new-password">
+                                          -->
+                                          <input type="password" style="padding-right: 45px;" id="password1" formControlName="passwordField" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.passwordField.errors }" />
+                                          <!-- </show-hide-password> -->
+                                          <!-- <input type="password" name="password" ngModel passwordToggle required> -->
+                                          <div *ngIf="submitted && f.passwordField.errors" class="invalid-feedback">
+                                             <div *ngIf="f.passwordField.errors.required">Password is required</div>
+                                             <div *ngIf="f.passwordField.errors.minlength">Password must be at least 6 characters</div>
+                                          </div><span (click)="show_password1()" class="toggle-password" ><i class="fa fa-eye-slash" aria-hidden="true"></i></span>
+                                          <!-- <span class="toggle-password" ><i class="fa fa-eye password1" aria-hidden="true"></i></span> -->
+                                       </div>
+                                       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item custom_passwr_class">
+                                          <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                          <label class="form-control-placeholder" for="password">Confirm Password</label>
+                                          <!-- <show-hide-password size="lg" btnStyle="primary" [btnOutline]="false"> -->
+                                          <input id="passwordField_show2" type="password" style="padding-right: 45px;" formControlName="confirmPasswordField" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirmPasswordField.errors }" />
+                                          <!-- </show-hide-password> -->
+                                          <div *ngIf="submitted && f.confirmPasswordField.errors" class="invalid-feedback">
+                                             <div *ngIf="f.confirmPasswordField.errors.required">Confirm password is required</div>
+                                             <div *ngIf="f.confirmPasswordField.errors.mustMatch"> Your password and confirmed password do not match</div>
+                                             <div *ngIf="f.confirmPasswordField.errors.minlength">Password must be at least 6 characters</div>
+                                          </div>
+                                         <span (click)="show_password2()" class="toggle-password1" ><i class="fa fa-eye-slash" aria-hidden="true"></i></span>
+                                          <!-- <span class="toggle-password1" ><i class="fa fa-eye" aria-hidden="true"></i></span> -->
+                                       </div>
+                                       <!-- <div class="next-btn">
+                                          <a href="forgot.html" class="">
+                                             <span>
+                                                Next
+                                             </span>
+                                          </a>
+                                          <button  type="submit" class="btnBlog">Submit</button>
+                                       </div> -->
+                                       <!-- <div class="" > -->
+                                       <button  type="submit" class="next-btn" >
+                                       <span>
+                                          Next
+                                       </span>
+                                       </button>
+                                       <!-- </div> -->
+                                       <!--END OF RESET-BTN -->
+                                    </div>
+                                 </div>
+                              </div>
+                              <!--END OF FORM -->
+                           </div>
+                           <!--END OF FORM-BUSINESS -->
+                        </div>
+                        <!--END OF ROW -->
+                     </div>
+                     <!--END OF WRAP -->
+                  </div>
+                  <!--END OF INNERWRAP -->
+               </section>
+               <!--END OF ABOUT-BUSINESS -->
+            </form>
+         </div>
+         <!--END OF TAB-1 -->
+         <div id="tab-2" class="tab-content">
+            <div class="work-preferences">
+               <section class="information ">
+                  <div class="wrap">
+                     <div class="row">
+                        <p>Almost there!</p>
+                        <h3>Lets take a minute to fill in the details about work</h3>
+                     </div>
+                  </div>
+               </section>
+               <section class="about-business">
+                  <div class="innerWrap">
+                     <div class="wrap">
+                        <div class="row">
+                           <h4>Work preferences/availability and additional info</h4>
+                           <p> <i class="fa fa-asterisk" aria-hidden="true"></i> indicates required fields</p>
+                           <div class="form-business">
+                              <form [formGroup]="aboutWorkForm" (ngSubmit)="onSubmitWork()" class="input-form">
+                                 <input type="hidden" formControlName="tab" value="tab-3">
+                                 <input type="hidden" formControlName="currentTab" value="tab-2">
+                                 <div class="wrap">
+                                    <div class="row">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-item" >
+                                          <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                          <label for="username">Please Provide a brief description of the work you would like be doing and/or what you would like to learn</label>
+                                          <textarea (keydown)="work_pref($event,$event.target.value)" (focusout)="work_pref_change($event,$event.target.value)"  class="form-control" formControlName="discriptionAboutWork" name="your-message" cols="4" rows="5" class="full-name" aria-invalid="false" placeholder="Brief description about the work" [ngClass]="{ 'is-invalid': submitted1 && f1.discriptionAboutWork.errors }">
+                                          
+                                          </textarea>
+                                          <p class="word_count">({{work_pref_count}}/500)</p>
+                                          <div *ngIf="submitted1 && f1.discriptionAboutWork.errors" class="invalid-feedback ">
+                                             
+                                             <div *ngIf="f1.discriptionAboutWork.errors.required">Field is required</div>
+                                             <div *ngIf="f1.discriptionAboutWork.errors.maxlength">Please describe in less than 500 words</div>
+                                             
+                                          </div>
+                                          <!--   <div class="form-control-feedback"
+                                             *ngIf="f1.discriptionAboutWork.errors && (f1.discriptionAboutWork.dirty || f1.discriptionAboutWork.touched)">
+                                             <p *ngIf="f1.discriptionAboutWork.errors.required">Password is required</p>
+                                             <p *ngIf="f1.discriptionAboutWork.errors.minlength">Password must be 8 characters long, we need another {{f1.discriptionAboutWork.errors.minlength.requiredLength - f1.discriptionAboutWork.errors.minlength.actualLength}} characters </p>
+                                          </div> -->
+                                       </div>
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-item" >
+                                          <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                          <label for="username">How many hours per week will you be available to work? </label>
+                                          <select class="form-control" formControlName="workHoursPerWeek" [ngClass]="{ 'is-invalid': submitted1 && f1.workHoursPerWeek.errors }" >
+                                             <option selected="" disabled="" value="">Select Hours Per Week</option>
+                                             <option value="1-5">1-5</option>
+                                             <option value="6-10">6-10</option>
+                                             <option value="11-15">11-15</option>
+                                             <option value="16-20">16-20</option>
+                                             <option value="21-25">21-25</option>
+                                             <option value="26-30">26-30</option>
+                                             <option value="31-35">31-35</option>
+                                             <option value="46-40">36-40</option>
+                                             <option value="40+">40+</option>
+                                          </select>
+                                          <div *ngIf="submitted1 && f1.workHoursPerWeek.errors" class="invalid-feedback ">
+                                             <div *ngIf="f1.workHoursPerWeek.errors.required">Field is required</div>
+                                          </div>
+                                       </div>
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-work" >
+                                          <div class="work">
+                                             <label for="username">Which days/hours are you available to work? </label><br><span class="notes">Notes : If you do not select a day for availability, it will automatically be treated as a non-working day</span>
+                                          </div>
+                                          <div class="clickBox">
+                                             <div class="innerclick">
+                                                <div class="innerWrap">
+                                                   <div class="flexWrapper">
+                                                      <p class="tagName">Monday</p>
+                                                      <div class="chk ">
+                                                         <label class="checkbox">
+                                                            <input  type="checkbox" value="Monday" (click)="fun1($event.target.value);option1()" formControlName="day1">
+                                                            <div class="square"></div>
+                                                         </label>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                                
+                                                <div class="dropdown " *ngIf="show">
+                                                   <ul >
+                                                     <li>
+                                                         <div class="wrapBox">
+                                                            <span class="time">Available all day</span>
+                                                            <div class="chk">
+                                                               <label class="checkbox">
+  <input type="checkbox" class="checkMondey" id="all_Monday" name="Monday"  
+ (click)="checkUncheckAll($event)"  >
+                                                                  <div class="square"></div>
+                                                               </label>
+                                                            </div>
+                                                         </div>
+                                                      </li>
+ 
+                                                      <li *ngFor="let data of workinghour;">
+                                                         <div class="wrapBox">
+
+                                                            <span class="time">{{data.title}}</span>
+                                                            <div class="chk">
+                                                               <label class="checkbox">
+                                                                  <!-- <input type="radio"  name="mon_time" value="4-5"  formControlName="mon_time"> -->
+     <!-- ,data.id,'Monday' -->
+      <input type="checkbox" id="Monday_{{data.id}}"  class="Monday checkMondey"  value="{{data.id}}" 
+(click)="timefunction($event.target,'Monday','all_Monday')"  formControlName="mon_time" name="Monday_checkbox" [checked]="data.selected">
+                                                                  <div class="square"></div>
+                                                               </label>
+                                                            </div>
+                                                         </div>
+                                                      </li>
+                                                      
+                                                      
+                                                   </ul>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div class="clickBox">
+                                             <div class="innerclick">
+                                                <div class="innerWrap">
+                                                   <div class="flexWrapper">
+                                                      <p class="tagName">Tuesday</p>
+                                                      <div class="chk ">
+                                                         <label class="checkbox">
+                                                            <input  type="checkbox" class="option2"  value="Tuesday" (click)="fun2($event.target.value);option2()" formControlName="day2">
+                                                            <div class="square"></div>
+                                                         </label>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                                <div class="dropdown " *ngIf="show2">
+                                                   <ul>
+                                                      <li>
+                                                         <div class="wrapBox">
+                                                            <span class="time">Available all day</span>
+                                                            <div class="chk">
+                                                               <label class="checkbox">
+ <input type="checkbox" id="Tuesday_all" class="checkTuesday" name="Tuesday"  (click)="checkUncheckAll($event)">     
+                                                                  <div class="square"></div>
+                                                               </label>
+                                                            </div>
+                                                         </div>
+                                                      </li>
+                                                
+                                                     <li *ngFor="let data of workinghour;">
+                                                         <div class="wrapBox">
+
+                                                            <span class="time">{{data.title}}</span>
+                                                            <div class="chk">
+                                                               <label class="checkbox">
+                                                                  <!-- <input type="radio"  name="mon_time" value="4-5"  formControlName="mon_time"> -->
+   <input type="checkbox"  name="Tuesday_checkbox" class="Tuesday checkTuesday" id="Tuesday_{{data.id}}"   
+    value="{{data.id}}" [checked]="data.selected" (click)="timefunction($event.target,'Tuesday','Tuesday_all')" >
+                                                                  <div class="square"></div>
+                                                               </label>
+                                                            </div>
+                                                         </div>
+                                                      </li>
+                                                   </ul>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div class="clickBox">
+                                             <div class="innerclick">
+                                                <div class="innerWrap">
+                                                   <div class="flexWrapper">
+                                                      <p class="tagName">Wednesday</p>
+                                                      <div class="chk ">
+                                                         <label class="checkbox">
+                                                            <input class="option3" type="checkbox" value="Wednesday" (click)="fun3($event.target.value);option3()" formControlName="day3">
+                                                            <div class="square"></div>
+                                                         </label>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                                <div class="dropdown " *ngIf="show3">
+                                                   <ul>
+                                                      <li>
+                                                         <div class="wrapBox">
+                                                            <span class="time">Available all day</span>
+                                                            <div class="chk">
+                                                               <label class="checkbox">
+<input type="checkbox" name="Wednesday" class="checkWednesday" id="Wednesday_all"  (change)="checkUncheckAll($event)">                                                                  <div class="square"></div>
+                                                               </label>
+                                                            </div>
+                                                         </div>
+                                                      </li>
+                
+                                                     <li *ngFor="let data of workinghour;">
+                                                         <div class="wrapBox">
+
+                                                            <span class="time">{{data.title}}</span>
+                                                            <div class="chk">
+                                                               <label class="checkbox">
+                                                                  <!-- <input type="radio"  name="mon_time" value="4-5"  formControlName="mon_time"> -->
+                                                                  <input type="checkbox" 
+                                                                  id="Wednesday{{data.id}}" class="Wednesday checkWednesday" name="Wednesday_checkbox" value="{{data.id}}" [checked]="data.selected" (click)="timefunction($event.target,'Wednesday','Wednesday_all')" >
+                                                                  <div class="square"></div>
+                                                               </label>
+                                                            </div>
+                                                         </div>
+                                                      </li>
+                                                   </ul>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div class="clickBox">
+                                             <div class="innerclick">
+                                                <div class="innerWrap">
+                                                   <div class="flexWrapper">
+                                                      <p class="tagName">Thursday</p>
+                                                      <div class="chk ">
+                                                         <label class="checkbox">
+                                                            <input  class="option4" type="checkbox" value="Thursday" (click)="fun4($event.target.value);option4()" formControlName="day4">
+                                                            <div class="square"></div>
+                                                         </label>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                                <div class="dropdown " *ngIf="show4">
+                                                   <ul>
+    <!-- <input type="checkbox" name="allNonTrades" [value]="nontrade" id="all" (change)="Thursdaycheck($event)">available all  -->
+    <li>
+                                                         <div class="wrapBox">
+                                                            <span class="time">Available all day</span>
+                                                            <div class="chk">
+                                                               <label class="checkbox">
+ <input type="checkbox" name="Thursday" id="Thursday_all" class="checkThursday" (change)="checkUncheckAll($event)">                                                                  <div class="square"></div>
+                                                               </label>
+                                                            </div>
+                                                         </div>
+                                                      </li>
+   
+                                                     <li *ngFor="let data of workinghour;">
+                                                         <div class="wrapBox">
+
+                                                            <span class="time">{{data.title}}</span>
+                                                            <div class="chk">
+                                                               <label class="checkbox">
+                                                                  <!-- <input type="radio"  name="mon_time" value="4-5"  formControlName="mon_time"> -->
+  <!--  <input type="checkbox" id="Wednesday{{data.id}}" class="Wednesday" name="Wednesday_time" value="{{data.id}}" [checked]="data.selected" (click)="timefunction($event.target,'Wednesday')" > -->                                                                 
+<input type="checkbox" id="Thursday{{data.id}}" class="Thursday checkThursday" [checked]="data.selected" name="Thursday_checkbox" value="{{data.id}}" (click)="timefunction($event.target,'Thursday','Thursday_all')" >
+                                                                  <div class="square"></div>
+                                                               </label>
+                                                            </div>
+                                                         </div>
+                                                      </li>
+                                                   </ul>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div class="clickBox">
+                                             <div class="innerclick">
+                                                <div class="innerWrap">
+                                                   <div class="flexWrapper">
+                                                      <p class="tagName">Friday</p>
+                                                      <div class="chk ">
+                                                         <label class="checkbox">
+                                                            <input  class="option5" type="checkbox" value="Friday" (click)="fun5($event.target.value);option5()" formControlName="day5">
+                                                            <div class="square"></div>
+                                                         </label>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                                <div class="dropdown " *ngIf="show5">
+                                                   <ul>
+       <li>
+                                                         <div class="wrapBox">
+                                                            <span class="time">Available all day</span>
+                                                            <div class="chk">
+                                                               <label class="checkbox">
+       <input type="checkbox" name="Friday" id="Friday_all" class="checkFriday"  (change)="checkUncheckAll($event)"> 
+                                                                  <div class="square"></div>
+                                                               </label>
+                                                            </div>
+                                                         </div>
+                                                      </li>
+                                                     <li *ngFor="let data of workinghour;">
+                                                         <div class="wrapBox">
+
+                                                            <span class="time">{{data.title}}</span>
+                                                            <div class="chk">
+                                                               <label class="checkbox">
+                                                                  <!-- <input type="radio"  name="mon_time" value="4-5"  formControlName="mon_time"> -->
+   <input type="checkbox" id="Friday{{data.id}}" class="Friday checkFriday" name="Friday_checkbox" value="{{data.id}}" [checked]="data.selected" value="{{data.id}}" (click)="timefunction($event.target,'Friday','Friday_all')" >
+                                                                  <div class="square"></div>
+                                                               </label>
+                                                            </div>
+                                                         </div>
+                                                      </li>
+                                                   </ul>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div class="clickBox">
+                                             <div class="innerclick">
+                                                <div class="innerWrap">
+                                                   <div class="flexWrapper">
+                                                      <p class="tagName">Saturday</p>
+                                                      <div class="chk ">
+                                                         <label class="checkbox">
+                                                            <input  class="option6" type="checkbox" value="Saturday" 
+                                                            (click)="fun6($event.target.value);option6()" formControlName="day6">
+                                                            <div class="square"></div>
+                                                         </label>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                                <div class="dropdown" *ngIf="show6">
+                                                   <ul>
+                                                      <li>
+                                                         <div class="wrapBox">
+                                                            <span class="time">Available all day</span>
+                                                            <div class="chk">
+                                                               <label class="checkbox">
+ <input type="checkbox" name="Saturday" id="Saturday_all" class="checkSaturday"  (change)="checkUncheckAll($event)">                                                                  <div class="square"></div>
+                                                               </label>
+                                                            </div>
+                                                         </div>
+                                                      </li>
+      
+          
+                                                    <li *ngFor="let data of workinghour;">
+                                                         <div class="wrapBox">
+
+                                                            <span class="time">{{data.title}}</span>
+                                                            <div class="chk">
+                                                               <label class="checkbox">
+                                                                  <!-- <input type="radio"  name="mon_time" value="4-5"  formControlName="mon_time"> -->
+   <input type="checkbox" id="Saturday{{data.id}}" 
+   class="Saturday checkSaturday" name="Saturday_checkbox" [checked]="data.selected" value="{{data.id}}"
+   (click)="timefunction($event.target,'Saturday','Saturday_all')" >
+                                                                  <div class="square"></div>
+                                                               </label>
+                                                            </div>
+                                                         </div>
+                                                      </li>
+                                                   </ul>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div class="clickBox">
+                                             <div class="innerclick">
+                                                <div class="innerWrap">
+                                                   <div class="flexWrapper">
+                                                      <p class="tagName">Sunday</p>
+                                                      <div class="chk ">
+                                                         <label class="checkbox">
+                                                            <input  class="option7" type="checkbox" value="Sunday" (click)="fun7($event.target.value);option7()" formControlName="day7">
+                                                            <div class="square"></div>
+                                                         </label>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                                <div class="dropdown" *ngIf="show7">
+                                                   <ul>
+                                                      <li>
+                                                         <div class="wrapBox">
+                                                            <span class="time">Available all day</span>
+                                                            <div class="chk">
+                                                               <label class="checkbox">
+<input type="checkbox" name="Sunday" id="Sunday_all"  class="checkSunday" (change)="checkUncheckAll($event)">                                                                  <div class="square"></div>
+                                                               </label>
+                                                            </div>
+                                                         </div>
+                                                      </li>
+           
+                                                    <li *ngFor="let data of workinghour;">
+                                                         <div class="wrapBox">
+
+                                                            <span class="time">{{data.title}}</span>
+                                                            <div class="chk">
+                                                               <label class="checkbox">
+                                                                  <!-- <input type="radio"  name="mon_time" value="4-5"  formControlName="mon_time"> -->
+                                                                  <input type="checkbox" id="Sunday{{data.id}}"
+                                                                  class="Sunday checkSunday"  name="Sunday_checkbox" [checked]="data.selected" value="{{data.id}}" (click)="timefunction($event.target,'Sunday','Sunday_all')" >
+                                                                  <div class="square"></div>
+                                                               </label>
+                                                            </div>
+                                                         </div>
+                                                      </li>
+                                                   </ul>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-item" >
+                                          <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                          <label for="username">How far away from your provided location are you willing to travel?
+                                          </label>
+                                          <select class="form-control" formControlName="willingToTravel" class="form-control" [ngClass]="{ 'is-invalid': submitted1 && f1.willingToTravel.errors }">
+                                          <option selected="" disabled="" value="">Select Location</option >
+                                           <option   *ngFor="let data of location;" value={{data.value}}>{{data.title}}</option>
+                                         <!--  <option value="50+">50+</option>
+                                          <option value="60+">60+</option>
+                                          <option value="70+">70+</option>
+                                          <option value="80+">80+</option> -->
+                                       </select>
+                                       <div *ngIf="submitted1 && f1.willingToTravel.errors" class="invalid-feedback ">
+                                          <div *ngIf="f1.willingToTravel.errors.required">Field is required</div>
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 genderBlog">
+                                       <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                       <label for="username">Do you have a reliable means of transportation?  </label>
+                                       <div class="radio-btn">
+                                          <div class="md-radio">
+                                             <input id="a" type="radio" name="transportation" checked="" formControlName="transportation" value="1" [ngClass]="{ 'is-invalid': submitted1 && f1.transportation.errors }">
+                                             <label for="a">Yes</label>
+                                          </div>
+                                          <div class="md-radio">
+                                             <input id="c" type="radio" name="transportation" formControlName="transportation" value="0" class="form-control" [ngClass]="{ 'is-invalid': submitted1 && f1.transportation.errors }">
+                                             <label for="c">No</label>
+                                          </div>
+                                          <!-- <div *ngIf="submitted && f1.transportation.errors" class="invalid-feedback ">
+                                             <div *ngIf="f1.transportation.errors.required">Field is required</div>
+                                          </div> -->
+                                       </div>
+                                       <input class="form-control" type="hidden" name="username" [ngClass]="{ 'is-invalid': submitted1 && f1.transportation.errors }">
+                                       <div *ngIf="submitted1 && f1.transportation.errors" class="invalid-feedback ">
+                                          <div *ngIf="f1.transportation.errors.required">Field is required</div>
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-item" style="margin-top: 30px;">
+                                       <label for="username">Please list all additional applicable skills and/or experience </label>
+                                       <textarea (keydown)="skills_fun($event,$event.target.value)" (focusout)="skills_fun1($event,$event.target.value)" formControlName="skills" class="form-control" name="your-message" cols="4" rows="5" class="full-name" aria-invalid="false" placeholder="" [ngClass]="{ 'is-invalid': submitted1 && f1.skills.errors }"></textarea>
+                                       <p class="word_count">({{skills_count}}/1000)</p>
+                                       <div *ngIf="submitted1 && f1.skills.errors" class="invalid-feedback ">
+                                          <div *ngIf="f1.skills.errors.maxlength">Please describe skills in less than 1000 words</div>
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-item" >
+                                       <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                       <label   for="username">In 500 words or less, tell us a little bit about yourself (Bio)</label>
+                                       <textarea (keydown)="bio_fun($event,$event.target.value)" (focusout)="bio_fun1($event,$event.target.value)" formControlName="aboutYourSelf" class="form-control" name="your-message" cols="4" rows="5" class="full-name" aria-invalid="false" placeholder="In 500 words or less, tell us a little about yourself" >                           </textarea>
+                                       <p class="word_count">({{bio_count}}/500)</p>
+                                       <div *ngIf="submitted1 && f1.aboutYourSelf.errors" class="invalid-feedback ">
+                                          <div *ngIf="f1.aboutYourSelf.errors.required">Field is required</div>
+                                          <div *ngIf="f1.aboutYourSelf.errors.maxlength">Please describe in less than 500 words</div>
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 CheckBlog" >
+                                       <div class="innerBlog2">
+                                          <input type="checkbox" id="fruit1"  value="Apple"  formControlName="agree" class="form-control"  [ngClass]="{ 'is-invalid': submitted1 && f1.agree.errors }">
+                                          <label for="fruit1">I have read, understood and agree to <span class="termsBlog">Terms & Conditions</span> and <span class="termsBlog"> Privacy Policy</span></label>
+                                          <div *ngIf="submitted1 && f1.agree.errors" class="invalid-feedback ">
+                                             <div *ngIf="f1.agree.errors.required">Please agree terms and conditions</div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <button type="submit"  class="next-btn">Next</button>
+                                 </div>
+                              </div>
+                           </form>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </section>
+         </div>
+         <!--END OF WORK-PREFERENCES -->
+      </div>
+      <!--END OF TAB-2 -->
+      <div id="tab-3" class="tab-content">
+         <section class="information">
+            <div class="wrap">
+               <div class="row">
+                  <p>Almost there!</p>
+                  <h3>
+                  Any References?
+                  <div class="addNBtn" (click)="refCustomsubmit()">
+                     <div class="skipNBtn">
+                        <span  class="next-btn">Skip</span>
+                     </div>
+                  </div>
+                  </h3>
+               </div>
+               <!--END OF WRAP -->
+            </div>
+            <!--END OF WRAP -->
+         </section>
+         <section class="about-business" >
+            <div class="innerWrap" >
+               <div class="wrap ">
+                  <div class="row">
+                     <p><i class="fa fa-asterisk" aria-hidden="true"></i> indicates required fields</p>
+                     <div class="form-business">
+                        <form [formGroup]="referenceFrom"  (ngSubmit)="onSubmitReference(referenceFrom)" class="input-form"  >
+                           <input type="hidden" formControlName="tab" value="tab-4">
+                           <input type="hidden" formControlName="currentTab" value="tab-3">
+                           <!---referenceFrom Section -->
+                           <div formArrayName="sections">
+                              <div class="section-container" *ngFor="let section of getSections(referenceFrom); let i = index">
+                                 <div class="button_con text-right">
+                                    <button style="height: 49px;width: 50px;font-size: 24px;border-radius: 37px;border: none;background: #1761a0; color: #fff;" *ngIf="getSections(referenceFrom).length > 1" (click)="removeSection(i)">X</button>
+                                 </div>
+                                 <div class="ui raised segments" [formGroupName]="i">
+                                    <h4 class="ui header count_refNO">Reference #1</h4>
+                                    <div class="wrap ">
+                                       <div class="row ">
+                                          <!--  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-item" >
+                                             <h4 class="ref_count">Refrence 1</h4>
+                                          </div> -->
+                                          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item" >
+                                             <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                             <label for="username">Name</label>
+                                             <input class="form-control" type="text" formControlName="refName" placeholder="Enter Name" (keypress)="keyPress1($event)"  >
+                                             <p id="refname_{{i}}" class="refErr"></p>
+                                             
+                                          </div>
+                                          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item" >
+                                             <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                             <label for="username">Relationship</label>
+                                             <input class="form-control" type="text" formControlName="refRelation" (keypress)="keyPress1($event)" placeholder="Relation" >
+                                             <p id="refRelation{{i}}" class="refErr"></p>
+                                          </div>
+                                          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item" >
+                                             <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                             <label for="yearsKnown">Years Known</label>
+                                             <select formControlName="yearsKnown" class="form-control">
+                                                <option selected="" disabled="" value="">Select Years</option>
+                                                <option value="2">2 years</option>
+                                                <option value="3">3 years</option>
+                                                <option value="4">4 years</option>
+                                                <option value="5">5 years</option>
+                                             </select>
+                                             <p id="yearsKnown{{i}}" class="refErr"></p>
+                                          </div>
+                                          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item" >
+                                             <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                             <label for="monthsKnown">Months Known</label>
+                                             <select formControlName="monthsKnown" class="form-control" >
+                                                <option selected="" disabled="" value="">Select Months</option>
+                                                <option value="2">2 months</option>
+                                                <option value="3">3 months</option>
+                                                <option value="4">4 months</option>
+                                                <option value="5">5 months</option>
+                                             </select>
+                                             <p id="monthsKnown{{i}}" class="refErr"></p>
+                                          </div>
+                                          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item" >
+<!--                                              <i class="fa fa-asterisk" aria-hidden="true"></i>
+ -->                                             <label for="employer">Employer (recommended)</label>
+                                             <input class="form-control" type="text" formControlName="employer" placeholder="Diamond Employer" >
+                                             <p id="employer{{i}}" class="refErr"></p>
+                                          </div>
+                                          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item" >
+                                            <!--  <i class="fa fa-asterisk" aria-hidden="true"></i> -->
+                                             <label for="currentPosition">Current Position (recommended)</label>
+                                             <input class="form-control" type="text" formControlName="currentPosition" placeholder="UI Designer" >
+                                             <p id="currentPosition{{i}}" class="refErr"></p>
+                                          </div>
+                                          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item" >
+                                             <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                             <label for="phone">Phone #</label>
+                                             <input class="form-control"  type="text" formControlName="phoneRef" placeholder="Enter mobile number" (keypress)="keyPress($event)"  minlength=1 maxlength=15 >
+                                             <p id="phoneRef{{i}}" class="refErr"></p>
+                                          </div>
+                                          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item" >
+                                             <!-- <i class="fa fa-asterisk" aria-hidden="true"></i> -->
+                                             <label for="refEmail">Email Address (recommended)</label>
+                                             <input class="form-control" type="text" formControlName="refEmail" placeholder="Enter Email id" >
+                                             <p id="refEmail{{i}}" class="refErr"></p>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <br>
+                              </div>
+                           </div>
+                           <!-- End Section -->
+                           <div class="addBtn" (click)="addSection()">
+                              <div class="skipBtn">
+
+                                 <span  class="point">Add Reference</span>
+
+                              </div>
+                           </div>
+                           <div class="addBtn">
+                              <div class="skipBtn">
+                                 <button type="submit" class="next-btn">Finish</button>
+                              </div>
+                           </div>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </section>
+      </div>
+      <!--END OF TAB-3 -->
+      <div id="tab-4" class="tab-content">
+         <section class="information">
+            <div class="wrap">
+               <div class="row">
+                  <p>Congratulations!</p>
+                  <h3>Your account has been created successfully</h3>
+               </div>
+               <!--END OF WRAP -->
+            </div>
+            <!--END OF WRAP -->
+         </section>
+         <!--END OF INFORMATION -->
+         <section class="confirmationBlog">
+            <div class="innerWrap">
+               <div class="wrap">
+                  <div class="row">
+                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="congrats">
+                           <img src="../assets/images/email-mg.png">
+                        </div>
+                        <h3>Congratulations!</h3>
+                        <p>Thank you for your registration! Your
+                           account is now ready to use.
+                        </p>
+                        <div class="addAnother">
+                           <div class="referenceBtn">
+                              <a routerLink="/verifyemail" class="">
+                                 <span>
+                                    Take me to verify Email
+                                 </span>
+                              </a>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!--END OF row -->
+               </div>
+               <!--END OF WRAP -->
+            </div>
+            <!--END OF INNERWRAP -->
+         </section>
+         <!--END OF CONFIRMATIONBLOG -->
+      </div>
+      <!--END OF TAB-3 -->
+   </div>
+   <!--END OF CREATE-ACCOUNT -->
+   <!-- SCRIPTS -->
+</div>
+<!-- <style type="text/css">
+.refErr{
+margin-top: 5px;
+text-align: left;
+color: red;
+font-weight: 500;
+}
+</style> -->

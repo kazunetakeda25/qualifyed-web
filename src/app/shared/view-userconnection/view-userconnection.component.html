@@ -1,0 +1,146 @@
+<!-- <div id="cover-spin" *ngIf="showLoader == true"></div> -->
+<div id="loder_main" *ngIf="showLoader == true"><div id="loader_view" ></div></div>
+   <app-header></app-header>
+
+    <section class="conneciton-businessBlog ">
+        <div class="innerWrap">
+           <div class="wrap">
+              <div class="mainWrapper">
+                <div class="innerWrapper">
+                  <div class="connectionTop">
+                    <h5 class="box_head">Connection Request</h5>
+                    <span class="results">{{result_count}} Result</span>
+                  </div>
+                  <div *ngIf="paginationresult_count == -5">
+                    <p>No Connection Request</p>
+                  </div>
+                  <div class="connectionList" *ngFor="let data of resData">
+                    <ul class="inlineList">
+                      <li>
+                        <div class="flexWrapper">
+                          <div class="requestBLog">
+                              <div class="req-mgBlog">
+                                 <img *ngIf="data.file_status == false" src="{{media_url}}/uploads/images/avatar.png">
+                                 <img *ngIf="data.file_status == true" src="{{media_url}}/uploads/images/{{data.profile_pic}}">
+                              </div>
+                             <div class="request-titlebox">
+                                <a routerLink="/shared/view_profile/{{data.user_id}}" target="_blank"><h3>{{data.name}}</h3></a>
+                                <p>{{data.country}}</p>
+                              </div>
+                          </div>
+                          <!--  REQUESTSBLOG -->
+                          <div class="acceptBtn">
+                          <!--  <p><a  (click)="Decline(data.user_login_id)">Decline</a></p> -->
+                              <div class="next-btn">
+                                  <a class="" (click)="Accept(data.id)">  
+                                      <span>
+                                          Accept
+                                      </span>
+                                  </a>
+                              </div>
+                              &nbsp;&nbsp;  
+                               <div class="next-btn">
+                                  <a class="" (click)="Decline(data.id)">  
+                                      <span>
+                                          Decline
+                                      </span>
+                                  </a>
+                              </div>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  <!--END OF UL-01 -->
+              
+                  </div>
+                </div>
+              </div>
+              <div class="viewMoreBtn">
+                <button  class="viewbtn" (click)="loadMore1()" *ngIf="paginationresult_count > 0">View ({{paginationresult_count}}) more</button>
+              </div>
+           </div>
+          <!--END OF WRAP -->
+        </div>
+        <!--END OF INNERWRAP -->
+      </section>
+    <!--END OF RESULTSECTION -->
+     <section class="conneciton-businessBlog findConnection">
+        <div class="innerWrap">
+           <div class="wrap">
+              <div class="mainWrapper">
+                <div class="innerWrapper">
+                  <div class="connectionTop">
+                    <h4>Connections</h4>
+                    <span class="results">{{connection_count}} Connections</span>
+                  </div>
+               <!--    <div class="sortHead">
+                    <div class="flexWrap">
+                      <div class="sort">
+                        <label>Sort by:</label>
+
+                         <select>
+                            <option value="all">All</option>
+                            <option value="city" >City</option>
+                          </select> 
+                      </div>
+                      <div class="searchConnection">
+                        <div class="inputController">
+                          <input [(ngModel)]="searchText" placeholder="Search Connection">
+                        </div>
+                      </div>
+                    </div>
+                  </div> -->
+                  <div class="connectionList">
+                      <div *ngIf ="pagination_count == -2">
+                    <p>No Connections Yet</p>
+                  </div>
+                    <ul class="inlineList" *ngFor="let data of finalConnections">
+                    	<div *ngIf="finalConnections == null || finalConnections ==undefined ">No Connection Request</div>
+                      <li>
+                        <div class="flexWrapper">
+                          <div class="requestBLog">
+                              <div class="req-mgBlog">
+                                 <img *ngIf="data.file_status == false" src="{{media_url}}/uploads/images/avatar.png">
+                                 <img *ngIf="data.file_status == true" src="{{media_url}}/uploads/images/{{data.logo}}">
+                              </div>
+                              <a routerLink="/shared/view_profile/{{data.userid}}">
+                             <div class="request-titlebox">
+                                <h3>{{data.name}}</h3>
+                                <p>{{data.city}} , {{data.state}} , {{data.country}}</p>
+                              </div>
+                              </a>
+                          </div>
+                          <!--  REQUESTSBLOG -->
+                          <div class="acceptBtn">
+                            <div class="next-btn">
+                                  <a (click)="Block(data.userid,data.name)" class="">  
+                                      <span>
+                                          Block
+                                      </span>
+                                  </a>
+                              </div>
+                               &nbsp;&nbsp;
+                              <div class="next-btn">
+                                  <a (click)="checkRoom(data.userid)" class="">  
+                                      <span>
+                                          Message
+                                      </span>
+                                  </a>
+                              </div>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+
+                  </div>
+                </div>
+              </div>
+              <div class="viewMoreBtn">
+                <button class="viewbtn" (click)="loadMore()" *ngIf="pagination_count > 0">View ({{pagination_count}}) more</button>
+              </div>
+           </div>
+          <!--END OF WRAP -->
+        </div>
+        <!--END OF INNERWRAP -->
+      </section>
+    <!--END OF RESULTSECTION -->

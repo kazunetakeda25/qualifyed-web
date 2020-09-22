@@ -1,0 +1,68 @@
+<div id="cover-spin" *ngIf="showLoader == true"></div>
+<body class="innerBg">
+    <section class="reset-password verifyemail">
+      <div class="innerWrap">
+         <div class="wrap">
+           <div class="row">
+             <div class="itemBlog">
+                <div class="logoBlog">
+                  <a routerLink="/"><img src="assets/images/logo.png"></a>
+                 </div>  
+                <h3>Verify Email</h3>
+              <form [formGroup] = "verifyForm" (ngSubmit)=onSubmit()>
+                <div class="floating-form">
+                         <div class="form-group">
+                              <input type="text" id="passwordField" formControlName="email" class="form-control" 
+                             [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+                             <label class="form-control-placeholder" for="password">Email</label>
+                                  <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                            <div *ngIf="f.email.errors.required">Email is required</div>
+                            <div *ngIf="f.email.errors.email">Please Enter The Correct Mail</div>
+                        </div> 
+                            
+                         </div>
+                          <!--END OF FORM-GROUP -->
+                         <div class="form-group">
+                              <input type="text" id="passwordField2" formControlName="otp" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.otp.errors }">
+                             <label class="form-control-placeholder" for="password">OTP</label>
+                             
+                            <div *ngIf="submitted && f.otp.errors" class="invalid-feedback">
+                           
+                            <div *ngIf="f.otp.errors.required">OTP is required</div>
+
+                                    </div>
+                         </div>
+
+                          <!--END OF FORM-GROUP -->
+                         <div class="reset-btn">
+                              <a class="">  
+                                 <span>
+                                    <button type="submit" (click)="Verify()" class="btnBlog"> Verify
+                                   </button>
+                                 </span>
+                              </a>
+                         </div>
+                          <div class="reset-btn">
+                              <a class="">  
+                                 <span>
+                                    <button type="submit" class="btnBlog" (click)="resendOtp()"> Resend OTP
+                                   </button>
+                                 </span>
+                              </a>
+                         </div>
+                  </div>
+                </form>
+               </div>
+             <!--END OF ITEMBLOG --> 
+            </div>
+          <!--END OF ROW -->
+         </div>
+        <!--END OF WRAP -->
+         <div class="bg-student">
+            <img class="" src="assets/images/login-user-mg.png">
+        </div>
+      </div> 
+       <!--END OF INNERWRAP -->
+     </section>
+    <!--END OF SECTION -->
+</body>

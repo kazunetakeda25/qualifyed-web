@@ -1,0 +1,6 @@
+html {
+	scroll-behavior: smooth;
+}
+
+.editProfileContainer .resumeInfo .flexboxwrap .editUpload .profileclass{display: inline;}
+.mat-chip .mat-chip-remove.mat-icon, .mat-chip .mat-chip-trailing-icon.mat-icon {font-size: 14px !important;}

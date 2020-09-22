@@ -1,0 +1,454 @@
+<div id="loder_main" *ngIf="showLoader == true"><div id="loader_view" ></div></div>
+<app-header></app-header>
+<section class="opportunitiess-user-header">
+<div class="wrap">
+  <form [formGroup]="oppurtunityForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <!-- <p>Hey, welcome!</p> -->
+      
+      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 search-bar">
+        <div class="search-section">
+          <i class="fa fa-search" aria-hidden="true"></i>
+          <input type="text" formControlName="opportunity" placeholder="Search Opportunity">
+        </div>
+      </div>
+      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 search-bar">
+        <div class="search-section">
+          <i class="fa fa-location-arrow" aria-hidden="true"></i>
+          <input type="text" formControlName="location" placeholder="Search Location">
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 search-bar">
+        <div class="search-section search-op">
+          <button type="submit">Search</button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <!--END OF WRAP -->
+</div>
+<!--END OF WRAP -->
+</section>
+<!--OPPORTUNITIES USER HEADER -->
+<!-- START CONTENT BOX SECTION -->
+<section class="contentBox">
+<div class="wrap">
+  <div class="row">
+    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" *ngIf="tab1 == true">
+      <div class="bg-primary">
+        <div class="care-body">
+          <div class="mp-4">
+            <div class="mini-start">
+              <!-- <img src="./assets/images/saved-icon-grey.png" alt=""> -->
+              <i class="fas fa-save"></i>
+            </div>
+            <h3>{{saveoppcount}}</h3>
+            <h5>Saved Opportunities</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" (click)="savedOpportunities()" *ngIf="tab1 == false" style="cursor : pointer;">
+      <div class="grey-primary">
+        <div class="care-body">
+          <div class="mp-4">
+            <div class="mini-start">
+              <!--  <img src="./assets/images/saved-icon-grey.png" alt=""> -->
+              <i class="fas fa-save"></i>
+            </div>
+            <h3>{{saveoppcount}}</h3>
+            <h5>Saved Opportunities</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" *ngIf="tab2 == true">
+      <div class="bg-primary">
+        <div class="care-body">
+          <div class="mp-4">
+            <div class="mini-start">
+              <!-- <img src="./assets/images/briefcase-icon-white.png" alt=""> -->
+              <i class="fas fa-briefcase"></i>
+            </div>
+            <h3>{{applyiedoppcount}}</h3>
+            <h5>Applied Opportunities</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" (click)="appliedOpportunity()" *ngIf="tab2 == false" style="cursor : pointer;">
+      <div class="grey-primary">
+        <div class="care-body">
+          <div class="mp-4">
+            <div class="mini-start">
+              <!-- <img src="./assets/images/briefcase-icon-white.png" alt=""> -->
+              <i class="fas fa-briefcase"></i>
+            </div>
+            <h3>{{applyiedoppcount}}</h3>
+            <h5>Applied Opportunities</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" *ngIf="tab3 == true">
+      <div class="bg-primary">
+        <div class="care-body">
+          <div class="mp-4">
+            <div class="mini-start">
+              <i class="fas fa-microphone"></i>
+              <!-- <img src="./assets/images/mike-icon.png" alt=""> -->
+            </div>
+            <h3>{{interviewcount}}</h3>
+            <h5>Interview Requests</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" (click)="interviewRequest()" *ngIf="tab3 == false" style="cursor : pointer;">
+      <div class="grey-primary">
+        <div class="care-body">
+          <div class="mp-4">
+            <div class="mini-start">
+              <i class="fas fa-microphone"></i>
+              <!-- <img src="./assets/images/mike-icon.png" alt=""> -->
+            </div>
+            <h3>{{interviewcount}}</h3>
+            <h5>Interview Requests</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--END OF WRAP -->
+</div>
+<!--END OF WRAP -->
+</section>
+<!-- END CONTENT BOX SECTION -->
+<section class="opportunities-user" *ngIf="tab4 == true">
+<div class="innerWrap oppotunityInterview">
+  <div class="wrap">
+    <div class="row">
+      <div *ngIf="result == undefined || result.length == 0" class="no_result_found">
+        <p>No results found related to your search</p>
+      </div>
+      
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 business" *ngFor="let data of result" style="cursor: pointer;">
+        <!-- <a href="{{api_url_}}opportunities_detail/{{data.id}}"> -->
+        <div class="profileBlog">
+          <div class="profile-innerBlog">
+            <a *ngIf="data.saved_status == 1 " class="bookmark_job checked"><i class="fa fa-bookmark" (click)="unsaveOpportunity(data.id)"></i></a>
+            <a *ngIf="data.saved_status == 0" class="bookmark_job" (click)="saveOpportunity(data.id)"><i class="fa fa-bookmark"></i></a>
+            <div class="imgBlog">
+              <img routerLink="/shared/opportunities_detail/{{data.id}}" src="{{media_url}}/uploads/images/{{data.logo}}">
+            </div>
+            <div routerLink="/shared/opportunities_detail/{{data.id}}" class="studiesBlog search_opportunities_detail">
+              <h3>{{data.titlename}}</h3>
+              <p>{{data.title}}</p>
+              <p>{{data.country_name}}, {{data.name}}, {{data.city}}, {{data.Address_Line}}</p>
+            </div>
+            <span>
+              <div class="lineBlog"></div>
+              <p>Post Date: {{data.created_date}}</p>
+              <div class="lineBlog"></div>
+            </span>
+            <div class="see-allBtn">
+              <div class="connectBtn">
+                <div class="msgeff"></div>
+                <a *ngIf="data.applied_id == null || data.applied_id == undefined "  (click)="applyopp(data.id)" (click)="appliedNotification(data.title,data.user_id,data.id)">Apply for Opportunity</a>
+                <a class="disabled" *ngIf="data.applied_id != null || data.applied_id != undefined ">Apply for Opportunity</a>
+                <!--  <a *ngIf="applied.request_status == 1" (click)="applyopp(data.opportunity_id)">Cancel Request</a> -->
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        <!-- </a> -->
+      </div>
+      
+      
+      
+    </div>
+    <!-- /END OF ROW/ -->
+    
+  </div>
+  <!--END OF WRAP -->
+</div>
+<!--END OF INNERWRAP -->
+</section>
+<!--END OF CREATE-ACCOUNT -->
+<!--start OF saved opp -->
+<section class="opportunities-user saved-opportunities" *ngIf="tab1 == true">
+<div class="innerWrap oppotunityInterview">
+  <div class="wrap">
+    <div class="row">
+      
+      
+      <div *ngIf="savedopp == null || savedopp.length == 0" class="no_result_found"><p>No Saved Opportunity</p></div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 business" *ngFor="let data of savedopp" style="cursor: pointer;">
+        <div class="profileBlog">
+          <div class="profile-innerBlog">
+            <div class="imgBlog">
+              <img routerLink="/shared/opportunities_detail/{{data.opportunity_id}}" src="{{media_url}}/uploads/images/{{data.file_name}}">
+            </div>
+            <div routerLink="/shared/opportunities_detail/{{data.opportunity_id}}" class="studiesBlog">
+              <h3>{{data.business_name}}</h3>
+              <p>{{data.title}}</p>
+              <br>
+              <p>{{data.country_name}}, {{data.state_name}}, {{data.city}}, {{data.Address_Line}}</p>
+            </div>
+            <span>
+              <div class="lineBlog"></div>
+              <!-- <p routerLink="/shared/opportunities_detail/{{data.opportunity_id}}" style="color: #2eb82e;" *ngIf="current_date > data.expiry_date">Expires in: {{data.expiry_date}} days </p>
+              <p routerLink="/shared/opportunities_detail/{{data.opportunity_id}}" style="color: red;" *ngIf="current_date < data.expiry_date">Expired</p> -->
+              <div class="lineBlog"></div>
+            </span>
+            <div class="see-allBtn">
+              <div class="connectBtn">
+                <div class="msgeff"></div>
+                <a  (click)="applyopp(data.opportunity_id)" (click)="appliedNotification(data.title,data.iddata.opportunity_id)">Send Request</a>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+      
+      
+      
+    </div>
+    <!-- /END OF ROW/ -->
+    
+  </div>
+  <!--END OF WRAP -->
+</div>
+<!--END OF INNERWRAP -->
+</section>
+<!--END OF saved opp -->
+<!--start OF applied opp -->
+<section class="opportunities-user" *ngIf="tab2 == true">
+<div class="innerWrap oppotunityInterview">
+  <div class="wrap">
+    <div class="row">
+      <div *ngIf="applied_opp.length == 0" class="no_result_found"><p>No Applied Opportunity</p></div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 business" *ngFor="let data of applied_opp">
+        <div class="profileBlog">
+          <div class="profile-innerBlog">
+            <div class="imgBlog">
+              <img style="cursor: pointer;" src="{{media_url}}/uploads/images/{{data.file_name}}" routerLink="/shared/opportunities_detail/{{data.opportunity_id}}">
+            </div>
+            <a routerLink="/shared/opportunities_detail/{{data.opportunity_id}}">
+              <div class="studiesBlog search_opportunities_detail">
+                <h3>{{data.business_name}}</h3>
+               <p> <b>{{data.title}}</b></p>
+               <br>
+                <p><b> {{data.country_name}}, {{data.state_name}}, {{data.city}} , {{data.Address_Line}}</b></p>
+              </div>
+            </a>
+            <span>
+             <p> <b>Applied: {{data.request_datetime}}</b></p>
+            </span>
+            <!--  <span>
+              <div class="lineBlog"></div>
+              <p *ngIf="data.request_status == 1" style="color: #b35900;">Status: Pending</p>
+              <p *ngIf="data.request_status == 2" style="color: red;">Status: Declined</p>
+              <p *ngIf="data.request_status == 3" style="color: #2eb82e;">Status: Approved</p>
+              <div class="lineBlog"></div>
+            </span> -->
+            <div class="see-allBtn" *ngIf="data.request_status == 1" >
+              <div class="connectBtn">
+                <div class="msgeff"></div>
+                <a (click)="Sendfollowup(data.title,data.connection_id)">Send Follow Up</a>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+      
+      
+      
+    </div>
+    <!-- /END OF ROW/ -->
+    
+  </div>
+  <!--END OF WRAP -->
+</div>
+<!--END OF INNERWRAP -->
+</section>
+<!--END OF applied opp -->
+<!--start OF Interview section  -->
+<section class="opportunities-user" *ngIf="tab3 == true">
+<div class="innerWrap oppotunityInterview">
+  <div class="wrap">
+    <div class="row">
+      
+      <div *ngIf="interviewcount == 0" class="no_result_found"><p>No Interview Requests</p></div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" *ngFor="let data of interview;let i = index">
+        <div class="profileBlog">
+          <div class="profile-innerBlog">
+            
+            <div class="imgBlog">
+              <img style="cursor: pointer;" src="{{media_url}}/uploads/images/{{data.logo}}" routerLink="/shared/opportunities_detail/{{data.opportunity_id}}">
+              <div class="fl-right action_btn_new" *ngIf="data.request_status != 1 && data.request_status !=4 && data.request_status !=3 && data.request_status !=5 && data.request_status !=6">
+                <span id="action_{{i}}"  class="fa"> <i (click)="showFunction(i)" (clickElsewhere)="close_show_function(i)" class=" fa fa-ellipsis-v" aria-hidden="true" ></i>
+                </span>
+                <ul id="tab_{{i}}"  class="ul_of_action displayNone">
+                  <!-- <li *ngIf="data.request_status != 7" ><a (click)="Accept(data.id)" (click)="interviewacceptnotification(data.user_id)">Accept</a></li>
+                  <li *ngIf="data.request_status ==7"  ><a (click)="Accept(data.id)" (click)="interviewacceptnotification(data.user_id)">Accept</a></li> -->
+                  <li *ngIf="data.request_status != 7" ><a (click)="open_accept_popup(data.id,data.user_id,i)">Accept</a></li>
+                  <li *ngIf="data.request_status ==7"  ><a (click)="Accept(data.id)" (click)="interviewacceptnotification(data.user_id)">Accept</a></li>
+                  <li *ngIf="data.request_status != 7" ><a (click)="Decline(data.id)" (click)="interviewdeclinenotification(data.user_id)">Decline</a></li>
+                  <li *ngIf="data.request_status ==7" ><a (click)="Decline(data.id)" (click)="interviewdeclinenotification(data.user_id)">Delete</a></li>
+                  <li *ngIf="data.request_status != 7" ><a (click)="Reschedule(data.id, data.user_id, data.title)">Reschedule</a></li>
+                  <li *ngIf="data.request_status == 7" ><a (click)="Reschedule(data.id, data.user_id, data.title)">Reschedule</a></li>
+                  <!-- (click)="interviewresschedulenotification(data.user_id)"  -->
+                </ul>
+              </div>
+            </div>
+            <a routerLink="/shared/opportunities_detail/{{data.opportunity_id}}">
+              <div class="studiesBlog">
+                <h3>{{data.profile}}</h3>
+                <b><p>{{data.title}}</p></b>
+                <!-- <b> <p>{{data.country}}, {{data.state}}, {{data.city}}</p></b> -->
+              </div>
+            </a>
+            <span>
+              <div class="lineBlog"></div>
+              <b> <p *ngIf="data.interview_type == 1" style="color: #cc7a00;"><b>Interview type:</b> Standard interview request</p></b>
+              <b> <p *ngIf="data.interview_type == 2" style="color: #cc7a00;"><b>Interview type:</b> Video interview request</p></b>
+              <b> <p *ngIf="data.request_status == 2"><b>Interview scheduled :-</b> {{data.interview_datetime }}</p></b>
+              <b><p *ngIf="data.request_status == 2 || data.request_status == 7" style="color: #2eb82e;"><b>Status:</b> Accepted By Bussiness</p></b>
+              <b> <p *ngIf="data.request_status == 3" style="color: red;"><b>Status:</b> Declined</p></b>
+              <b><p *ngIf="data.request_status == 5" style="color: #f4b342;"><b>Status:</b> Requested for reschedule</p></b>
+              <b> <p *ngIf="data.request_status == 6" style="color: red;"><b>Status:</b> Declined by user</p></b>
+              <b> <p *ngIf="data.request_status == 9" style="color: red;"><b>Status:</b> Request Sent by Bussiness</p></b>
+              <b> <p *ngIf="data.request_status == 4" style="color: #cc7a00;">Interview scheduled on {{data.interview_datetime }}</p></b>
+              <p *ngIf="data.interview_type == 1"><b>Venue Address : </b>{{data.Address_Line}}, {{data.city}}, {{data.oppState}} - {{data.opp_country}}, {{data.zipcode}}</p>
+              <p *ngIf="data.additional_details_box != ''"><b>Additional Information  : </b>{{data.additional_details_box}}</p>
+            </span>
+          </div>
+          
+        </div>
+        
+      </div>
+      
+      
+      
+    </div>
+    <!-- /END OF ROW/ -->
+    
+  </div>
+  <!--END OF WRAP -->
+</div>
+<!--END OF INNERWRAP -->
+</section>
+<!--END OF Interview section -->
+<div class="user_request_popup" id="user_request_popup_date">
+<div class="wrap">
+  <div class="close_user_request_popup" id="user_pop_listing_close_date"><i class="fa fa-times"></i></div>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 header_user_listing">
+      <h6>Choose Date and Time for Reschedule</h6>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <form [formGroup]="OpportunityAccept" (ngSubmit)="acceptOppSubmit()">
+        
+        <div>
+          <input style="padding: 10px;width: 50%;" formControlName="reason" class="form-styling"  [ngClass]="{ 'is-invalid': submitted && oppErrSubmit.reason.errors }" placeholder=" Enter Reason ">
+          <div *ngIf="submitted && oppErrSubmit.reason.errors" class="invalid-feedback">
+            <div *ngIf="oppErrSubmit.reason.errors.required">Reason is required</div>
+          </div>
+        </div>
+        <br>
+        <div class="user-date-picker">
+          <!-- <input style="padding: 10px;width: 50%;" [owlDateTime]="dt1" formControlName="date_time" [min]="minDate"  class="form-styling" [owlDateTimeTrigger]="dt1" [ngClass]="{ 'is-invalid': submitted && oppErrSubmit.date_time.errors }" placeholder="Choose Date and Time for Interview ">
+          <owl-date-time #dt1></owl-date-time>
+          <div *ngIf="submitted && oppErrSubmit.date_time.errors" class="invalid-feedback">
+            <div *ngIf="oppErrSubmit.date_time.errors.required">Date and time is required</div>
+          </div> -->
+           <input  type="text" name="" id="" placeholder="Select date and time" [value]="date_time" (click)="show_datepicker()">
+            <div class="my">
+            <dp-date-picker   *ngIf="showDate == 0" theme="dp-material"   (onChange)="o($event)" mode="daytime" ></dp-date-picker>
+            </div>
+        </div>
+        <div class="right_sec text-right">
+          <button class="button_style_01" type="submit"><span>SAVE</span></button>
+          <a class="button_style_02" id="user_pop_listing_close_date2" ><span>CANCEL</span></a>
+        </div>
+      </form>
+    </div>
+    
+  </div>
+</div>
+</div>
+<div class="user_request_popup" id="user_request_popup_reason">
+<div class="wrap">
+  <div class="close_user_request_popup" id="user_pop_listing_close_reason"><i class="fa fa-times"></i></div>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 header_user_listing">
+      <h6>Enter Reason for Decline</h6>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <form [formGroup]="OpportunityDecline" (ngSubmit)="declineOppSubmit()">
+        
+        <div>
+          <textarea style="padding: 10px;width: 50%;" formControlName="reason" class="form-styling"  [ngClass]="{ 'is-invalid': submitted1 && decErrSubmit.reason.errors }" placeholder=" Enter Reason "></textarea>
+          <div *ngIf="submitted1 && decErrSubmit.reason.errors" class="invalid-feedback">
+            <div *ngIf="decErrSubmit.reason.errors.required">Reason is required</div>
+          </div>
+        </div>
+        <div class="right_sec text-right">
+          <button class="button_style_01" type="submit"><span>SAVE</span></button>
+        </div>
+      </form>
+    </div>
+    
+  </div>
+</div>
+</div>
+<div class="user_request_popup opportunity_user_accept" id="user_accept" >
+<div class="wrap">
+  <div class="close_user_request_popup" id="user_pop_listing_close_date" (click)="close_accept()" ><i class="fa fa-times"></i></div>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 header_user_listing">
+      <h6>Please provide employer with contact information</h6>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="user_validate">Note : Only one of them required while both are recommended</div>
+      <form [formGroup]="OpportunityAccept_user" (ngSubmit)="acceptOppSubmit_user()">
+        
+        
+        <div>
+          <input style="padding: 10px;width: 49%;" formControlName="email" class="form-styling"  placeholder="Email address">
+          <div class="invalid-feedback">
+          <div *ngIf="email_msg == 1">Email must be a valid email address</div>
+        </div>
+        </div>
+        <div class="country_pincode">
+        <!--   <select  formControlName="cc" >
+                          <option value="{{data.phonecode}}"*ngFor="let data of country;">+{{data.phonecode}}</option>
+                        </select> -->
+          <input (keypress)="keyPress($event)" style="padding: 10px;width: 50%;" formControlName="phone" class="form-styling"  placeholder="Phone number">
+          <div class="invalid-feedback">
+          <!-- <div *ngIf="email_msg == 1">Email must be a valid email address</div> -->
+           <div *ngIf="showmin == 1">Phone number should be greater than 5 digits</div>
+           <div *ngIf="showmax == 1">Phone number should be less than 15 digits</div>
+        </div>
+        </div>
+        <div class="right_sec text-right">
+          <button class="button_style_01" type="submit"><span>SAVE</span></button>
+          <a class="button_style_02" id="user_pop_listing_close_date2" (click)="close_accept()"><span>CANCEL</span></a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+<style type="text/css">
+.showtab{
+display: block !important;
+}
+.displayNone{display: none;}
+</style>

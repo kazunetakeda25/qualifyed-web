@@ -1,0 +1,331 @@
+<app-profileheader></app-profileheader>
+<section class="profileTophead businesstophead">
+  <div class="bg-wrap" *ngFor="let data of data">
+    <div class="wrap">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="flexWrapper">
+              <div class="profileLogo">
+                <img src="{{media_url}}/uploads/images/{{data.profile_pic_name}}">
+              </div>
+              <div class="profiledetail">
+                <p class="name">{{data.name}}</p>
+                
+              </div>
+          </div>
+        </div>
+        
+      </div>
+      <!-- /END OF ROW/ -->
+    </div>
+    <!-- /END OF WRAP/ -->
+  </div>
+  <!-- /END OF BG WRAP/ -->
+</section>
+
+
+<section class="strip">
+  <div class="wrap">
+    <div class="row strip02">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+
+          <div class="navBar" *ngFor="let data of data">
+              <ul>
+                  <li class="active" *ngIf="connection_status == true"> <a (click)="Request(data.login_id)">Connection Request</a></li>
+                 <li class="active" *ngIf="pending_status == true"> <a (click)="cancelRequest(data.login_id)">Cancel Request</a></li>
+                 <li class="active" *ngIf="follow_status == true"> <a (click)="unfollowRequest(data.login_id)">Unfollow</a></li>
+                 <li><a href="#">view Video Bio </a></li>
+                 <li><a href="#">Request Interview</a></li>
+                 <li><a href="#">Request Video Interview</a></li>
+                 <li><a href="#">mesage</a></li>
+                 <li><a href="#">Coneection/Friends</a></li>
+             </ul>
+           </div>
+
+  </div>
+  </div>
+  </div>
+
+</section>
+
+
+<section class="businessInfoContainer prfilecontainer">
+  <div class="innerWrap">
+    <div class="innerPadding">
+      <div class="wrap">
+        <div class="row">
+        	
+        <div _ngcontent-c2="" class="top-controller"><ul _ngcontent-c2=""><li _ngcontent-c2=""><p _ngcontent-c2="" class="txtBlue">200</p><p _ngcontent-c2="">Connections</p></li><li _ngcontent-c2=""><p _ngcontent-c2="" class="txtBlue">89</p><p _ngcontent-c2="">Profile Views</p></li><li _ngcontent-c2=""><p _ngcontent-c2="" class="txtBlue">20</p><p _ngcontent-c2="">Video Bio Views</p></li><li _ngcontent-c2=""><p _ngcontent-c2="" class="txtBlue">12</p><p _ngcontent-c2="">Interviews</p></li></ul></div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="businessInfoContainer userProfile-Container">
+  <div class="innerWrap">
+    <div class="innerPadding">
+      <div class="wrap">
+        <div class="row">
+          <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+            <div class="icoBox">
+              <ul>
+                <li><a href=""><img src="assets/images/cam.png"></a></li>
+                <li><a href=""><img src="assets/images/liveChat.png"></a></li>
+                <li><a href=""><img src="assets/images/bsicon.png"></a></li>
+                <li><a href=""><img src="assets/images/livevdo.png"></a></li>
+              </ul>
+            </div>
+            <!-- /END OF ICO BOX/ -->
+             <div class="infoContent" *ngFor="let data of data">
+              <h5 class="txtBlue"><i class="fa fa-file-text" aria-hidden="true"></i> User Bio</h5>
+           <p>lorem</p>
+            </div>
+            <!-- /END OF INFO CONTENT/ -->
+            <div class="personalInfobox" *ngFor="let data of data">
+              <div class="contentWrap">
+                <h5 class="txtBlue"><i class="fas fa-user-circle"></i> Personal Information</h5>
+                <ul>
+                  <li><i class="fas fa-building"></i> <span>City:</span> {{data.city}} </li>
+                  <li><i class="fas fa-industry"></i> <span>State:</span>  {{data.state_name}} </li>
+                  <li><i class="fas fa-map-pin"></i> <span>Zip Code:</span>  99501</li>
+                  <li><i class="fa fa-map-signs" aria-hidden="true"></i>  <span>Address:</span> Suite 1100, Mississauga, ON L5R 3G5, CA</li>
+                  <li><i class="fas fa-envelope-open"></i> <span>Email:</span>  {{data.email}} </li>
+                  <li><i class="fa fa-phone" aria-hidden="true"></i> <span>Phone:</span>  {{data.phone}} </li>
+                </ul>
+              </div>
+            </div> <!-- /START RESUME SECTION/ -->
+          <div class="personalInfobox resumeSection" *ngFor="let data of data">
+              <div class="contentWrap">
+                <h5 class="txtBlue"><i class="fa fa-file-text"></i> Resume</h5>
+                <div class="pdf-section">
+                  <img src="assets/images/pdf-icon.png">
+                  <p><a href="./assets/uploads/resume/{{data.resume_name}}" download>{{data.resume_name}}</a></p>
+                </div>
+              </div>
+            </div>
+            <!-- /END RESUME SECTION/ -->
+
+            <!-- /START EDUCATION SECTION/ -->
+          <div class="personalInfobox educationSection">
+              <div class="contentWrap">
+                <h5 class="txtBlue"><i class="fas fa-graduation-cap"></i> Education</h5>
+                <div class="edu">
+                  <h4>Stanford University Graduate School of Business</h4>
+                  <p>MBA</p>
+                  <p>2003 - 2005</p>
+                  <p class="educationAct">Activities and Societies Arjay Miller Scholar</p>
+                  <img src="assets/images/bussines-icon.png">      
+                </div>
+                <div class="edu">
+                  <h4>Yale Yniversity</h4>
+                  <p>BA, Economics, East Asian Studies</p>
+                  <p>1993 - 1997</p>
+                  <p class="educationAct">Activities and Societies Arjay Miller Scholar</p>
+                  <img src="assets/images/bussiness2.png">       
+                </div>
+              </div>
+            </div>
+            <!-- /END EDUCATION SECTION/ -->
+
+            <!-- /START WORK SECTION/ -->
+          <div class="personalInfobox educationSection workSection">
+              <div class="contentWrap">
+                <h5 class="txtBlue"><i class="fas fa-briefcase"></i> Work</h5>
+                <div class="edu">
+                  <h4>Description of Work User Would Like to Do</h4>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                  <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>  
+                </div>
+                <div class="edu">
+                  <h4>How Many Hours a Week User Able to Work</h4>
+                  <p>I'm available during school hours while my children are at school, 9 am - 3 pm, Monday through Friday. I am also available most weekends, especially during the day.</p>   
+                </div>
+                <div class="edu">
+                  <h4>Which Days/Hours User is Able to Work</h4>
+                  <p>I'm available during school hours while my children are at school, 9 am - 3 pm, Monday through Friday. I am also available most weekends, especially during the day.</p>   
+                </div>
+                <div class="edu">
+                  <h4>How Far Away From Location User Willing to Travel</h4>
+                  <p>I’m definitely willing to travel, and actually love traveling! I’ll admit that I have some prior commitments that prevent me from traveling every weekend, but I’m more than happy to travel every week if necessary. Do you know how much traveling would be expected of me?</p>  
+                </div>
+                <div class="edu">
+                  <h4>Does the User Have a Reliable Means of Transportation</h4>
+                  <p>I have reliable transportation. I have a well-maintained vehicle, and I am comfortable with the amount of travel required to get to your office every day.</p>   
+                </div>
+              </div>
+            </div>
+            <!-- /END WORK SECTION/ -->
+
+             <!-- /START SKILLS SECTION/ -->
+          <div class="personalInfobox skillsSection">
+              <div class="contentWrap">
+                <h5 class="txtBlue"><i class="far fa-chart-bar"></i> Skills</h5>
+                <div class="skillsGraph">
+                  <img src="assets/images/skills-graph-img.png">  
+                </div>
+                <div class="tpskill">
+                  <ul>
+                    <li>Javascript</li>
+                    <li>HTML</li>
+                    <li>CSS3</li>
+                    <li>Node.js</li>
+                    <li>C++</li>
+                    <li>Web Development</li>
+                    <li>PHP</li>
+                    <li>Photoshop</li>
+                    <li>InDesign</li>
+                    <li>Illustrator</li>
+                    <li>After Effects</li>
+                    <li>Photography</li>
+                  </ul>
+                </div>
+
+              </div>
+            </div>
+            <!-- /END SKILLS SECTION/ -->
+
+          <!-- /START EXPERIENCE SECTION/ -->
+          <div class="personalInfobox educationSection experienceSection">
+              <div class="contentWrap">
+                <h5 class="txtBlue"><i class="far fa-lightbulb"></i> Experience</h5>
+                <div class="edu">
+                  <img src="assets/images/iphone-icon.png">
+                  <div class="freeArt">
+                    <h4>Freelance Art Direction</h4>
+                    <p>Apple Corporation</p>
+                    <p>April 2016 - Present (7 months)</p>
+                  </div>        
+                </div>
+                <div class="edu">
+                  <img src="assets/images/google-icon.png">
+                  <div class="freeArt"> 
+                    <h4>Designer / Art Director</h4>
+                    <p>Google Corporation</p>
+                    <p>April 2016 - Present (7 months)</p>
+                  </div>    
+                </div>
+                <div class="edu">
+                  <img src="assets/images/facebook-icon.png"> 
+                  <div class="freeArt">
+                    <h4>UI/UX Designer</h4>
+                    <p>Google Corporation</p>
+                    <p>April 2016 - Present (7 months)</p>
+                  </div>      
+                </div>
+              </div>
+            </div>
+            <!-- /END EXPERIENCE SECTION/ -->
+          </div>
+
+          <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+            <div class="createPostBox">
+              
+            </div>
+            <!-- /END OF CREATE POST/ -->
+            <div class="postWrapper" *ngFor="let post of postdata">
+              <div class="postHead">
+                <ul>
+                  <li>
+                    <div class="inlineFlexBox" *ngFor="let data of data">
+                        <div class="logoImg">
+                        	<img src="./assets/uploads/images/{{data.profile_pic_name}}">
+
+                        </div>
+                        <div class="title">
+                          <p class="userTitle">{{data.name}}</p>
+                          <p class="subHead">Computer Software · Mississauga, {{data.city}}</p>
+                        </div>
+                    </div>
+                  </li>
+                  <li class="postTime">
+                    <p>{{post.created_date}}</p>
+                  </li>
+                </ul>
+              </div>
+              <!-- /END OF POST HEAD/ -->
+              <div class="postContent">
+                <p>{{post.post}}</p>
+                <div class="postImg" *ngIf="post.type == 1 && post.picname != '' && post.media_id != '' " > <img src="{{media_url}}/createpost/images/{{post.picname}}" >
+               </div>
+
+                 <div *ngIf="post.type == 2 && post.picname != '' && post.media_id != '' "> 
+               <video width="320" height="240" controls autoplay loop>
+                                           <source src="{{media_url}}/createpost/video/{{post.picname}}" type="video/mp4">
+                                         
+  
+                                                 </video>
+               </div>
+
+                <div class="actionElements">
+                  <ul>
+                    <li>
+                      <span><i class="fas fa-heart"></i></span> 
+                      <span>40</span>
+                    </li>
+                    <li class="showToggle" style="cursor: pointer;" (click)="showToggle(post.id)">
+                      <span><i class="fab fa-rocketchat"></i></span>
+                       <span>&nbsp;{{post.comment_count}} &nbsp;</span>
+                    </li>
+                    <li>
+                      <span><i class="fas fa-share-square"></i></span>
+                      <span>0</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- /END OF POST CONTENT/ -->
+            <form [formGroup]="commentForm" (ngSubmit)="Comment(post.id)">
+               <div class="commentBox">
+                
+                <div *ngFor="let comments of comment" style="display: none;" class="{{post.id}}">
+                  <div *ngIf="comments.entity_id == post.id" class="shwComments"  >
+                    <div class="commentItems">
+                       <div class="userThumb " *ngFor="let img of data">
+                            <img class="logoImg" src="./assets/uploads/images/{{img.profile_pic_name}}" >
+                          </div>
+                      <div class="flexWrapper">
+                         
+                          <div class="userDetail" *ngFor="let data of data">
+                            <p class="name" >{{data.name}}</p>
+                            <p class="postName">{{data.industry_name}}</p>
+                            <p class="postedComments" >{{comments.comment}}</p>
+                          </div>
+                          <div class="commentDetails">
+                            <div class="innerwrap">
+                                <span class="timeClass" *ngIf="comments.entity_id == post.id">{{comments.created_date}}</span>
+                               <!--  <span class="reportUser" (click)="reportFunction() "><i class="fa fa-ellipsis-h" aria-hidden="true"></i></span> -->
+                            </div>
+                          </div>
+
+                          <!-- <div id="reportBox" class="reportDropdown">
+                            <ul>
+                              <li><a href=""><i class="fa fa-flag" aria-hidden="true"></i> Report</a></li>
+                              <li><a href=""><i class="fa fa-link" aria-hidden="true"></i> Copy link to Comment</a></li>
+                            </ul>
+                          </div> -->
+                      </div>
+                    
+                    </div>
+                  </div>
+                </div>
+
+                  <div class="inputController">
+                    <textarea formControlName="comment" placeholder="Add comment"></textarea>
+                  </div>
+                  <div class="inputSubmitter">
+                      <button type="submit" >Post</button>
+                  </div>
+
+
+                </div>
+              </form>
+            </div>
+            <!-- /END OF POST WRAPPER/ -->
+           
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

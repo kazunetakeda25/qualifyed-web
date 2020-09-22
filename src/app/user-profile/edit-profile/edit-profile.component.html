@@ -1,0 +1,1379 @@
+<app-profileheader></app-profileheader>
+<!-- <div id="cover-spin" *ngIf="showLoader == true"></div> -->
+<div id="loder_main" *ngIf="showLoader == true"><div id="loader_view" ></div></div>
+<div>
+<!-- /END OF SITEWIDE-HEADER-MOBILE/ -->
+<div class="editProfileTitle">
+   <div class="title">
+      <h5>Edit Profile</h5>
+   </div>
+</div>
+<section class="businessInfoContainer editProfileContainer">
+   <div class="innerWrap">
+      <div class="innerPadding">
+         <div class="wrap">
+            <div class="row">
+               <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                  <!-- /END OF ICO BOX/ -->
+                  <div class="infoContent">
+                     <h5 class="txtBlue"><i class="fa fa-user-circle" aria-hidden="true"> <a (click)="scrollToElement(target)"> Personal Information</a></i></h5>
+                     <h5 class="txtBlue"><i class="fa fa-book" aria-hidden="true"> <a (click)="scrollToElement(target4)"> Education</a></i></h5>
+                     <h5 class="txtBlue"><i class="fa fa-briefcase" aria-hidden="true"> <a (click)="scrollToElement(target1)"> Work</a></i></h5>
+                     
+                     <h5 class="txtBlue"><i class="fa fa-bar-chart"  aria-hidden="true"> <a (click)="scrollToElement(target2)"> Skills</a></i></h5>
+                     
+                     <h5 class="txtBlue"><i class="fas fa-lightbulb" aria-hidden="true"> <a (click)="scrollToElement(target3)"> Experience</a></i></h5>
+                     
+                     
+                     
+                  </div>
+                  <!-- /END OF INFO CONTENT/ -->
+               </div>
+               <div #target class="col-lg-8 col-md-8 col-sm-12 col-xs-12 editProfile-form">
+                  <div class="postWrapper">
+                     <div class="postHead">
+                        <h5 class="txtBlue"><i class="fa fa-user-circle" aria-hidden="true"></i> Personal Information</h5>
+                        <div class="profileInfo" *ngFor="let name of data ; let i=index;" >
+                           <p>Profile Picture</p>
+                           <div class="flexboxwrap">
+                              <div class="editImg">
+                                 <div class="circleBox" *ngIf="file_status == true">
+                                    <img  class="circleBox" src="{{media_url}}/uploads/images/{{name.profile_pic_name}}">
+                                 </div>
+                                  <div class="circleBox" *ngIf="file_status == false">
+                                    <img  class="circleBox" src="{{media_url}}/uploads/images/avatar.png">
+                                 </div>
+                              </div>
+                              <div class="editUpload text-right">
+                                 <!-- <input type="file" class="form-control" accept="image/*" (change)="images($event)"  > -->
+
+                                 <div id="edit_profile_pic" class="button_style_01" (click)="open_div()"><span>Edit Profile Picture</span></div>
+
+                                 <!-- <button class="edit-upload-btn">Upload New Photo</button> -->
+                                 <div id="postModal" class="image_croper_container_outer existing_container" style="display:none;">
+                                    <div class="image_croper_container">
+                                       <div class="header_sec">
+                                          <h6>Edit Profile Picture</h6>
+                                          <i (click)="closeModalFunction()"  class="fa fa-close"></i>
+                                       </div>
+                                       <div class="mid_container">
+                                          <img *ngIf="crop_image_status == 0 && file_status == true" class="existing_image" src="{{media_url}}/{{pic_path}}">
+                                          <img *ngIf="crop_image_status == 0 && file_status == false" class="existing_image" src="{{media_url}}/uploads/images/avatar.png">
+                                          
+                                           <image-cropper *ngIf="crop_image_status == 1" class="existing_image"
+                                        [imageChangedEvent]="imageChangedEvent"
+                                        [maintainAspectRatio]="true"
+                                        [aspectRatio]="4 / 4"
+                                        [resizeToWidth]="128"
+                                        (imageCropped)="imageCropped($event)"
+                                        [imageBase64]="base_64_image"
+                                        >
+                                        </image-cropper>
+                                       </div><!--mid_container  -->
+                                       <div class="button_container_new">
+                                          <div class="left_sec">
+                                             <div class="button_style_01">
+                                               <span (click)="closeModalFunction()">Cancel</span></div>
+                                              <!--  <span (click)="onUpload()">Save</span></div> -->
+                                          </div><!-- left_sec -->
+                                          <div class="right_sec">
+                                             <!-- <div *ngIf="check_image != 'avatar.png'" class="button_style_03" (click)="onPicture()"><span>Delete</span></div> -->
+                                              <div *ngIf="  file_status == false && check_image == 'avatar.png'" class="button_style_03" (click)="onPicture()"><span>Delete</span></div>
+                                             <div *ngIf="  file_status == true && check_image != 'avatar.png'" class="button_style_03" (click)="onPicture()"><span>Delete</span></div>
+                                             <div class="button_style_04 input_controller">
+                                                <span *ngIf="upload_set_default == 0" >
+                                                    <input type="file" class="form-control" accept="image/*" (change)="images($event)"  >
+                                                   <label>Upload New</label>
+                                                </span>
+                                                <span *ngIf="upload_set_default == 1" >
+                                                    <span (click)="onUpload()">Save</span>
+                                                   
+                                                </span>
+                                             </div>
+                                          </div><!-- right_sec -->
+                                       </div>
+                                    </div><!-- image_croper_container -->
+                                 </div><!-- image_croper_container_outer -->
+
+
+                                <!--  <div class="image_croper_container_outer" style="display:none">
+                                    <div class="image_croper_container">
+                                       <image-cropper
+                                        [imageChangedEvent]="imageChangedEvent"
+                                        [maintainAspectRatio]="true"
+                                        [aspectRatio]="4 / 4"
+                                        [resizeToWidth]="128"
+                                        format="png"
+                                        (imageCropped)="imageCropped($event)"
+                                        (loadImageFailed)="loadImageFailed()">
+                                        </image-cropper>
+                                       <div class="button_container_new">
+                                          <a class="edit-delete-btn"  (click)="onUpload()">Update</a>
+                                       </div>
+                                       <div *ngIf="name.profile_pic_name != 'avatar.png' && name.profile_pic_name != '' && name.profile_pic_name != null && name.profile_pic_name != undefined" class="button_container_new">
+                                          <a class="edit-delete-btn"  (click)="onPicture()">Delete</a>
+                                       </div>
+                                    </div>
+                                 </div> -->
+                              </div>
+                           </div>
+                        </div>
+                        <!-- /END PROFILE INFO/ -->
+                                
+
+                        <div class="profileInfo resumeInfo" *ngFor="let name of data ; let i=index;" >
+                           <p>Resume</p>
+                           <div class="flexboxwrap" >
+                              <div class="editImg" >
+                                 <div *ngIf="name.resume_name == null || name.resume_name == '' || name.resume_name == undefined" >
+                                    <p>No resume found</p>
+                                 </div>
+                                 <!-- (click)="onCreate()" -->
+                                 <div *ngIf="name.resume_name != null " >
+                                    <!-- <a *ngIf="check_resume != 'nodoc.jpg'" target="_blank" href="{{server_name}}/{{pdfSrc}}" ><img src="assets/images/pdf-icon.png">{{name.resume_name}}</a>
+                                    <a *ngIf="check_resume == 'nodoc.jpg'" (click)="myFunctionResume()"><img src="assets/images/pdf-icon.png">{{name.resume_name}}</a> -->
+                                   
+                                    <a  (click)="myFunctionResume()" ><img src="assets/images/pdf-icon.png">{{name.resume_name}}</a>
+                                    
+                                 </div>
+                              </div>
+                              <div class="editUpload">
+                                 <input class=" form-control" type="file"  accept=".pdf,.doc" (change)="document($event)" >
+                                 <a class="edit-delete-btn button_style_01"  (click)="onUpload2()"><span>Update</span></a>
+                                 <div class="profileclass" *ngIf="name.resume_name != 'nodoc.jpg' && name.resume_name != '' && name.resume_name != null && name.resume_name != undefined" >
+                                    <a class="edit-delete-btn button_style_01"  (click)="onDoc()"><span>Delete</span></a><br>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <!-- /END PROFILE INFO/ -->
+                        <div class="profileInfo resumeInfo">
+                           <p>Bio Video</p>
+                           <div class="flexboxwrap" *ngFor="let name of data ; let i=index;" >
+                              <div class="editImg">
+                                 <!-- <div *ngIf="name.video_name != 'novideo.jpg'    " >
+                                    <video width="320" height="240" controls>
+                                       <source  src="{{media_url}}/uploads/bio_video/{{name.video_name}}" type="video/mp4">
+                                    </video>
+                                 </div> -->
+                                 <div *ngIf="name.video_name !=  null && name.video_name != '' && name.video_name != undefined && name.video_name != 'novideo.jpg' " >
+                                    <video width="320" height="240" controls>
+                                       <source  src="{{media_url}}/uploads/bio_video/{{name.video_name}}" type="video/mp4">
+                                    </video>
+                                 </div>
+                                 <div *ngIf="name.video_name ==  null || name.video_name == '' || name.video_name == undefined || name.video_name == 'novideo.jpg' " >
+                                    <img src="./assets/uploads/bio_video/novideo.jpg">
+                                 </div>
+                              </div>
+                              <div class="editUpload">
+                                 <input class="form-control" type="file" accept="video/*" (change)="video($event)">
+                                 <div class="button_container_new"><a class="edit-delete-btn button_style_01"  (click)="onUpload1()"><span>Update</span></a></div>
+                                 <div class="button_container_new" *ngIf="name.video_name != 'novideo.jpg' && name.video_name != '' && name.video_name != null && name.video_name != undefined " >
+                                    <a class="edit-delete-btn button_style_01" (click)="onVideo()"><span>Delete</span></a><br>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <!-- /END PROFILE INFO/ -->
+                     </div>
+                     <!-- /END OF POST HEAD/ -->
+                     <form [formGroup]="personalInformation" (ngSubmit)="onSubmitAbout()" class="input-form">
+                        <div class="formContainer">
+                           <div class="row">
+                              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item">
+                                 <label for="name">First Name <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                 <input class="form-styling" type="text" formControlName="fname" name="username" placeholder="Enter first name" [ngClass]="{ 'is-invalid': submitted && f.fname.errors }">
+                                 <div *ngIf="submitted && f.fname.errors" class="invalid-feedback ">
+                                    <div *ngIf="f.fname.errors.required">First name is required</div>
+                                 </div>
+                              </div>
+                              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item">
+                                 <label for="name">Last Name <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                 <input class="form-styling" type="text" formControlName="lname" name="username" placeholder="Enter last name"(keypress)="keyPress1($event)" [ngClass]="{ 'is-invalid': submitted && f.lname.errors }">
+                                 <div *ngIf="submitted && f.lname.errors" class="invalid-feedback ">
+                                    <div *ngIf="f.lname.errors.required">Last name is required</div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item">
+                                 <label for="name">Email Address <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                 <input class="form-styling" type="email" formControlName="email" name="username" placeholder="Enter email address"[ngClass]="{ 'is-invalid': submitted && f.email.errors }"  >
+                                 <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                                    <div *ngIf="f.email.errors.required">Email is required</div>
+                                    <div *ngIf="f.email.errors.pattern">Email must be a valid email address</div>
+                                 </div>
+                              </div>
+                              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item">
+                                 <!-- <label for="name">Phone <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                 <input class="form-styling" type="number" (keypress)="keyPress($event)"   formControlName="phone" placeholder="Enter Mobile Number" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }">
+                                 <div *ngIf="submitted && f.phone.errors" class="invalid-feedback ">
+                                    <div *ngIf="f.phone.errors.minlength">Phone number must be greater than 5 digits</div>
+                                    <div *ngIf="f.phone.errors.maxlength">Phone number  must be less than 15 digits</div>
+                                 </div> -->
+                                 <label for="phone">Phone (recommended)</label>
+                                 <input class="form-styling form-control numberOnly" type="text" (keypress)="keyPress($event)"  formControlName="phone" placeholder="Enter Mobile Number" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }">
+                                 <div *ngIf="submitted && f.phone.errors" class="invalid-feedback ">
+                                    <div *ngIf="f.phone.errors.required">Phone number must be greater than 5 digits</div>
+                                    <div *ngIf="f.phone.errors.minlength">Phone number must be greater than 5 digits</div>
+                                    <div *ngIf="f.phone.errors.maxlength">Phone number  must be less than 15 digits</div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item">
+                                 <label for="username">Country <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                 <select class="form-styling" formControlName="country" [ngClass]="{ 'is-invalid': submitted1 && g.country.errors }"  (change)="State($event.target.value)" >
+                                    <option selected="" *ngFor="let country of data" value="">{{country.country_name}}</option>
+                                    <option   *ngFor="let data of country;" value={{data.id}}>{{data.name}}</option>
+                                 </select>
+                                 <div *ngIf="submitted1 && g.country.errors" class="invalid-feedback">
+                                    <div *ngIf="g.country.errors.required"> Country is required</div>
+                                 </div>
+                              </div>
+                              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item">
+                                 <label for="username">State <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                 <select  formControlName="state" [ngClass]="{ 'is-invalid': submitted1 && g.state.errors }" >
+                                    <option  *ngFor="let state of citys"  value="{{state.id}}">{{state.name}}</option>
+                                 </select>
+                                 <div *ngIf="submitted1 && g.state.errors" class="invalid-feedback">
+                                    <div *ngIf="g.state.errors.required"> State is required</div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="row" style="align-items: center; margin-top: 20px;">
+                              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item">
+                                 <label for="name">City <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                 <input class="form-styling" type="text" formControlName="city" name="username" placeholder="Enter City Name" [ngClass]="{ 'is-invalid': submitted && f.city.errors }">
+                                 <div *ngIf="submitted && f.city.errors" class="invalid-feedback ">
+                                    <div *ngIf="f.city.errors.required">City is required</div>
+                                 </div>
+                              </div>
+                              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item">
+                                 <label for="name">Zip Code</label>
+                                 <input class="form-styling" type="text" formControlName="zipCode" name="username" placeholder="Please enter zip code"[ngClass]="{ 'is-invalid': submitted && f.zipCode.errors }">
+                                 <div *ngIf="submitted && f.zipCode.errors" class="invalid-feedback ">
+                                    <div *ngIf="f.zipCode.errors.minlength">Zipcode must be greater than 5 character </div>
+                                    
+                                    <div *ngIf="f.zipCode.errors.maxlength">Zipcode must be of 10 character only</div>
+                                 </div>
+                                 <!-- <label for="username">Zip Code (recommended)</label>
+                                 <input class="form-control form-styling" type="text" formControlName="zipCode" placeholder="Enter Zip Code" [ngClass]="{ 'is-invalid': submitted && f.zipCode.errors }">
+                                 <div *ngIf="submitted && f.zipCode.minlength" class="invalid-feedback ">
+                                    <div *ngIf="f.zipCode.errors.minlength">Zipcode must be greater than 5 character </div>
+                                    <div *ngIf="f.zipCode.errors.maxlength">Zipcode must be of 10 character only</div>
+                                 </div> -->
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 customClass">
+                                 <label for="username">Date Of Birth <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                 <input matInput [matDatepicker]="picker1" (click)="picker1.open()" class="form-control calInput" formControlName="dob" [min]="minDate" [max]="maxDate"  [ngClass]="{ 'is-invalid': submitted && f.dob.errors }">
+                                 <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                 <mat-datepicker #picker1></mat-datepicker>
+                                 <div *ngIf="submitted && f.dob.errors" class="invalid-feedback">
+                                    <div *ngIf="f.dob.errors.required">Date of birth is required</div>
+                                 </div>
+                              </div>
+                              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 genderBlog">
+                                 <label for="username">Gender <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                 <div class="radio-btn">
+                                    <div class="md-radio">
+                                       <!-- [(ngModel)]="select_gender" -->
+                                       <input id="1" type="radio" name="gender" formControlName="gender"  value="1" [checked]="!isSpecial"[(ngModel)]="select_gender"   >
+                                       <label for="1">Male</label>
+                                    </div>
+                                    <div class="md-radio">
+                                       <input id="2" type="radio" name="gender" formControlName="gender" value="2" [checked]="!isSpecial"[(ngModel)]="select_gender"  >
+                                       <label for="2">Female</label>
+                                    </div>
+                                 </div>
+                                 <!-- <input class="form-styling" type="text" name="username" [ngClass]="{ 'is-invalid': submitted && f.gender.errors }"> -->
+                                 <div *ngIf="submitted" class="invalid-feedback">
+                                    
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 savedUpdates">
+                                 <div class="check fl-right">
+                                    <button class="saved-btn button_style_01" type="submit"><span>Save Updates</span></button>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </form>
+                     <!-- END fORM -->
+                  </div>
+                  <!-- /END OF POST WRAPPER/ -->
+               </div>
+               <!-- START WORK -->
+               <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12"></div>
+               <div #target1 class="col-lg-8 col-md-8 col-sm-12 col-xs-12 editProfile-form workArea">
+                  <form [formGroup]="work" (ngSubmit)="onSubmitWork()" class="input-form">
+                     <div class="postWrapper">
+                        <div class="postHead">
+                           <h5 class="txtBlue"><i class="fa fa-book" aria-hidden="true"></i> Work</h5>
+                           <label>Description of what I would like to learn<i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                           <textarea formControlName="discriptionAboutWork"  name="your-message" cols="4" rows="2" class="full-name" aria-invalid="false"  placeholder="Lorem ipsum dolor sit amet..." [ngClass]="{ 'is-invalid': submitted2 && f2.discriptionAboutWork.errors }"></textarea>
+                           <div *ngIf="submitted2 && f2.discriptionAboutWork.errors" class="invalid-feedback">
+                              <div *ngIf="f2.discriptionAboutWork.errors.required">Field is required</div>
+                           </div>
+                           <div class="weekSelection">
+                              <label>How many hours a week I'm able to work <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                              <select formControlName="workHoursPerWeek" >
+                                 <!--                                  <option selected="" disabled="">Week</option>
+                                 -->                                 <option selected="" value="1-5">1-5</option>
+                                 <option value="6-10">6-10</option>
+                                 <option value="11-15">11-15</option>
+                                 <option value="16-20">16-20</option>
+                                 <option value="21-25">21-25</option>
+                                 <option value="26-30">26-30</option>
+                                 <option value="31-35">31-35</option>
+                                 <option value="46-40">40-46</option>
+                                 <option value="40+">40+</option>
+                              </select>
+                           </div>
+                           <div class="row">
+                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-work custom_drop_inside" >
+                                 <div class="work">
+                                    <label for="username">Which days/hours I'm able to work </label><br><span class="notes">Notes : If you do not select a day for availability, it will automatically be treated as a non-working day</span>
+                                 </div>
+                                 <div class="clickBox">
+                                    <div class="innerclick">
+                                       <div class="innerWrap">
+                                          <div class="flexWrapper">
+                                             <div class="chk ">
+                                                <label class="checkbox">
+                                                   <input *ngIf="mondayselect == 'n/a'" readonly="" type="checkbox"
+                                                   value="Monday" name="monday_hide"
+                                                   (click)="fun1($event.target.value,$event.target.checked)"
+                                                   
+                                                   formControlName="day1">
+                                                   <input *ngIf="mondayselect != 'n/a'" readonly="" type="checkbox"
+                                                   value="Monday" name="monday_hide"
+                                                   (click)="fun1($event.target.value)"
+                                                   [checked]="" [(ngModel)]="mondayselect"
+                                                   formControlName="day1">
+                                           
+                                                   <div class="square"></div>
+                                                </label>
+                                             </div>
+                                             <p class="tagName">Monday</p>
+                                             <div class="input_controller_down">
+                                                <input  type="checkbox" name="monday_hide" value="monday_hide" formControlName="mon_hide" (click)="check($event)">
+                                                <label><i class="fa fa-caret-down"></i></label>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <!-- <div *ngIf="show" > -->
+                                          <div *ngIf="show_monday_data == 1 && mondayselect == 'n/a' || show" >
+                                          <div class="dropdown "  >
+                                             <ul >
+                                                <li>
+                                                   <div class="wrapBox">
+                                                      <span class="time">Available all day</span>
+                                                      <div class="chk">
+                                                         <label class="checkbox">
+                                                            <input type="checkbox"  class="checkMondey" id="all_Monday" name="Monday"
+                                                            (click)="checkUncheckAll($event)"  >
+                                                            <div class="square"></div>
+                                                         </label>
+                                                      </div>
+                                                   </div>
+                                                </li>
+                                                
+                                                <li *ngFor="let data of workinghour;let i=index;">
+                                                   <div class="wrapBox">
+                                                      <span class="time">{{data.title}}</span>
+                                                      <div class="chk">
+                                                         <label class="checkbox">
+                                                            <input type="checkbox" id="Monday_{{i}}"  class="Monday checkMondey"   value="{{data.id}}"
+                                                            (click)="timefunction($event.target,'Monday','all_Monday')"  formControlName="mon_time" name="Monday_checkbox"
+                                                           >
+                                                            <div class="square"></div>
+                                                         </label>
+                                                      </div>
+                                                   </div>
+                                                </li>
+                                                
+                                                
+                                             </ul>
+                                          </div>
+                                       </div>
+                                       <!-- <div class="dropdown " *ngIf="mondayselect != 'n/a' "> -->
+                                       <div class="dropdown " *ngIf="show_monday_data == 1 && mondayselect != 'n/a' ">
+                                          <ul >
+                                             <li>
+                                                <div class="wrapBox">
+                                                   <span class="time">Available all day</span>
+                                                   <div class="chk">
+                                                      <label class="checkbox">
+                                                         <input type="checkbox" checked="{{mondayArray.length == workinghour.length ? 'checked' :''}}" class="checkMondey" id="all_Monday" name="Monday"
+                                                         (click)="checkUncheckAll($event)"  >
+                                                         <div class="square"></div>
+                                                      </label>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                             
+                                             <li *ngFor="let data of workinghour;let i=index;">
+                                                <div class="wrapBox">
+                                                   <span class="time">{{data.title}}</span>
+                                                   <div class="chk">
+                                                      <label class="checkbox">
+                                                         <input type="checkbox" id="Monday_{{i}}"  class="Monday checkMondey"   value="{{data.id}}"
+                                                         (click)="timefunction($event.target,'Monday','all_Monday')"  formControlName="mon_time" name="Monday_checkbox" 
+                                                         checked="{{mondayArray.indexOf(data.id) != -1 ? 'checked':''}}">
+                                                         <div class="square"></div>
+                                                      </label>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                             
+                                             
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="clickBox">
+                                    <div class="innerclick">
+                                       <div class="innerWrap">
+                                          <div class="flexWrapper">
+                                             <div class="chk ">
+                                                <label class="checkbox">
+                                                   <input *ngIf="tuesdayselect == 'n/a'" type="checkbox" class="option2"  value="Tuesday" (click)="fun2($event.target.value,$event.target.checked);option2()"  formControlName="day2">
+                                                   <input *ngIf="tuesdayselect != 'n/a'" type="checkbox" class="option2"  value="Tuesday" (click)="fun2($event.target.value);option2()" [checked]=""[(ngModel)]="tuesdayselect" formControlName="day2">
+                                                   <div class="square"></div>
+                                                </label>
+                                             </div>
+                                             <p class="tagName">Tuesday</p>
+                                             <div class="input_controller_down">
+                                             <input type="checkbox" name="check" value="tuesday_hide" formControlName="tues_hide" (click)="check($event)">
+                                             <label><i class="fa fa-caret-down"></i></label>
+                                          </div>
+                                          </div>
+                                       </div>
+                                       <div *ngIf="show_tuesday_data == 1 && tuesdayselect == 'n/a' ">
+                                       <div class="dropdown "  >
+                                          <ul>
+                                             <li>
+                                                <div class="wrapBox">
+                                                   <span class="time">Available all day</span>
+                                                   <div class="chk">
+                                                      <label class="checkbox">
+                                                         <input type="checkbox"  id="Tuesday_all" class="checkTuesday" name="Tuesday"  (click)="checkUncheckAll($event)">
+                                                         <div class="square"></div>
+                                                      </label>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                             
+                                             <li *ngFor="let data of workinghour;">
+                                                <div class="wrapBox">
+                                                   <span class="time">{{data.title}}</span>
+                                                   <div class="chk">
+                                                      <label class="checkbox">
+                                                         <!-- <input type="radio"  name="mon_time" value="4-5"  formControlName="mon_time"> -->
+                                                         <input type="checkbox"  name="Tuesday_checkbox" class="Tuesday checkTuesday" id="Tuesday_{{data.id}}"
+                                                         value="{{data.id}}"  (click)="timefunction($event.target,'Tuesday','Tuesday_all')" >
+                                                         <div class="square"></div>
+                                                      </label>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                          </ul>
+                                       </div>
+</div>
+                                         <div class="dropdown "  *ngIf="show_tuesday_data == 1 && tuesdayselect != 'n/a' " >
+                                          <ul>
+                                             <li>
+                                                <div class="wrapBox">
+                                                   <span class="time">Available all day</span>
+                                                   <div class="chk">
+                                                      <label class="checkbox">
+                                                         <input checked="{{tuesdayArray.length == workinghour.length ? 'checked' :''}}" type="checkbox" id="Tuesday_all" class="checkTuesday" name="Tuesday"  (click)="checkUncheckAll($event)">
+                                                         <div class="square"></div>
+                                                      </label>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                             
+                                             <li *ngFor="let data of workinghour;">
+                                                <div class="wrapBox">
+                                                   <span class="time">{{data.title}}</span>
+                                                   <div class="chk">
+                                                      <label class="checkbox">
+                                                         <!-- <input type="radio"  name="mon_time" value="4-5"  formControlName="mon_time"> -->
+                                                         <input type="checkbox"  name="Tuesday_checkbox" class="Tuesday checkTuesday" id="Tuesday_{{data.id}}"
+                                                         value="{{data.id}}"  (click)="timefunction($event.target,'Tuesday','Tuesday_all')" 
+                                                         checked="{{tuesdayArray.indexOf(data.id) != -1 ? 'checked':''}}"
+                                                         >
+                                                         <div class="square"></div>
+                                                      </label>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="clickBox">
+                                    <div class="innerclick">
+                                       <div class="innerWrap">
+                                          <div class="flexWrapper">
+                                             <div class="chk ">
+                                                <label class="checkbox">
+                                                   <input *ngIf="wednesdayelect == 'n/a'" class="option3" type="checkbox" value="Wednesday" (click)="fun3($event.target.value,$event.target.checked);option3()"  formControlName="day3">
+                                                   <input *ngIf="wednesdayelect != 'n/a'" class="option3" type="checkbox" value="Wednesday" (click)="fun3($event.target.value);option3()" [checked]=""[(ngModel)]="wednesdayelect" formControlName="day3">
+                                                   <div class="square"></div>
+                                                </label>
+                                             </div>
+                                             <p class="tagName">Wednesday</p>
+                                             <div class="input_controller_down">
+                                             <input type="checkbox" name="check" value="wednesday_hide" formControlName="wed_hide" (click)="check($event)">
+                                             <label><i class="fa fa-caret-down"></i></label>
+                                          </div>
+                                          </div>
+                                       </div>
+                                       <div class="dropdown " *ngIf="show_wednesday_data == 1 && wednesdayelect == 'n/a' ">
+                                          <ul>
+                                             <li>
+                                                <div class="wrapBox">
+                                                   <span class="time">Available all day</span>
+                                                   <div class="chk">
+                                                      <label class="checkbox">
+                                                         <input type="checkbox" name="Wednesday" class="checkWednesday" id="Wednesday_all"  (change)="checkUncheckAll($event)">                                                                  <div class="square"></div>
+                                                      </label>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                             
+                                             <li *ngFor="let data of workinghour;">
+                                                <div class="wrapBox">
+                                                   <span class="time">{{data.title}}</span>
+                                                   <div class="chk">
+                                                      <label class="checkbox">
+                                                         <!-- <input type="radio"  name="mon_time" value="4-5"  formControlName="mon_time"> -->
+                                                         <input type="checkbox"
+                                                         id="Wednesday{{data.id}}" class="Wednesday checkWednesday" name="Wednesday_checkbox" value="{{data.id}}"  (click)="timefunction($event.target,'Wednesday','Wednesday_all')" >
+                                                         <div class="square"></div>
+                                                      </label>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                          </ul>
+                                       </div>
+
+                                       <div class="dropdown "  *ngIf="show_wednesday_data == 1 && wednesdayelect != 'n/a' "> 
+                                          <ul>
+                                             <li>
+                                                <div class="wrapBox">
+                                                   <span class="time">Available all day</span>
+                                                   <div class="chk">
+                                                      <label class="checkbox">
+                                                         <input checked="{{wednesdayArray.length == workinghour.length ? 'checked' :''}}" type="checkbox" name="Wednesday" class="checkWednesday" id="Wednesday_all"  (change)="checkUncheckAll($event)">                                                                  <div class="square"></div>
+                                                      </label>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                             
+                                             <li *ngFor="let data of workinghour;">
+                                                <div class="wrapBox">
+                                                   <span class="time">{{data.title}}</span>
+                                                   <div class="chk">
+                                                      <label class="checkbox">
+                                                         <!-- <input type="radio"  name="mon_time" value="4-5"  formControlName="mon_time"> -->
+                                                         <input type="checkbox"
+                                                         id="Wednesday{{data.id}}" class="Wednesday checkWednesday" name="Wednesday_checkbox" value="{{data.id}}" (click)="timefunction($event.target,'Wednesday','Wednesday_all')" 
+                                                          checked="{{wednesdayArray.indexOf(data.id) != -1 ? 'checked':''}}">
+                                                         <div class="square"></div>
+                                                      </label>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="clickBox">
+                                    <div class="innerclick">
+                                       <div class="innerWrap">
+                                          <div class="flexWrapper">
+                                             <div class="chk ">
+                                                <label class="checkbox">
+                                                   <input *ngIf="thursdayselect == 'n/a'" class="option4" type="checkbox" value="Thursday" (click)="fun4($event.target.value,$event.target.checked);option4()"  formControlName="day4">
+                                                   <input *ngIf="thursdayselect != 'n/a'" class="option4" type="checkbox" value="Thursday" (click)="fun4($event.target.value);option4()" [checked]=""[(ngModel)]="thursdayselect" formControlName="day4">
+                                                   <div class="square"></div>
+                                                </label>
+                                             </div>
+                                             <p class="tagName">Thursday</p>
+                                             <div class="input_controller_down">
+                                             <input type="checkbox" name="check" value="thursday_hide" (click)="check($event) " formControlName="thur_hide">
+                                             <label><i class="fa fa-caret-down"></i></label>
+                                          </div>
+                                          </div>
+                                       </div>
+                                       <div class="dropdown " *ngIf="show_thursday_data == 1 && thursdayselect == 'n/a' ">
+                                          <ul>
+                                             
+                                             <li>
+                                                <div class="wrapBox">
+                                                   <span class="time">Available all day</span>
+                                                   <div class="chk">
+                                                      <label class="checkbox">
+                                                         <input  type="checkbox" name="Thursday" id="Thursday_all" class="checkThursday" (change)="checkUncheckAll($event)">                                                                  <div class="square"></div>
+                                                      </label>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                             
+                                             <li *ngFor="let data of workinghour;">
+                                                <div class="wrapBox">
+                                                   <span class="time">{{data.title}}</span>
+                                                   <div class="chk">
+                                                      <label class="checkbox">
+                                                        
+                                                         <input type="checkbox" id="Thursday{{data.id}}" class="Thursday checkThursday"  name="Thursday_checkbox" value="{{data.id}}" (click)="timefunction($event.target,'Thursday','Thursday_all')" >
+                                                         <div class="square"></div>
+                                                      </label>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                          </ul>
+                                       </div>
+
+                                        <div class="dropdown "  *ngIf="show_thursday_data == 1 && thursdayselect != 'n/a' ">
+                                          <ul>
+                                             <!-- <input type="checkbox" name="allNonTrades" [value]="nontrade" id="all" (change)="Thursdaycheck($event)">available all  -->
+                                             <li>
+                                                <div class="wrapBox">
+                                                   <span class="time">Available all day</span>
+                                                   <div class="chk">
+                                                      <label class="checkbox">
+                                                         <input checked="{{thursdayArray.length == workinghour.length ? 'checked' :''}}" type="checkbox" name="Thursday" id="Thursday_all" class="checkThursday" (change)="checkUncheckAll($event)">                                                                  <div class="square"></div>
+                                                      </label>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                             
+                                             <li *ngFor="let data of workinghour;">
+                                                <div class="wrapBox">
+                                                   <span class="time">{{data.title}}</span>
+                                                   <div class="chk">
+                                                      <label class="checkbox">
+                                                         
+                                                         <input type="checkbox" id="Thursday{{data.id}}" class="Thursday checkThursday"  name="Thursday_checkbox" value="{{data.id}}" (click)="timefunction($event.target,'Thursday','Thursday_all')" 
+                                                          checked="{{thursdayArray.indexOf(data.id) != -1 ? 'checked':''}}">
+                                                         <div class="square"></div>
+                                                      </label>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="clickBox">
+                                    <div class="innerclick">
+                                       <div class="innerWrap">
+                                          <div class="flexWrapper">
+                                             <div class="chk ">
+                                                <label class="checkbox">
+                                                   <input *ngIf="fridayselect == 'n/a'" class="option5" type="checkbox" value="Friday" (click)="fun5($event.target.value,$event.target.checked);option5()" formControlName="day5">
+                                                   <input *ngIf="fridayselect != 'n/a'" class="option5" type="checkbox" value="Friday" (click)="fun5($event.target.value);option5()" [(ngModel)]="fridayselect" checked="" formControlName="day5">
+                                                   <div class="square"></div>
+                                                </label>
+                                             </div>
+                                             <p class="tagName">Friday</p>
+                                             <div class="input_controller_down">
+                                             <input type="checkbox" name="check" value="friday_hide" (click)="check($event)" formControlName="fri_hide">
+                                             <label><i class="fa fa-caret-down"></i></label>
+                                          </div>
+                                          </div>
+                                       </div>
+                                       <div class="dropdown " *ngIf="show_friday_data == 1 && fridayselect == 'n/a' ">
+                                          <ul>
+                                             <li>
+                                                <div class="wrapBox">
+                                                   <span class="time">Available all day</span>
+                                                   <div class="chk">
+                                                      <label class="checkbox">
+                                                         <input type="checkbox" name="Friday" id="Friday_all" class="checkFriday"   (change)="checkUncheckAll($event)">
+                                                         <div class="square"></div>
+                                                      </label>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                             <li *ngFor="let data of workinghour; let i = index;">
+                                                <div class="wrapBox">
+                                                   <span class="time">{{data.title}}</span>
+                                                   <div class="chk">
+                                                      <label class="checkbox">
+                                                        
+                                                         <input  type="checkbox" id="Friday{{data.id}}"
+                                                         class="Friday checkFriday" name="Friday_checkbox" value="{{data.id}}"   (click)="timefunction($event.target,'Friday','Friday_all')" >
+                                                        
+                                                         <div class="square"></div>
+                                                      </label>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                          </ul>
+                                       </div>
+                                       <div class="dropdown "  *ngIf="show_friday_data == 1 && fridayselect != 'n/a' ">
+                                          <ul>
+                                             <li>
+                                                <div class="wrapBox">
+                                                   <span class="time">Available all day</span>
+                                                   <div class="chk">
+                                                      <label class="checkbox">
+                                                         <input checked="{{firdayArray.length == workinghour.length ? 'checked' :''}}" type="checkbox" name="Friday" id="Friday_all" class="checkFriday"   (change)="checkUncheckAll($event)">
+                                                         <div class="square"></div>
+                                                      </label>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                             <li *ngFor="let data of workinghour;let i = index;">
+                                                <div class="wrapBox">
+                                                   <span class="time">{{data.title}}</span>
+                                                   <div class="chk">
+                                                      <label class="checkbox">
+                                                        
+                                                         <input  type="checkbox" id="Friday{{data.id}}"
+                                                         class="Friday checkFriday" name="Friday_checkbox" value="{{data.id}}"  (click)="timefunction($event.target,'Friday','Friday_all')"  checked="{{firdayArray.indexOf(data.id) != -1 ? 'checked':''}}">
+                                                         
+                                                       
+                                                         <div class="square"></div>
+                                                      </label>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="clickBox">
+                                    <div class="innerclick">
+                                       <div class="innerWrap">
+                                          <div class="flexWrapper">
+                                             <div class="chk ">
+                                                <label class="checkbox">
+                                                   <input *ngIf="saturdayselect == 'n/a'" class="option6" type="checkbox" value="Saturday"
+                                                   (click)="fun6($event.target.value,$event.target.checked);option6()"  formControlName="day6">
+                                                   <input *ngIf="saturdayselect != 'n/a'" class="option6" type="checkbox" value="Saturday"
+                                                   (click)="fun6($event.target.value);option6()" [checked]=""[(ngModel)]="saturdayselect" formControlName="day6">
+                                                   <div class="square"></div>
+                                                </label>
+                                             </div>
+                                             <p class="tagName">Saturday</p>
+                                             <div class="input_controller_down">
+                                             <input type="checkbox" name="check" value="saturday_hide" (click)="check($event)" formControlName="sat_hide">
+                                             <label><i class="fa fa-caret-down"></i></label>
+                                          </div>
+                                          </div>
+                                       </div>
+                                       <div class="dropdown" *ngIf="show_saturday_data == 1 && saturdayselect == 'n/a' ">
+                                          <ul>
+                                             <li>
+                                                <div class="wrapBox">
+                                                   <span class="time">Available all day</span>
+                                                   <div class="chk">
+                                                      <label class="checkbox">
+                                                         <input type="checkbox" name="Saturday" id="Saturday_all" class="checkSaturday"  (change)="checkUncheckAll($event)">
+                                                                                                                           <div class="square"></div>
+                                                      </label>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                             
+                                             
+                                             <li *ngFor="let data of workinghour;let i = index;">
+                                                <div class="wrapBox">
+                                                   <span class="time">{{data.title}}</span>
+                                                   <div class="chk">
+                                                      <label class="checkbox">
+                                                         <!-- <input type="radio"  name="mon_time" value="4-5"  formControlName="mon_time"> -->
+                                                         <input type="checkbox" id="Saturday{{i}}"
+                                                         class="Saturday checkSaturday" name="Saturday_checkbox" value="{{data.id}}"
+                                                         (click)="timefunction($event.target,'Saturday','Saturday_all')" >
+                                                         <div class="square"></div>
+                                                      </label>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                          </ul>
+                                       </div>
+
+                                        <div class="dropdown"  *ngIf="show_saturday_data == 1 && saturdayselect != 'n/a' ">
+                                          <ul>
+                                             <li>
+                                                <div class="wrapBox">
+                                                   <span class="time">Available all day</span>
+                                                   <div class="chk">
+                                                      <label class="checkbox">
+                                                         <input checked="{{saturdayArray.length == workinghour.length ? 'checked' :''}}" type="checkbox" name="Saturday" id="Saturday_all" class="checkSaturday"  (change)="checkUncheckAll($event)">                                                                  <div class="square"></div>
+                                                      </label>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                             
+                                             
+                                             <li *ngFor="let data of workinghour;let i = index;">
+                                                <div class="wrapBox">
+                                                   <span class="time">{{data.title}}</span>
+                                                   <div class="chk">
+                                                      <label class="checkbox">
+                                                         <!-- <input type="radio"  name="mon_time" value="4-5"  formControlName="mon_time"> -->
+                                                         <input type="checkbox" id="Saturday{{i}}"
+                                                         class="Saturday checkSaturday" name="Saturday_checkbox"  value="{{data.id}}"
+                                                         (click)="timefunction($event.target,'Saturday','Saturday_all')" 
+                                                        checked="{{saturdayArray.indexOf(data.id) != -1 ? 'checked':''}}"
+                                                         >
+                                                         <div class="square"></div>
+                                                      </label>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                          </ul>
+                                       </div>
+
+                                    </div>
+                                 </div>
+                                 <div class="clickBox">
+                                    <div class="innerclick">
+                                       <div class="innerWrap">
+                                          <div class="flexWrapper">
+                                             <div class="chk ">
+                                                <label class="checkbox">
+                                                   <input *ngIf="sundayselect == 'n/a'" class="option7" type="checkbox" value="Sunday" (click)="fun7($event.target.value,$event.target.checked);option7()"  formControlName="day7">
+                                                   <input *ngIf="sundayselect != 'n/a'" class="option7" type="checkbox" value="Sunday" (click)="fun7($event.target.value);option7()" [checked]=""[(ngModel)]="sundayselect" formControlName="day7">
+                                                   <div class="square"></div>
+                                                </label>
+                                             </div>
+                                             <p class="tagName">Sunday</p>
+                                             <div class="input_controller_down">
+                                             <input type="checkbox" name="check" value="sunday_hide" (click)="check($event)" formControlName="sun_hide">
+                                             <label><i class="fa fa-caret-down"></i></label>
+                                          </div>
+                                          </div>
+                                       </div>
+                                       <div class="dropdown" *ngIf="show_sunday_data == 1 && sundayselect == 'n/a' ">
+                                          <ul>
+                                             <li>
+                                                <div class="wrapBox">
+                                                   <span class="time">Available all day</span>
+                                                   <div class="chk">
+                                                      <label class="checkbox">
+                                                         <input type="checkbox" name="Sunday" id="Sunday_all"  class="checkSunday" (change)="checkUncheckAll($event)">                                                                  <div class="square"></div>
+                                                      </label>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                             
+                                             <li *ngFor="let data of workinghour;let i = index;">
+                                                <div class="wrapBox">
+                                                   <span class="time">{{data.title}}</span>
+                                                   <div class="chk">
+                                                      <label class="checkbox">
+                                                         <!-- <input type="radio"  name="mon_time" value="4-5"  formControlName="mon_time"> -->
+                                                         <input type="checkbox" id="Sunday{{i}}"
+                                                         class="Sunday checkSunday"  name="Sunday_checkbox"  value="{{data.id}}" (click)="timefunction($event.target,'Sunday','Sunday_all')" >
+                                                         <div class="square"></div>
+                                                      </label>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                          </ul>
+                                       </div>
+
+                                        <div class="dropdown"  *ngIf="show_sunday_data == 1 && sundayselect != 'n/a' ">
+                                          <ul>
+                                             <li>
+                                                <div class="wrapBox">
+                                                   <span class="time">Available all day</span>
+                                                   <div class="chk">
+                                                      <label class="checkbox">
+                                                         <input checked="{{sundayArray.length == workinghour.length ? 'checked' :''}}" type="checkbox" name="Sunday" id="Sunday_all"  class="checkSunday" (change)="checkUncheckAll($event)">                                                                  <div class="square"></div>
+                                                      </label>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                             
+                                             <li *ngFor="let data of workinghour;let i = index;">
+                                                <div class="wrapBox">
+                                                   <span class="time">{{data.title}}</span>
+                                                   <div class="chk">
+                                                      <label class="checkbox">
+                                                         <!-- <input type="radio"  name="mon_time" value="4-5"  formControlName="mon_time"> -->
+                                                         <input type="checkbox" id="Sunday{{i}}"
+                                                         class="Sunday checkSunday"  name="Sunday_checkbox"  value="{{data.id}}" (click)="timefunction($event.target,'Sunday','Sunday_all')" 
+                                                         checked="{{sundayArray.indexOf(data.id) != -1 ? 'checked':''}}">
+                                                         <div class="square"></div>
+                                                      </label>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="weekSelection">
+                              <label>How far away from my location I'm willing to travel <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                              <select formControlName="willingToTravel" >
+                                 <!-- <option selected="" disabled="">50+</option> -->
+                                 <option   *ngFor="let data of location;" value={{data.value}}>{{data.title}}</option>
+                              </select>
+                           </div>
+                           <div class="row">
+                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 transportationBlog">
+                                 <label for="username">Do I have reliable transportation? <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                 <div class="radio-btn">
+                                    <div class="md-radio">
+                                       <!-- //[(ngModel)]="selectedd" -->
+                                       <input  type="radio" id="5" name="transportation"  formControlName="transportation" value="1" [checked]="!isSpecial"[(ngModel)]="selectedd" >
+                                       <label for="5">Yes</label>
+                                    </div>
+                                    <div class="md-radio">
+                                       <input  type="radio" id="6" name="transportation" formControlName="transportation" value="0" [checked]="!isSpecial"[(ngModel)]="selectedd" >
+                                       <label for="6">No</label>
+                                    </div>
+                                 </div>
+                                 <input class="form-styling" type="text" readonly="" name="username" >
+                              </div>
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-item" >
+                                       <label  style="margin-top: 24px;" for="username">Tell us a little bit about yourself (Bio)</label>
+                                       <i style="margin-top: 24px;margin-left: 7px;" class="fa fa-asterisk" aria-hidden="true"></i>
+                                       
+                                       <textarea (keydown)="bio_fun($event,$event.target.value)" (focusout)="bio_fun1($event,$event.target.value)" formControlName="aboutYourSelf" class="form-control" name="your-message" cols="4" rows="5" class="full-name" aria-invalid="false" placeholder="In 500 words or less, tell us a little about yourself" >                           </textarea>
+                                       <!-- <p class="word_count">({{bio_count}}/500)</p> -->
+                                       <div *ngIf="submitted2 && f2.aboutYourSelf.errors" class="invalid-feedback ">
+                                          <div *ngIf="f2.aboutYourSelf.errors.required">Field is required</div>
+                                          <div *ngIf="f2.aboutYourSelf.errors.maxlength">Please describe in less than 500 words</div>
+                                       </div>
+                                    </div>
+                           </div>
+                        </div>
+                        <!-- /END OF POST HEAD/ -->
+                        <div class="formContainer">
+                           <div class="row">
+                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 savedUpdates">
+                                 <div class="check fl-right">
+                                    <button class="saved-btn button_style_01"><span>Save Updates</span></button>
+                                 </div>
+                              </div>
+                           </div>
+                           <!-- END FORM CONTAINER -->
+                        </div>
+                        <!-- END fORM -->
+                     </div>
+                     <!-- /END OF POST WRAPPER/ -->
+                  </form>
+               </div>
+               <!-- END WORK -->
+               <!-- START SKILLS -->
+               <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12"></div>
+               <div #target2 class="col-lg-8 col-md-8 col-sm-12 col-xs-12 editProfile-form skills">
+                  <form [formGroup]="skills" (ngSubmit)="onSubmitSkills()" class="input-form">
+                     <div class="postWrapper">
+                        <div class="postHead">
+                           <h5  class="txtBlue"><i class="fa fa-bar-chart" aria-hidden="true"></i> Skills</h5>
+                        </div>
+                        <div class="formContainer">
+                           <div class="row">
+                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-item">
+                                 <label for="name">Add Your Skills</label>
+                                <!--  <mat-chip-list #chipList>
+                                 <mat-chip
+                                 *ngFor="let fruit of fruits;let indx=index;"
+                                 [selectable]="selectable"
+                                 [removable]="removable"
+                                 (removed)="remove(fruit,indx,$event)">
+                                 {{fruit.name}}
+                                 <mat-icon matChipRemove *ngIf="removable"> X </mat-icon>
+                                 </mat-chip>
+                                 <input class="form-styling"
+                                 placeholder="Enter your skills"
+                                 #fruitInput
+                                 [formControl]="fruitCtrl"
+                                 (blur)="InputControl($event)"
+                                 
+                                 [matAutocomplete]="auto"
+                                 [matChipInputFor]="chipList"
+                                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                 [matChipInputAddOnBlur]="addOnBlur"
+                                 (matChipInputTokenEnd)="add($event)"
+                                 formControlName="skills">
+                                 </mat-chip-list>
+                                 <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                                 <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+                                 {{fruit.name}}
+                                 </mat-option>
+                                 </mat-autocomplete> -->
+
+                                 <!-- <mat-form-field> -->
+                                   <mat-chip-list #chipList>
+                                     <mat-chip
+                                       *ngFor="let fruit of fruits"
+                                       [selectable]="selectable"
+                                       [removable]="removable"
+                                       (removed)="remove(fruit)">
+                                       {{fruit}}
+                                       <!-- <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon> -->
+                                       <mat-icon matChipRemove *ngIf="removable"> X </mat-icon>
+                                     </mat-chip>
+                                     <input
+                                       class="form-styling"
+                                       placeholder="Enter your skills"
+                                       #fruitInput
+                                       [formControl]="fruitCtrl"
+                                       [matAutocomplete]="auto"
+                                       [matChipInputFor]="chipList"
+                                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                       [matChipInputAddOnBlur]="addOnBlur"
+                                       (matChipInputTokenEnd)="add($event)">
+                                   </mat-chip-list>
+                                   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                                     <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+                                       {{fruit}}
+                                     </mat-option>
+                                   </mat-autocomplete>
+                                 <!-- </mat-form-field> -->
+
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 savedUpdates">
+                                 <div class="check fl-right">
+                                    <button class="saved-btn button_style_01"><span>Save Updates</span></button>
+                                 </div>
+                              </div>
+                           </div>
+                           <!-- <div class="row">
+                              <div class="formItems selectItems"  *ngFor="let s of skillsdata ; let i=index;">
+                                 <div class="item-one">{{s.skills}} &nbsp;&nbsp;<img height="15" src="assets/images/close.svg" (click)="removeskills(s.id)" ></div>
+                              </div>
+                           </div> -->
+                        </div>
+                     </div>
+                  </form>
+               </div>
+               <!-- START EXPERIENCE -->
+               <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12"></div>
+               <div #target3 class="col-lg-8 col-md-8 col-sm-12 col-xs-12 editProfile-form">
+                  <form [formGroup]="experience" (ngSubmit)="onSubmitExperience()" class="input-form">
+                     <div class="postWrapper">
+                        <div class="postHead">
+                           <h5 class="txtBlue"><i class="fas fa-lightbulb"></i> Experience</h5>
+                        </div>
+                        <!-- /END OF POST HEAD/ -->
+                        <div class="formContainer">
+                           <div class="row">
+                              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item">
+                                 <label for="name">Position <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                 <input class="form-styling" type="text" formControlName="position" name="username" placeholder="Freelance Art Direction" [ngClass]="{ 'is-invalid': submitted3 && f3.position.errors }">
+                                 <div *ngIf="submitted3 && f3.position.errors" class="invalid-feedback">
+                                    <div *ngIf="f3.position.errors.required">Field is required</div>
+                                 </div>
+                              </div>
+                              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item">
+                                 <label for="name">Employer <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                 <input class="form-styling" type="text" name="username" formControlName="employer" placeholder="Apple Corporation" [ngClass]="{ 'is-invalid': submitted3 && f3.employer.errors }">
+                                 <div *ngIf="submitted3 && f3.employer.errors" class="invalid-feedback">
+                                    <div *ngIf="f3.employer.errors.required">Field  is required</div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item found secondform-selection customClass">
+                                 <!--  <i class="fa fa-asterisk" aria-hidden="true"></i> -->
+                                 <label for="username">Start Date <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                 <input matInput [matDatepicker]="picker5" (click)="picker5.open()" class=" form-styling form-control calInput" formControlName="experienceStart" [ngClass]="{ 'is-invalid': submitted3 && f3.experienceStart.errors }" >
+                                 <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+                                 <mat-datepicker #picker5></mat-datepicker>
+                                 <div *ngIf="submitted3 && f3.experienceStart.errors" class="invalid-feedback">
+                                    <div *ngIf="f3.experienceStart.errors.required">Start date is required</div>
+                                 </div>
+                              </div>
+                              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item endDate customClass">
+                                 <label for="username">End Date <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                 <input matInput [matDatepicker]="picker6" (click)="picker6.open()" class="form-control calInput" formControlName="experienceEnd" [ngClass]="{ 'is-invalid': submitted3 && f3.experienceEnd.errors }" >
+                                 <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
+                                 <mat-datepicker #picker6></mat-datepicker>
+                                 <div *ngIf="submitted3 && f3.experienceEnd.errors" class="invalid-feedback">
+                                    <div *ngIf="f3.experienceEnd.errors.required">End date is required</div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 genderBlog">
+                              </div>
+                              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 savedUpdates addEducate">
+                                 <div class="check fl-right">
+                                    <button class="saved-btn button_style_01"><span>Add Experience</span></button>
+                                 </div>
+                              </div>
+                           </div>
+                           <!-- END FORM CONTAINER -->
+                        </div>
+                        <!-- formContainer -->
+                        <div class="stanContainer">
+                           <div class="row no_margin" *ngFor="let s of expdata ; let i=index;">
+                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 StanImgSection">
+                                 <!--                                   <a><img src="assets/images/drag-icon.jpg"></a>
+                                 -->
+                                 <div class="editSection fl-right">
+                                    <i *ngIf="showBtn1 != i" class='fas fa-pencil-alt' (click)="option8(i)"></i>
+                                    <i *ngIf="showBtn1 === i"  class='fas fa-pencil-alt' (click)="close8(i)"></i>
+                                    <i class="fas fa-trash-alt" (click)="deleteExperience(i)"></i>
+                                 </div>
+                                 <div class="stanContent" >
+                                    <h4>{{s.position}}</h4>
+                                    <p>{{s.employer}}</p>
+                                    <p>{{s.start_date | date}} - {{s.end_date| date}}</p>
+                                 </div>
+                                 <div class="edit_section" [attr.id]="'undoBtn'+i" *ngIf="showBtn1===i" >
+                                    <form [formGroup]="experience1" (ngSubmit)="onSubmitExperience1()" class="input-form">
+                                       <div class="postWrapper">
+                                          <div class="postHead">
+                                             <h5 class="txtBlue"><i class="fas fa-lightbulb"></i> Experience</h5>
+                                          </div>
+                                          <!-- /END OF POST HEAD/ -->
+                                          <div class="formContainer">
+                                             <div class="row">
+                                                <input type="hidden" formControlName="id">
+                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item">
+                                                   
+                                                   <label for="name">Position <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                                   <input class="form-styling" type="text" formControlName="position" name="username" placeholder="Freelance Art Direction" [ngClass]="{ 'is-invalid': submitted4 && f4.position.errors }">
+                                                   <div *ngIf="submitted4 && f4.position.errors" class="invalid-feedback">
+                                                      <div *ngIf="f4.position.errors.required">Field is required</div>
+                                                   </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item">
+                                                   <label for="name">Employer <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                                   <input class="form-styling" type="text" name="username" formControlName="employer" placeholder="Apple Corporation" [ngClass]="{ 'is-invalid': submitted4 && f4.employer.errors }">
+                                                   <div *ngIf="submitted4 && f3.employer.errors" class="invalid-feedback">
+                                                      <div *ngIf="f4.employer.errors.required">Field  is required</div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item found formSelection secondform-selection customClass">
+                                                   <!--  <i class="fa fa-asterisk" aria-hidden="true"></i> -->
+                                                   
+                                                   <label for="username">Start Date <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                                   <div class="">
+                                                      <input matInput [matDatepicker]="picker5" (click)="picker5.open()" class="form-control calInput" formControlName="experienceStart" [ngClass]="{ 'is-invalid': submitted4 && f4.experienceStart.errors }" >
+                                                      <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+                                                      <mat-datepicker #picker5></mat-datepicker>
+                                                      <div *ngIf="submitted4 && f4.experienceStart.errors" class="invalid-feedback">
+                                                         <div *ngIf="f4.experienceStart.errors.required">Start date is required</div>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item formSelection endDate customClass">
+                                                   <label for="username">End Date <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                                   <input matInput [matDatepicker]="picker6" (click)="picker6.open()" class="form-control calInput" formControlName="experienceEnd" [ngClass]="{ 'is-invalid': submitted4 && f4.experienceEnd.errors }" >
+                                                   <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
+                                                   <mat-datepicker #picker6></mat-datepicker>
+                                                   <div *ngIf="submitted4 && f4.experienceEnd.errors" class="invalid-feedback">
+                                                      <div *ngIf="f4.experienceEnd.errors.required">End date is required</div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="row">
+                                                <div class="col-lg-5 col-md-6 col-sm-12 col-xs-12 genderBlog">
+                                                </div>
+                                                <div class="col-lg-7 col-md-6 col-sm-12 col-xs-12 savedUpdates addEducate">
+                                                   <div class="check">
+                                                      <button class="saved-btn button_style_01"><span>Update Experience</span></button>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <!-- END FORM CONTAINER -->
+                                          </div>
+                                       </div>
+                                       <!-- /END OF POST WRAPPER/ -->
+                                    </form>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <!-- stanContainer -->
+                     </div>
+                     <!-- /END OF POST WRAPPER/ -->
+                  </form>
+                  <div #target4 class="stanContainer" id="education">
+                     <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 editProfile-form no_padding">
+                           <form [formGroup]="education" (ngSubmit)="onSubmitEducation()" class="input-form">
+                              <div class="postWrapper no_border no_margin">
+                                 <div class="postHead">
+                                    <h5 class="txtBlue"><i class="fa fa-book" aria-hidden="true"></i> Education</h5>
+                                 </div>
+                                 <!-- /END OF POST HEAD/ -->
+                                 <div class="formContainer">
+                                    <div class="row">
+                                       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item">
+                                          
+                                          <label for="name">School Attending/Attended <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                          <input class="form-styling" type="text" formControlName="collage_attending" name="username" placeholder="Enter University, School ..." [ngClass]="{ 'is-invalid': submitted6 && f6.collage_attending.errors }">
+                                          <div *ngIf="submitted6 && f6.collage_attending.errors" class="invalid-feedback">
+                                             <div *ngIf="f6.collage_attending.errors.required">This field is required</div>
+                                          </div>
+                                       </div>
+                                       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item">
+                                          
+                                          <label for="name">Degree <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                          <input class="form-styling" type="text" formControlName="degree" name="username" placeholder="Enter Degree Name" [ngClass]="{ 'is-invalid': submitted6 && f6.degree.errors }">
+                                          <div *ngIf="submitted6 && f6.degree.errors" class="invalid-feedback">
+                                             <div *ngIf="f6.degree.errors.required">Degree is required</div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="row">
+                                       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item customClass">
+                                          <!--  <i class="fa fa-asterisk" aria-hidden="true"></i> -->
+                                          
+                                          <label for="username">College Start Date <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                          <input matInput [matDatepicker]="picker2" (click)="picker2.open()" class="form-styling form-control calInput" formControlName="collageStartDate"  [ngClass]="{ 'is-invalid': submitted6 && f6.collageStartDate.errors }" >
+                                          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                          <mat-datepicker #picker2></mat-datepicker>
+                                          <div *ngIf="submitted6 && f6.collageStartDate.errors" class="invalid-feedback">
+                                             <div *ngIf="f6.collageStartDate.errors.required">Collage start date is required</div>
+                                          </div>
+                                       </div>
+                                       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item customClass">
+                                          
+                                          <label for="username">College End Date <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                          <input matInput [matDatepicker]="picker3" [min]="min_collage_date" (click)="picker3.open()" class="form-control calInput " formControlName="collageEndDate" [ngClass]="{ 'is-invalid': submitted6 && f6.collageEndDate.errors }"  >
+                                          <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                                          <mat-datepicker #picker3></mat-datepicker>
+                                          <div *ngIf="submitted6 && f6.collageEndDate.errors" class="invalid-feedback">
+                                             <div *ngIf="f6.collageEndDate.errors.required">Collage end date is required</div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="row">
+                                       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 genderBlog">
+                                       </div>
+                                       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 savedUpdates">
+                                          <div class="check fl-right">
+                                             <button class="saved-btn button_style_01"><span>Save Updates</span></button>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <!-- END FORM CONTAINER -->
+                                 </div>
+                                 <!-- START STANFORD -->
+                              </div>
+                              <!-- /END OF POST WRAPPER/ -->
+                           </form>
+                           <div class="stanContainer"  *ngFor="let name of edudata ; let i=index;"  >
+                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 StanImgSection">
+                                 <div class="row no_margin" >
+                                    <div _ngcontent-c2="" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 StanImgSection">
+                                       <div class="editSection fl-right">
+                                          <i *ngIf="showBtn != i" class='fas fa-pencil-alt'(click)=showUndoBtn(i)></i>
+                                          <i *ngIf="showBtn === i" class='fas fa-pencil-alt'(click)=close(i)></i>
+                                          <i class="fas fa-trash-alt" (click)="deleteEducation(i)"></i>
+                                       </div>
+                                       <div class="stanContent">
+                                          <h4>{{name.school_name}}</h4>
+                                          <h4>{{name.degree}}</h4>
+                                          <p>{{name.collage_start_date| date: 'yyyy'}} - {{name.collage_end_date| date: 'yyyy'}}</p>
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 edit_section" [attr.id]="'undoBtn'+i" *ngIf="showBtn===i" >
+                                       <form [formGroup]="education1" (ngSubmit)="onSubmitEducation1()" class="input-form">
+                                          <div class="postWrapper">
+                                             <div class="formContainer">
+                                                <div class="row">
+                                                   <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item">
+                                                      <input type="hidden" formControlName="id">
+                                                      
+                                                      <label for="name">School Attending/Attended<i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                                      <input class="form-styling" type="text" formControlName="collage_attending" name="username" placeholder="Enter University, School ..." [ngClass]="{ 'is-invalid': submitted5 && f5.collage_attending.errors }">
+                                                      <div *ngIf="submitted5 && f5.collage_attending.errors" class="invalid-feedback">
+                                                         <div *ngIf="f5.collage_attending.errors.required">This field is required</div>
+                                                      </div>
+                                                   </div>
+                                                   <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item">
+                                                      
+                                                      <label for="name">Degree  <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                                      <input class="form-styling" type="text" formControlName="degree" name="username" placeholder="Enter Degree Name" [ngClass]="{ 'is-invalid': submitted5 && f5.degree.errors }">
+                                                      <div *ngIf="submitted5 && f5.degree.errors" class="invalid-feedback">
+                                                         <div *ngIf="f5.degree.errors.required">Degree is required</div>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                                <br>
+                                                <div class="row">
+                                                   <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item customClass">
+                                                      <!--  <i class="fa fa-asterisk" aria-hidden="true"></i> -->
+                                                      
+                                                      <label for="username">Collage Start Date <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                                      <input class="form-styling" matInput [matDatepicker]="picker2" (click)="picker2.open()" class="form-control calInput" formControlName="start" [ngClass]="{ 'is-invalid': submitted5 && f5.start.errors }"  >
+                                                      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                                      <mat-datepicker #picker2></mat-datepicker>
+                                                      <div *ngIf="submitted5 && f5.start.errors" class="invalid-feedback">
+                                                         <div *ngIf="f5.start.errors.required">Collage start date is required</div>
+                                                      </div>
+                                                   </div>
+                                                   <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-item customClass">
+                                                      
+                                                      <label for="username">Collage End Date <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                                                      <input matInput [matDatepicker]="picker3" (click)="picker3.open()" class="form-control calInput" formControlName="collageEndDate" [ngClass]="{ 'is-invalid': submitted5 && f5.collageEndDate.errors }"  >
+                                                      <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                                                      <mat-datepicker #picker3></mat-datepicker>
+                                                      <div *ngIf="submitted5 && f5.collageEndDate.errors" class="invalid-feedback">
+                                                         <div *ngIf="f5.collageEndDate.errors.required">Collage end date is required</div>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                                <br>
+                                                <div class="row">
+                                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 savedUpdates">
+                                                      <div class="check fl-right">
+                                                         <button class="saved-btn button_style_01"><span>Save Updates</span></button>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <!-- /END OF POST WRAPPER/ -->
+                                       </form>
+                                    </div>
+                                 </div>
+                                 
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <br>
+                     <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 StanImgSection DeactivateAccount">
+                           <div class="stanContent">
+                              <h4>Deactivate Account</h4>
+                              <p>To keep records of all account activity, we don’t allow you to permanently delete an account. You may reactivate an inactive account at any time if needed</p>
+                           </div>
+                           <div class="Deactivate-btn fl-right">
+                              <button class="saved-btn button_style_01" (click)="Deactivate()"><span>Deactivate Account</span></button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- END EXPERIENCE -->
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+<!-- SCRIPTS -->
+
+
+</div>

@@ -1,0 +1,15 @@
+.create-account-user .about-business .innerWrap .wrap .row .form-business .input-form .form-item input{position: relative; z-index: 9}
+.create-account-user .about-business .mat-datepicker-toggle{left: 10px;
+	text-align: right;
+    margin-left: 0px;
+    position: absolute;
+    display: block;
+    top: 35px;
+width: 94%;}
+
+
+ .refErr{
+          margin-top: 5px !important;
+          text-align: left !important;
+          color: red !important;
+          font-weight: 500 !important;}

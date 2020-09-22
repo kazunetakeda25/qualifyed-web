@@ -1,0 +1,67 @@
+<div id="cover-spin" *ngIf="showLoader == true"></div>
+<app-profileheader></app-profileheader>
+    <div class="search-userSection">
+        <div class="innerWrap">
+          <div class="wrap">
+                <div class="information">
+                  <p class="subTitlle">Found {{search_count}} Results</p>
+                  <h2>{{keyword}}</h2>
+                </div>
+                <div class="allResult">
+                  <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+                      <div *ngIf="data == null || data.length == 0 ">No result found</div>
+
+                       <div class="resultBox" *ngFor="let info of data">
+                          <div class="resultTitle">
+
+   <a *ngIf="info.entity_id ==1"  routerLink="/opportunities_detail/{{info.element_id}}">  
+    <div class="thumbs">
+        <img class="MyCustomImageSearchClass" *ngIf="info.file_status == true" src="{{media_url}}/{{info.path}}" alt="">
+        <img class="MyCustomImageSearchClass" *ngIf="info.file_status == false" src="{{media_url}}/uploads/images/avatar.png" alt="">
+        
+    </div></a>
+
+  <a *ngIf="info.entity_id == 2 || info.entity_id == 3"  routerLink="/view_profile/{{info.element_id}}"> 
+   <div class="thumbs">
+    <img class="MyCustomImageSearchClass" *ngIf="info.file_status == true" src="{{media_url}}/{{info.path}}" alt="">
+  <img class="MyCustomImageSearchClass" *ngIf="info.file_status == false" src="{{media_url}}/uploads/images/avatar.png" alt="">
+ 
+  </div></a>
+
+
+                              <div class="titlebox">
+                                <a *ngIf="info.entity_id ==1" routerLink="/opportunities_detail/{{info.element_id}}"> <p class="mainTitle">{{info.title}}</p></a>
+                                <a *ngIf="info.entity_id == 2 || info.entity_id == 3" routerLink="/view_profile/{{info.element_id}}"> <p class="mainTitle">{{info.title}}</p></a>
+                              </div>
+                          </div>
+                          <div class="resultBtns" *ngIf="myid != info.element_id && (info.entity_id == 2 || info.entity_id==3)">
+                                <div class="msgBtn">
+                                    <div class="msgeff"></div>
+                                    <a (click)="checkRoom(info.element_id)">Message</a>
+                                </div>
+                               <!-- msgBtn -->
+                                <!-- <div class="msgBtn">
+                                    <div class="msgeff"></div>
+                                    <a href="#" >Connect</a>
+                                </div> -->
+                               <!-- msgBtn    -->
+                          </div>
+                          <!-- RESULTBTNS -->
+                       </div>
+                               <div class="viewMoreBtn">
+                <button style="background-color: #1761a0; border: none; border-radius: 2px; color: #fff; padding: 5px 18px; font-size: 14px; font-weight: 400; margin: 2px; position: relative; overflow: hidden; display: inline-block; vertical-align: top; cursor: pointer;" class="viewbtn" (click)="loadMore()" *ngIf="pagination_count > 0">View ({{pagination_count}}) more</button> </div>
+                      <!-- END OF RESULTBOX-01 -->
+                 </div>
+                <!-- END OF COL-LG-6 -->
+
+            <!-- /END OF COL-02/ -->
+          <!-- /END OF ROW/ -->
+             </div>
+             <!-- ALLRESULT -->
+          </div>
+          <!-- END OF WRAP -->
+        </div>
+        <!-- END OF INNERWRAP -->
+      </div>

@@ -1,0 +1,14 @@
+  <div class="see-allBtn"  *ngIf="request_status == false">
+                               <div class="connectBtn">
+                                    <div class="msgeff"></div>
+                                    <a *ngIf="request_status == false"  (click)="applyopp(1)">Send Request</a><i class="fa fa-angle-down" aria-hidden="true"></i>
+                               </div>
+                            </div>
+
+
+                              <div class="see-allBtn"  *ngIf="request_status == true" >
+                               <div class="connectBtn">
+                                    <div class="msgeff"></div>
+                                    <a class="disabled"  (click)="applyopp(2)">Send Request</a><i class="fa fa-angle-down" aria-hidden="true"></i>
+                               </div>
+                            </div>
