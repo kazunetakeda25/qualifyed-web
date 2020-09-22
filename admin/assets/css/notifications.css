@@ -1,0 +1,35 @@
+.notification {
+  z-index: 99999;
+  position: fixed;
+  right: 0;
+  top: 0;
+  background: linear-gradient(270deg, #2ad3b4, #159F85);
+  border-radius: 8px;
+  opacity: 1.5;
+  margin: 45px;
+  margin-top: 5px;
+  padding: 12px;
+  -webkit-transition: margin-top 0.3s;
+  transition: margin-top 0.3s;
+
+
+}
+
+.notification h2 {
+
+  color: #fff;
+  font-size: 22px;
+  font-weight: 200;
+  margin: 0;
+  margin-bottom: 4px;
+
+}
+
+.notification h3 {
+
+  color: #fff;
+  font-size: 18px;
+  font-weight: 200;
+  margin: 0;
+
+}
